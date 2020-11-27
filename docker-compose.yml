@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  database:
+    image: percona
+    environment:
+      MYSQL_USER: ukpktest
+      MYSQL_PASSWORD: 1
+      MYSQL_DATABASE: ukpktest
+      MYSQL_ROOT_PASSWORD: 1
+    ports:
+      - "3306:3306"
