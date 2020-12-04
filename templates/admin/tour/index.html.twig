@@ -1,39 +1,60 @@
 {% extends 'admin/base.html.twig' %}
 
 {% block title %}Туры{% endblock %}
+{% block subtitle %}Список{% endblock %}
 {% block boxTitle %}Список туров{% endblock %}
+{% block boxButtons %}
+    <a href="{{ path('admin_tour_new') }}" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i></a>
+{% endblock %}
 {% block boxBody %}
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Price</th>
-                <th>IsValid</th>
-                <th>StartedAt</th>
-                <th>ExpiredAt</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for tour in tours %}
-            <tr>
-                <td>{{ tour.id }}</td>
-                <td>{{ tour.price }}</td>
-                <td>{{ tour.isValid ? 'Yes' : 'No' }}</td>
-                <td>{{ tour.startedAt ? tour.startedAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ tour.expiredAt ? tour.expiredAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>
-                    <a href="{{ path('admin_tour_show', {'id': tour.id}) }}">show</a>
-                    <a href="{{ path('admin_tour_edit', {'id': tour.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="6">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    {% for olymp in olymps %}
+        <div class="box collapsed-box">
+            <div class="box-header with-border">
+                <h3 class="box-title">{{ olymp.name }}</h3>
 
-    <a href="{{ path('admin_tour_new') }}">Create new</a>
+                <div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
+                            title="Collapse">
+                        <i class="fa fa-plus"></i></button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip"
+                            title="Remove">
+                        <i class="fa fa-times"></i></button>
+                </div>
+            </div>
+            <div class="box-body">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>№</th>
+                        <th>Цена</th>
+                        <th>Валидность</th>
+                        <th>Начало</th>
+                        <th>Конец</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for i,tour in olymp.tours %}
+                        <tr>
+                            <td>{{ i+1 }}</td>
+                            <td>{{ tour.price }}</td>
+                            <td>{{ tour.isValid ? 'Да' : 'Нет' }}</td>
+                            <td>{{ tour.startedAt ? tour.startedAt|date('Y-m-d H:i:s') : '' }}</td>
+                            <td>{{ tour.expiredAt ? tour.expiredAt|date('Y-m-d H:i:s') : '' }}</td>
+                            <td>
+                                <a class="btn btn-sm btn-primary" href="{{ path('admin_tour_edit', {'id': tour.id}) }}"><i class="fa fa-edit"></i></a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="6">Туров нет</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.box-body -->
+        </div>
+
+    {% endfor %}
 {% endblock %}

@@ -1,13 +1,13 @@
 {% extends 'admin/base.html.twig' %}
 
-{% block title %}Edit Tour{% endblock %}
+{% block title %}Тур{% endblock %}
+{% block subtitle %}Изменение{% endblock %}
+{% block boxTitle %}Изменение тура{% endblock %}
 
-{% block body %}
-    <h1>Edit Tour</h1>
+{% block boxBody %}
+    {{ include('admin/tour/_form.html.twig', {'button_label': 'Обновить'}) }}
 
-    {{ include('admin/tour/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('admin_tour_index') }}">back to list</a>
+    <a class="btn btn-default" href="{{ path('admin_tour_index') }}">Назад <i class="fa fa-undo"></i></a>
 
     {{ include('admin/tour/_delete_form.html.twig') }}
 {% endblock %}

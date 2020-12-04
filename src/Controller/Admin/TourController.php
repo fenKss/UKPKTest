@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Tour;
 use App\Form\TourType;
+use App\Repository\OlympRepository;
 use App\Repository\TourRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,10 +19,10 @@ class TourController extends AbstractController
     /**
      * @Route("/", name="index", methods={"GET"})
      */
-    public function index(TourRepository $tourRepository): Response
+    public function index(OlympRepository $olympRepository): Response
     {
         return $this->render('admin/tour/index.html.twig', [
-            'tours' => $tourRepository->findAll(),
+            'olymps' => $olympRepository->getWithTours(),
         ]);
     }
 
@@ -35,6 +36,7 @@ class TourController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $tour->setIsValid(true);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($tour);
             $entityManager->flush();

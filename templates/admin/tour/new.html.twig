@@ -6,8 +6,6 @@
 {% block boxTitle %}Создание нового тура{% endblock %}
 
 {% block boxBody %}
-    <h1>Create new Tour</h1>
-
     {{ include('admin/tour/_form.html.twig') }}
 
     <a href="{{ path('admin_tour_index') }}">back to list</a>

@@ -19,32 +19,16 @@ class OlympRepository extends ServiceEntityRepository
         parent::__construct($registry, Olymp::class);
     }
 
-    // /**
-    //  * @return Olymp[] Returns an array of Olymp objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * @return Olymp[]
+     */
+    public function getWithTours():array
     {
         return $this->createQueryBuilder('o')
-            ->andWhere('o.exampleField = :val')
-            ->setParameter('val', $value)
+            ->leftJoin('o.tours', 't')
             ->orderBy('o.id', 'ASC')
-            ->setMaxResults(10)
             ->getQuery()
             ->getResult()
-        ;
+            ;
     }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?Olymp
-    {
-        return $this->createQueryBuilder('o')
-            ->andWhere('o.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }
