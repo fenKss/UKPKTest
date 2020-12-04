@@ -1,0 +1,13 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Олимпиады{% endblock %}
+{% block subtitle %}Редактирование{% endblock %}
+{% block boxTitle %}Изменение олимпиады{% endblock %}
+
+{% block boxBody %}
+    {{ include('admin/olymp/_form.html.twig', {'button_label': 'Обновить'}) }}
+
+    <a class="btn btn-default" href="{{ path('admin_olymp_index') }}">Назад <i class="fa fa-undo"></i></a>
+
+    {{ include('admin/olymp/_delete_form.html.twig') }}
+{% endblock %}

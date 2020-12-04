@@ -1,0 +1,39 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Туры{% endblock %}
+{% block boxTitle %}Список туров{% endblock %}
+{% block boxBody %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Price</th>
+                <th>IsValid</th>
+                <th>StartedAt</th>
+                <th>ExpiredAt</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for tour in tours %}
+            <tr>
+                <td>{{ tour.id }}</td>
+                <td>{{ tour.price }}</td>
+                <td>{{ tour.isValid ? 'Yes' : 'No' }}</td>
+                <td>{{ tour.startedAt ? tour.startedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ tour.expiredAt ? tour.expiredAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('admin_tour_show', {'id': tour.id}) }}">show</a>
+                    <a href="{{ path('admin_tour_edit', {'id': tour.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('admin_tour_new') }}">Create new</a>
+{% endblock %}
