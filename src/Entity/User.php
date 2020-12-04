@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -34,6 +36,16 @@ class User implements UserInterface
      * @ORM\Column(type="string")
      */
     private $password;
+
+    /**
+     * @ORM\OneToMany(targetEntity=UserTest::class, mappedBy="user")
+     */
+    private $userTests;
+
+    public function __construct()
+    {
+        $this->userTests = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -111,5 +123,35 @@ class User implements UserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * @return Collection|UserTest[]
+     */
+    public function getUserTests(): Collection
+    {
+        return $this->userTests;
+    }
+
+    public function addUserTest(UserTest $userTest): self
+    {
+        if (!$this->userTests->contains($userTest)) {
+            $this->userTests[] = $userTest;
+            $userTest->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserTest(UserTest $userTest): self
+    {
+        if ($this->userTests->removeElement($userTest)) {
+            // set the owning side to null (unless already changed)
+            if ($userTest->getUser() === $this) {
+                $userTest->setUser(null);
+            }
+        }
+
+        return $this;
     }
 }
