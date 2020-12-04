@@ -49,9 +49,15 @@ class Tour
      */
     private $userTests;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Test::class, mappedBy="tour")
+     */
+    private $tests;
+
     public function __construct()
     {
         $this->userTests = new ArrayCollection();
+        $this->tests = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -143,6 +149,36 @@ class Tour
             // set the owning side to null (unless already changed)
             if ($userTest->getTour() === $this) {
                 $userTest->setTour(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Test[]
+     */
+    public function getTests(): Collection
+    {
+        return $this->tests;
+    }
+
+    public function addTest(Test $test): self
+    {
+        if (!$this->tests->contains($test)) {
+            $this->tests[] = $test;
+            $test->setTour($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTest(Test $test): self
+    {
+        if ($this->tests->removeElement($test)) {
+            // set the owning side to null (unless already changed)
+            if ($test->getTour() === $this) {
+                $test->setTour(null);
             }
         }
 

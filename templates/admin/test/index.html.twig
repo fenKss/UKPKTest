@@ -1,0 +1,40 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Тесты{% endblock %}
+{% block subtitle %}Список{% endblock %}
+{% block boxTitle %}Список Тестов{% endblock %}
+{% block boxButtons %}
+    <a href="{{ path('admin_test_new') }}" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i></a>
+{% endblock %}
+{% block boxBody %}
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>Язык Теста</th>
+                <th>Олимпиада</th>
+                <th>Туры</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for test in tests %}
+            <tr>
+                <td>{{ test.id }}</td>
+                <td>{{ test.language.name }}</td>
+                <td>{{ test.tour.olymp.name }}</td>
+                <td>Туры</td>
+                <td class="btn-group">
+{#                    <a href="{{ path('admin_test_show', {'id': test.id}) }}">show</a>#}
+                    <a class="btn btn-sm btn-primary" href="{{ path('admin_test_edit', {'id': test.id}) }}"><i class="fa fa-edit"></i></a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">Тесты не найдены</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

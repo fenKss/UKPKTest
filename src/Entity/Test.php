@@ -30,6 +30,12 @@ class Test
      */
     private $variants;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Tour::class, inversedBy="tests")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $tour;
+
     public function __construct()
     {
         $this->variants = new ArrayCollection();
@@ -78,6 +84,18 @@ class Test
                 $variant->setTest(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getTour(): ?Tour
+    {
+        return $this->tour;
+    }
+
+    public function setTour(?Tour $tour): self
+    {
+        $this->tour = $tour;
 
         return $this;
     }

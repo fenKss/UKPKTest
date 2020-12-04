@@ -1,0 +1,13 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Тест{% endblock %}
+{% block subtitle %}Создание{% endblock %}
+{% block boxTitle %}Создание нового теста{% endblock %}
+
+{% block boxBody %}
+
+
+    {{ include('admin/test/_form.html.twig') }}
+
+    <a class="btn btn-default" href="{{ path('admin_test_index') }}">Назад <i class="fa fa-undo"></i></a>
+{% endblock %}
