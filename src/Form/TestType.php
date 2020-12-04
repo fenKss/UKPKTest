@@ -22,7 +22,7 @@ class TestType extends AbstractType
                 'choice_label' => function ($choice, $key, $value) {
                     return $choice->getName();
                 },
-                'required' => false,
+                'required' => true,
             ])
             ->add("tour", EntityType::class, [
                 "label" => "Тур",
@@ -35,7 +35,7 @@ class TestType extends AbstractType
 
                    return $choice->getOlymp()->getName();
                 },
-                'required' => false,
+                'required' => true,
             ]);
         ;
     }
