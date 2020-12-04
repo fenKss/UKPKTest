@@ -19,7 +19,9 @@ class TourType extends AbstractType
     {
         $builder
             ->add('price', NumberType::class, [
-                'label'=>'Цена'
+                'label'=>'Цена',
+                'html5'=>true,
+                'input'=>'number'
             ])
             ->add('startedAt', DateTimeType::class, [
                 'label'=>'Начало Тура',
