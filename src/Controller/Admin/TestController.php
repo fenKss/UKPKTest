@@ -28,13 +28,17 @@ class TestController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($test);
-            $entityManager->flush();
+            $isValid = $this->validateLanguagesCount($test);
+            if ($isValid){
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($test);
+                $entityManager->flush();
 
-            return $this->redirectToRoute('admin_tour_tests', [
-            "tourId"=>$test->getTour()->getId()
-        ]);
+                return $this->redirectToRoute('admin_tour_tests', [
+                    "tourId" => $test->getTour()->getId()
+                ]);
+            }
+
         }
 
         return $this->render('admin/test/new.html.twig', [
@@ -52,11 +56,14 @@ class TestController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            $isValid = $this->validateLanguagesCount($test);
+            if ($isValid) {
+                $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('admin_tour_tests', [
-            "tourId"=>$test->getTour()->getId()
-        ]);
+                return $this->redirectToRoute('admin_tour_tests', [
+                    "tourId" => $test->getTour()->getId()
+                ]);
+            }
         }
 
         return $this->render('admin/test/edit.html.twig', [
@@ -70,14 +77,35 @@ class TestController extends AbstractController
      */
     public function delete(Request $request, Test $test): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$test->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $test->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($test);
             $entityManager->flush();
         }
 
         return $this->redirectToRoute('admin_tour_tests', [
-            "tourId"=>$test->getTour()->getId()
+            "tourId" => $test->getTour()->getId()
         ]);
+    }
+
+    /**
+     * @param Test $test
+     *
+     * @return bool
+     */
+    private function validateLanguagesCount(Test $test): bool
+    {
+        $tour = $test->getTour();
+        $isValid = true;
+
+        $tests = $tour->getTests();
+        foreach ($tests as $tourTest) {
+            if ($tourTest->getLanguage()->getId() == $test->getLanguage()->getId()
+                && $test->getId() != $tourTest->getId()) {
+                return false;
+            }
+        }
+        return $isValid;
+
     }
 }
