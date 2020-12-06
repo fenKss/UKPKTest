@@ -44,7 +44,8 @@
                             <td>{{ tour.startedAt ? tour.startedAt|date('Y-m-d H:i:s') : '' }}</td>
                             <td>{{ tour.expiredAt ? tour.expiredAt|date('Y-m-d H:i:s') : '' }}</td>
                             <td>
-                                <a class="btn btn-sm btn-primary" href="{{ path('admin_tour_edit', {'id': tour.id}) }}"><i class="fa fa-edit"></i></a>
+                                <a class="btn btn-sm btn-primary" href="{{ path('admin_tour_edit', {'id': tour.id}) }}" title="Изменить"><i class="fa fa-edit"></i></a>
+                                <a class="btn btn-sm btn-success" href="#" title="Опубликовать"><i class="fa fa-angle-double-right"></i></a>
                             </td>
                         </tr>
                     {% else %}

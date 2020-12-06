@@ -32,7 +32,9 @@ class TestController extends AbstractController
             $entityManager->persist($test);
             $entityManager->flush();
 
-            return $this->redirectToRoute('admin_test_index');
+            return $this->redirectToRoute('admin_tour_tests', [
+            "tourId"=>$test->getTour()->getId()
+        ]);
         }
 
         return $this->render('admin/test/new.html.twig', [
@@ -52,7 +54,9 @@ class TestController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('admin_test_index');
+            return $this->redirectToRoute('admin_tour_tests', [
+            "tourId"=>$test->getTour()->getId()
+        ]);
         }
 
         return $this->render('admin/test/edit.html.twig', [
@@ -72,6 +76,8 @@ class TestController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('admin_test_index');
+        return $this->redirectToRoute('admin_tour_tests', [
+            "tourId"=>$test->getTour()->getId()
+        ]);
     }
 }

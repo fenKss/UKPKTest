@@ -7,7 +7,7 @@
 {% block boxBody %}
     {{ include('admin/test/_form.html.twig', {'button_label': 'Обновить'}) }}
 
-    <a class="btn btn-default" href="{{ path('admin_test_index') }}">Назад <i class="fa fa-undo"></i></a>
+    <a class="btn btn-default" href="{{ path('admin_tour_tests', {tourId:test.tour.id}) }}">Назад <i class="fa fa-undo"></i></a>
 
     {{ include('admin/test/_delete_form.html.twig') }}
 {% endblock %}
