@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\TourRepository;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -29,10 +30,6 @@ class Tour
      */
     private $price;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $isValid;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
@@ -53,6 +50,11 @@ class Tour
      * @ORM\OneToMany(targetEntity=Test::class, mappedBy="tour")
      */
     private $tests;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $publishedAt;
 
     public function __construct()
     {
@@ -89,36 +91,25 @@ class Tour
         return $this;
     }
 
-    public function getIsValid(): ?bool
-    {
-        return $this->isValid;
-    }
 
-    public function setIsValid(bool $isValid): self
-    {
-        $this->isValid = $isValid;
-
-        return $this;
-    }
-
-    public function getStartedAt(): ?\DateTimeInterface
+    public function getStartedAt(): ?DateTimeInterface
     {
         return $this->startedAt;
     }
 
-    public function setStartedAt(\DateTimeInterface $startedAt): self
+    public function setStartedAt(DateTimeInterface $startedAt): self
     {
         $this->startedAt = $startedAt;
 
         return $this;
     }
 
-    public function getExpiredAt(): ?\DateTimeInterface
+    public function getExpiredAt(): ?DateTimeInterface
     {
         return $this->expiredAt;
     }
 
-    public function setExpiredAt(?\DateTimeInterface $expiredAt): self
+    public function setExpiredAt(?DateTimeInterface $expiredAt): self
     {
         $this->expiredAt = $expiredAt;
 
@@ -181,6 +172,18 @@ class Tour
                 $test->setTour(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPublishedAt(): ?DateTimeInterface
+    {
+        return $this->publishedAt;
+    }
+
+    public function setPublishedAt(?DateTimeInterface $publishedAt): self
+    {
+        $this->publishedAt = $publishedAt;
 
         return $this;
     }

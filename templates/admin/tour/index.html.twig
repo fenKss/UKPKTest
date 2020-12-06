@@ -27,7 +27,7 @@
                     <tr>
                         <th>№</th>
                         <th>Цена</th>
-                        <th>Валидность</th>
+                        <th>Опубликован</th>
                         <th>Тесты</th>
                         <th>Начало</th>
                         <th>Конец</th>
@@ -39,7 +39,7 @@
                         <tr>
                             <td>{{ i+1 }}</td>
                             <td>{{ tour.price }}</td>
-                            <td>{{ tour.isValid ? 'Да' : 'Нет' }}</td>
+                            <td>{{ tour.publishedAt ? tour.publishedAt : 'Нет' }}</td>
                             <td><a href="{{ path('admin_tour_tests', {tourId:tour.id}) }}">Тесты</a></td>
                             <td>{{ tour.startedAt ? tour.startedAt|date('Y-m-d H:i:s') : '' }}</td>
                             <td>{{ tour.expiredAt ? tour.expiredAt|date('Y-m-d H:i:s') : '' }}</td>
