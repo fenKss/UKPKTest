@@ -29,7 +29,7 @@ class TestController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $isValid = $this->validateLanguagesCount($test);
-            if ($isValid){
+            if ($isValid) {
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($test);
                 $entityManager->flush();
@@ -38,6 +38,7 @@ class TestController extends AbstractController
                     "tourId" => $test->getTour()->getId()
                 ]);
             }
+            $this->addFlash('error', 'Тест с данным языком уже существует');
 
         }
 
@@ -63,6 +64,7 @@ class TestController extends AbstractController
                 return $this->redirectToRoute('admin_tour_tests', [
                     "tourId" => $test->getTour()->getId()
                 ]);
+                $this->addFlash('error', 'Тест с данным языком уже существует');
             }
         }
 
