@@ -8,14 +8,14 @@
 {% endblock %}
 {% block boxBody %}
     {% for olymp in olymps %}
-        <div class="box collapsed-box">
+        <div class="box">
             <div class="box-header with-border">
                 <h3 class="box-title">{{ olymp.name }}</h3>
 
                 <div class="box-tools pull-right">
                     <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
                             title="Collapse">
-                        <i class="fa fa-plus"></i></button>
+                        <i class="fa fa-minus"></i></button>
                     <button type="button" class="btn btn-box-tool" data-widget="remove" data-toggle="tooltip"
                             title="Remove">
                         <i class="fa fa-times"></i></button>
@@ -28,6 +28,7 @@
                         <th>№</th>
                         <th>Цена</th>
                         <th>Валидность</th>
+                        <th>Тесты</th>
                         <th>Начало</th>
                         <th>Конец</th>
                         <th></th>
@@ -39,6 +40,7 @@
                             <td>{{ i+1 }}</td>
                             <td>{{ tour.price }}</td>
                             <td>{{ tour.isValid ? 'Да' : 'Нет' }}</td>
+                            <td><a href="{{ path('admin_tour_tests', {tourId:tour.id}) }}">Тесты</a></td>
                             <td>{{ tour.startedAt ? tour.startedAt|date('Y-m-d H:i:s') : '' }}</td>
                             <td>{{ tour.expiredAt ? tour.expiredAt|date('Y-m-d H:i:s') : '' }}</td>
                             <td>
