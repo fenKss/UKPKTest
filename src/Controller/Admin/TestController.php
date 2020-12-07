@@ -2,8 +2,10 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Olymp;
 use App\Entity\Test;
 use App\Form\TestType;
+use App\Repository\OlympRepository;
 use App\Repository\TestRepository;
 use App\Repository\TourRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -28,8 +30,9 @@ class TestController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $isValid = $this->validateLanguagesCount($test);
-            if ($isValid) {
+            $isValid = $this->validate($test);
+
+            if ($isValid){
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($test);
                 $entityManager->flush();
@@ -38,8 +41,6 @@ class TestController extends AbstractController
                     "tourId" => $test->getTour()->getId()
                 ]);
             }
-            $this->addFlash('error', 'Тест с данным языком уже существует');
-
         }
 
         return $this->render('admin/test/new.html.twig', [
@@ -57,15 +58,15 @@ class TestController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $isValid = $this->validateLanguagesCount($test);
-            if ($isValid) {
+            $isValid = $this->validate($test);
+
+            if ($isValid === true) {
                 $this->getDoctrine()->getManager()->flush();
 
                 return $this->redirectToRoute('admin_tour_tests', [
                     "tourId" => $test->getTour()->getId()
                 ]);
             }
-            $this->addFlash('error', 'Тест с данным языком уже существует');
         }
 
         return $this->render('admin/test/edit.html.twig', [
@@ -95,10 +96,9 @@ class TestController extends AbstractController
      *
      * @return bool
      */
-    private function validateLanguagesCount(Test $test): bool
+    private function validateExistsLanguageInTest(Test $test): bool
     {
         $tour = $test->getTour();
-        $isValid = true;
 
         $tests = $tour->getTests();
         foreach ($tests as $tourTest) {
@@ -107,7 +107,34 @@ class TestController extends AbstractController
                 return false;
             }
         }
-        return $isValid;
+        return true;
+    }
 
+    /**
+     * @param Test $test
+     *
+     * @return bool
+     */
+    private function validateExistsLanguageInOlymp(Test $test): bool
+    {
+        $olymp = $test->getTour()->getOlymp();
+        $language = $test->getLanguage();
+        return $olymp->getLanguages()->contains($language);
+
+    }
+
+    private function validate(Test $test): bool
+    {
+        if (!$this->validateExistsLanguageInTest($test))
+        {
+            $this->addFlash('error', 'Данный язык уже добавлен');
+            return false;
+        }
+        if (!$this->validateExistsLanguageInOlymp($test))
+        {
+            $this->addFlash('error', 'Данный язык не разрешен у олимпиады');
+            return false;
+        }
+       return true;
     }
 }

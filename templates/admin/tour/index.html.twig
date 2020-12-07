@@ -4,7 +4,6 @@
 {% block subtitle %}Список{% endblock %}
 {% block boxTitle %}Список туров{% endblock %}
 {% block boxButtons %}
-    <a href="{{ path('admin_tour_new') }}" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i></a>
 {% endblock %}
 {% block boxBody %}
     {% for olymp in olymps %}
@@ -13,6 +12,7 @@
                 <h3 class="box-title">{{ olymp.name }}</h3>
 
                 <div class="box-tools pull-right">
+                    <a href="{{ path('admin_tour_new', {olymp:olymp.id}) }}" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i></a>
                     <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
                             title="Collapse">
                         <i class="fa fa-minus"></i></button>

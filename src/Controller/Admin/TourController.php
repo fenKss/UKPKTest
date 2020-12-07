@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Olymp;
 use App\Entity\Tour;
 use App\Form\TourType;
 use App\Repository\OlympRepository;
@@ -27,16 +28,17 @@ class TourController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="new", methods={"GET","POST"})
+     * @Route("/new/{olymp}", name="new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Olymp $olymp, Request $request): Response
     {
         $tour = new Tour();
-        $form = $this->createForm(TourType::class, $tour);
+        $form = $this->createForm(TourType::class, $tour, [
+            "olymp"=>$olymp
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $tour->setIsValid(true);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($tour);
             $entityManager->flush();

@@ -26,20 +26,23 @@ class TourType extends AbstractType
             ->add('startedAt', DateTimeType::class, [
                 'label'=>'Начало Тура',
                 'html5'=>true,
-                'widget'=>'single_text'
+                'widget'=>'single_text',
+                'data'=>new \DateTime()
             ])
             ->add('expiredAt', DateTimeType::class, [
                 'label'=>'Конец Тура',
                 'html5'=>true,
-                'widget'=>'single_text'
+                'widget'=>'single_text',
+                'data'=>new \DateTime()
             ])
             ->add("olymp", EntityType::class, [
                 "label" => "Олимпиада",
                 'class' => Olymp::class,
+                'data'=>$options['olymp'],
                 'choice_label' => function ($choice, $key, $value) {
                     return $choice->getName();
                 },
-                'required' => false,
+                'required' => true,
             ]);
     }
 
@@ -47,6 +50,8 @@ class TourType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Tour::class,
+            'allow_extra_fields'=>true,
+            "olymp"=>null
         ]);
     }
 }
