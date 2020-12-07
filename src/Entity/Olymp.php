@@ -34,9 +34,15 @@ class Olymp
      */
     private $tours;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Language::class, inversedBy="olymps")
+     */
+    private $languages;
+
     public function __construct()
     {
         $this->tours = new ArrayCollection();
+        $this->languages = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -94,6 +100,30 @@ class Olymp
                 $tour->setOlymp(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Language[]
+     */
+    public function getLanguage(): Collection
+    {
+        return $this->languages;
+    }
+
+    public function addLanguage(Language $language): self
+    {
+        if (!$this->languages->contains($language)) {
+            $this->languages[] = $language;
+        }
+
+        return $this;
+    }
+
+    public function removeLanguage(Language $language): self
+    {
+        $this->languages->removeElement($language);
 
         return $this;
     }

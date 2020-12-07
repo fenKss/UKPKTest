@@ -34,10 +34,16 @@ class Language
      */
     private $userTests;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Olymp::class, mappedBy="language")
+     */
+    private $olymps;
+
     public function __construct()
     {
         $this->tests = new ArrayCollection();
         $this->userTests = new ArrayCollection();
+        $this->olymps = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -112,6 +118,33 @@ class Language
             if ($userTest->getLanguage() === $this) {
                 $userTest->setLanguage(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Olymp[]
+     */
+    public function getOlymps(): Collection
+    {
+        return $this->olymps;
+    }
+
+    public function addOlymp(Olymp $olymp): self
+    {
+        if (!$this->olymps->contains($olymp)) {
+            $this->olymps[] = $olymp;
+            $olymp->addLanguage($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOlymp(Olymp $olymp): self
+    {
+        if ($this->olymps->removeElement($olymp)) {
+            $olymp->removeLanguage($this);
         }
 
         return $this;
