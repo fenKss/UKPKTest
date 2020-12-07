@@ -2,8 +2,10 @@
 
 namespace App\Form;
 
+use App\Entity\Language;
 use App\Entity\Olymp;
 use App\ENum\EOlympType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -17,6 +19,15 @@ class OlympType extends AbstractType
         $builder
             ->add('name', TextType::class, [
                 'label'=>'Название олимпиады'
+            ])
+            ->add("languages", EntityType::class, [
+                "label" => "Языки",
+                'multiple' => true,
+                'class' => Language::class,
+                'choice_label' => function ($choice) {
+                    return $choice->getName();
+                },
+                'required' => true,
             ])
             ->add('type', ChoiceType::class, [
                 'label'=>'Тип',

@@ -10,27 +10,35 @@
 
     <table class="table">
         <thead>
-            <tr>
-                <th>id</th>
-                <th>Название олимпиады</th>
-                <th>Тип</th>
-                <th></th>
-            </tr>
+        <tr>
+            <th>id</th>
+            <th>Название олимпиады</th>
+            <th>Языки</th>
+            <th>Тип</th>
+            <th></th>
+        </tr>
         </thead>
         <tbody>
         {% for olymp in olymps %}
             <tr>
                 <td>{{ olymp.id }}</td>
                 <td>{{ olymp.name }}</td>
+                <td>
+                    {% for language in olymp.languages %}
+                        <span>{{ language.name }}</span>
+                    {% endfor %}
+                </td>
                 <td>{{ olymp.type }}</td>
                 <td class="btn-group">
-{#                    <a href="{{ path('admin_olymp_show', {'id': olymp.id}) }}">show</a>#}
-                    <a class="btn btn-sm btn-primary" href="{{ path('admin_olymp_edit', {'id': olymp.id}) }}"><i class="fa fa-edit"></i></a>
+                    {# <a href="{{ path('admin_olymp_show', {'id': olymp.id}) }}">show</a> #}
+                    <a class="btn btn-sm btn-primary" href="{{ path('admin_olymp_edit', {'id': olymp.id}) }}">
+                        <i class="fa fa-edit"></i>
+                    </a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="4">Олимпиады не найдены</td>
+                <td colspan="5">Олимпиады не найдены</td>
             </tr>
         {% endfor %}
         </tbody>

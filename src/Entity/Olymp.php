@@ -107,7 +107,7 @@ class Olymp
     /**
      * @return Collection|Language[]
      */
-    public function getLanguage(): Collection
+    public function getLanguages(): Collection
     {
         return $this->languages;
     }
