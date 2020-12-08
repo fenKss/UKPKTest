@@ -22,25 +22,32 @@ class TestType extends AbstractType
                     return $choice->getName();
                 },
                 'required' => true,
-            ])
-            ->add("tour", EntityType::class, [
-                "label" => "Тур",
-                'class' => Tour::class,
-                'choice_label' => function ($choice) {
-                    /** @var Tour $choice */
-                    return $choice->getOlymp()->getTours()->indexOf($choice) + 1;
-                },
-                'group_by' => function ($choice) {
-                    return $choice->getOlymp()->getName();
-                },
-                'required' => true,
             ]);
+        $tour = $options['tour'];
+        $tourSettings = [
+            "label" => "Тур",
+            'class' => Tour::class,
+            'choice_label' => function ($choice) {
+                /** @var Tour $choice */
+                return $choice->getOlymp()->getTours()->indexOf($choice) + 1;
+            },
+            'group_by' => function ($choice) {
+                return $choice->getOlymp()->getName();
+            },
+            'required' => true
+        ];
+        if ($tour) {
+            $tourSettings['data'] = $tour;
+        }
+        $builder->add("tour", EntityType::class, $tourSettings);
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
             'data_class' => Test::class,
+            'allow_extra_fields'=>true,
+            'tour'=>null
         ]);
     }
 }

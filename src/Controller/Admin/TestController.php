@@ -3,26 +3,40 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Test;
+use App\Entity\Tour;
 use App\Form\TestType;
+use App\Repository\TourRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/admin/test", name="admin_test_")
+ * @Route("/admin/tour/{tour}/test", name="admin_test_")
  */
 class TestController extends AbstractController
 {
 
-
+    /**
+     * @Route("/", name="index", methods={"GET"})
+     */
+    public function tests(Tour $tour): Response
+    {
+        $tests = $tour->getTests();
+        return $this->render('admin/test/index.html.twig', [
+            'tests' => $tests,
+            'tour' => $tour
+        ]);
+    }
     /**
      * @Route("/new", name="new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Tour $tour,Request $request): Response
     {
         $test = new Test();
-        $form = $this->createForm(TestType::class, $test);
+        $form = $this->createForm(TestType::class, $test, [
+            'tour'=>$tour
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -33,13 +47,14 @@ class TestController extends AbstractController
                 $entityManager->persist($test);
                 $entityManager->flush();
 
-                return $this->redirectToRoute('admin_tour_tests', [
-                    "tourId" => $test->getTour()->getId()
+                return $this->redirectToRoute('admin_test_index', [
+                    "tour" => $tour->getId()
                 ]);
             }
         }
 
         return $this->render('admin/test/new.html.twig', [
+            "tour" => $tour,
             'test' => $test,
             'form' => $form->createView(),
         ]);
@@ -48,7 +63,7 @@ class TestController extends AbstractController
     /**
      * @Route("/{id}/edit", name="edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Test $test): Response
+    public function edit(Tour $tour,Request $request, Test $test): Response
     {
         $form = $this->createForm(TestType::class, $test);
         $form->handleRequest($request);
@@ -59,8 +74,8 @@ class TestController extends AbstractController
             if ($isValid === true) {
                 $this->getDoctrine()->getManager()->flush();
 
-                return $this->redirectToRoute('admin_tour_tests', [
-                    "tourId" => $test->getTour()->getId()
+                return $this->redirectToRoute('admin_test_index', [
+                    "tour" => $test->getTour()->getId()
                 ]);
             }
         }
@@ -68,13 +83,14 @@ class TestController extends AbstractController
         return $this->render('admin/test/edit.html.twig', [
             'test' => $test,
             'form' => $form->createView(),
+            'tour' => $tour
         ]);
     }
 
     /**
      * @Route("/{id}", name="delete", methods={"DELETE"})
      */
-    public function delete(Request $request, Test $test): Response
+    public function delete(Tour $tour,Request $request, Test $test): Response
     {
         if ($this->isCsrfTokenValid('delete' . $test->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
@@ -82,8 +98,8 @@ class TestController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('admin_tour_tests', [
-            "tourId" => $test->getTour()->getId()
+        return $this->redirectToRoute('admin_test_index', [
+            "tour" => $tour->getId()
         ]);
     }
 

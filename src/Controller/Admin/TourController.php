@@ -96,16 +96,4 @@ class TourController extends AbstractController
         return $this->redirectToRoute('admin_tour_index');
     }
 
-    /**
-     * @Route("/{tourId}/tests", name="tests", methods={"GET"})
-     */
-    public function tests(int $tourId, TourRepository $tourRepository): Response
-    {
-        $tour = $tourRepository->find($tourId);
-        if (!$tour) return $this->redirectToRoute("admin_tour_index");
-        $tests = $tour->getTests();
-        return $this->render('admin/test/index.html.twig', [
-            'tests' => $tests,
-        ]);
-    }
 }

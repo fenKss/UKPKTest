@@ -4,7 +4,7 @@
 {% block subtitle %}Список{% endblock %}
 {% block boxTitle %}Список Тестов{% endblock %}
 {% block boxButtons %}
-    <a href="{{ path('admin_test_new') }}" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i></a>
+    <a href="{{ path('admin_test_new', {'tour':tour.id}) }}" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i></a>
 {% endblock %}
 {% block boxBody %}
 
@@ -25,7 +25,7 @@
                 <td><a href="{{ path('admin_variant_index', {test:test.id, tour:test.tour.id}) }}">Варианты</a></td>
                 <td class="btn-group">
 {#                    <a href="{{ path('admin_test_show', {'id': test.id}) }}">show</a>#}
-                    <a class="btn btn-sm btn-primary" href="{{ path('admin_test_edit', {'id': test.id}) }}"><i class="fa fa-edit"></i></a>
+                    <a class="btn btn-sm btn-primary" href="{{ path('admin_test_edit', {'id': test.id, 'tour':tour.id}) }}"><i class="fa fa-edit"></i></a>
                 </td>
             </tr>
         {% else %}
