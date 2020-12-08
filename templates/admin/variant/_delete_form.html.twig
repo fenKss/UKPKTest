@@ -1,0 +1,5 @@
+<form method="post" action="{{ path('admin_variant_delete', {'id': variant.id, 'tour':tour.id, 'test':test.id}) }}" onsubmit="return confirm('Вы действительно хотите удалить вариант?');">
+    <input type="hidden" name="_method" value="DELETE">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ variant.id) }}">
+    <button class="btn btn-danger" {% if variant.variantQuestions.count %}disabled title="У варината есть вопросы"{% endif %}>Удалить</button>
+</form>

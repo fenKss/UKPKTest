@@ -1,0 +1,42 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}Варианты{% endblock %}
+{% block subtitle %}Список{% endblock %}
+{% set tour_index = tour.olymp.tours.indexOf(tour)+1 %}
+{% block boxTitle %}Список вариантов {{ tour_index }} тура "{{ tour.olymp.name}}"{% endblock %}
+{% block boxButtons %}
+    <a href="{{ path('admin_variant_new', {tour:tour.id, test:test.id}) }}" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i></a>
+{% endblock %}
+{% block boxBody %}
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Вариант</th>
+            <th>Вопросы</th>
+            <th></th>
+            <th width="50%"></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for variant in variants %}
+            <tr>
+                <td>{{ letters[variant.id] }}</td>
+                <td><a href="">Вопросы</a></td>
+                <td class="btn-group">
+                    {# <a href="{{ path('admin_variant_show', {'id': variant.id}) }}">show</a> #}
+{#                    <a class="btn btn-sm btn-primary" href="{{ path('admin_variant_edit', {'id': variant.id}) }}">#}
+{#                        <i class="fa fa-edit"></i>#}
+{#                    </a>#}
+                    {%  include "admin/variant/_delete_form.html.twig" %}
+                </td>
+                <td></td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">Варианты не найдены</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

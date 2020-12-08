@@ -35,9 +35,10 @@ class Language
     private $userTests;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Olymp::class, mappedBy="language")
+     * @ORM\ManyToMany(targetEntity=Olymp::class, mappedBy="languages")
      */
     private $olymps;
+
 
     public function __construct()
     {

@@ -2,12 +2,8 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Olymp;
 use App\Entity\Test;
 use App\Form\TestType;
-use App\Repository\OlympRepository;
-use App\Repository\TestRepository;
-use App\Repository\TourRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

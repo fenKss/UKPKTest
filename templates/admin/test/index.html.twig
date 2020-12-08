@@ -13,6 +13,7 @@
             <tr>
                 <th>id</th>
                 <th>Язык Теста</th>
+                <th>Варианты</th>
                 <th></th>
             </tr>
         </thead>
@@ -21,6 +22,7 @@
             <tr>
                 <td>{{ test.id }}</td>
                 <td>{{ test.language.name }}</td>
+                <td><a href="{{ path('admin_variant_index', {test:test.id, tour:test.tour.id}) }}">Варианты</a></td>
                 <td class="btn-group">
 {#                    <a href="{{ path('admin_test_show', {'id': test.id}) }}">show</a>#}
                     <a class="btn btn-sm btn-primary" href="{{ path('admin_test_edit', {'id': test.id}) }}"><i class="fa fa-edit"></i></a>
