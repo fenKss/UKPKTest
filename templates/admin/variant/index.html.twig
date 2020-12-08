@@ -22,7 +22,7 @@
         {% for variant in variants %}
             <tr>
                 <td>{{ letters[variant.id] }}</td>
-                <td><a href="">Вопросы</a></td>
+                <td><a href="{{ path('admin_variant_editor_index', {'variant':variant.id}) }}">Вопросы</a></td>
                 <td class="btn-group">
                     {# <a href="{{ path('admin_variant_show', {'id': variant.id}) }}">show</a> #}
 {#                    <a class="btn btn-sm btn-primary" href="{{ path('admin_variant_edit', {'id': variant.id}) }}">#}
