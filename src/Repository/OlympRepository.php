@@ -22,13 +22,14 @@ class OlympRepository extends ServiceEntityRepository
     /**
      * @return Olymp[]
      */
-    public function getWithTours():array
+    public function getWithAll(): array
     {
         return $this->createQueryBuilder('o')
+            ->select('o,t,l')
             ->leftJoin('o.tours', 't')
+            ->leftJoin('o.languages', 'l')
             ->orderBy('o.id', 'ASC')
             ->getQuery()
-            ->getResult()
-            ;
+            ->getResult();
     }
 }

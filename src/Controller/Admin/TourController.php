@@ -23,7 +23,7 @@ class TourController extends AbstractController
     public function index(OlympRepository $olympRepository): Response
     {
         return $this->render('admin/tour/index.html.twig', [
-            'olymps' => $olympRepository->getWithTours(),
+            'olymps' => $olympRepository->getWithAll(),
         ]);
     }
 

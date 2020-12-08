@@ -21,7 +21,7 @@ class OlympController extends AbstractController
     public function index(OlympRepository $olympRepository): Response
     {
         return $this->render('admin/olymp/index.html.twig', [
-            'olymps' => $olympRepository->findAll(),
+            'olymps' => $olympRepository->getWithAll(),
         ]);
     }
 

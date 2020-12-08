@@ -19,15 +19,15 @@ class VariantController extends AbstractController
     /**
      * @Route("/", name="index", methods={"GET"})
      */
-    public function index(Tour $tour, Test $test, VariantRepository $VariantRepository): Response
+    public function index(Tour $tour, Test $test, VariantRepository $variantRepository): Response
     {
-        $variants = $test->getVariants();
+        $variants = $variantRepository->getByTestWithQuestions($test);
         $letters = [];
         foreach ($variants as $key => $variant) {
             $letters[$variant->getId()] = chr(substr("000".($key+65),-3));
         }
         return $this->render('admin/variant/index.html.twig', [
-            'variants' => $test->getVariants(),
+            'variants' => $variants,
             'letters' => $letters,
             'tour' => $tour,
             'test' => $test

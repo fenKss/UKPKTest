@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Test;
 use App\Entity\Variant;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -19,32 +20,22 @@ class VariantRepository extends ServiceEntityRepository
         parent::__construct($registry, Variant::class);
     }
 
-    // /**
-    //  * @return Variant[] Returns an array of Variant objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * @param Test $test
+     *
+     * @return int|mixed|string
+     */
+    public function getByTestWithQuestions(Test $test)
     {
         return $this->createQueryBuilder('v')
-            ->andWhere('v.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('v.id', 'ASC')
-            ->setMaxResults(10)
+            ->select('v, q')
+            ->leftJoin('v.variantQuestions', 'q')
+            ->where('v.test = :test')
+            ->setParameters([
+                'test' => $test
+            ])
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?Variant
-    {
-        return $this->createQueryBuilder('v')
-            ->andWhere('v.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }
