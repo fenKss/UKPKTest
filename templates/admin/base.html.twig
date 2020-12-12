@@ -279,7 +279,7 @@
                 <!-- /.box-footer-->
             </div>
             <!-- /.box -->
-
+            {% block contentFooter %}{% endblock %}
         </section>
         <!-- /.content -->
     </div>
@@ -512,10 +512,9 @@
 <!-- FastClick -->
 {#<script src="{{ asset('assets/plugins/fastclick/fastclick.js') }}"></script>#}
 <!-- AdminLTE App -->
-<script src="{{ asset('assets//js/app.min.js') }}"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="{{ asset('assets/js/demo.js') }}"></script>
+<script src="{{ asset('assets/js/app.min.js') }}"></script>
 
 <script src="{{ asset('assets/js/alert.js') }}"></script>
+{% block javascript %}{% endblock %}
 </body>
 </html>

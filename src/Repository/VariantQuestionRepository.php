@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Variant;
 use App\Entity\VariantQuestion;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -19,32 +20,21 @@ class VariantQuestionRepository extends ServiceEntityRepository
         parent::__construct($registry, VariantQuestion::class);
     }
 
-    // /**
-    //  * @return VariantQuestion[] Returns an array of VariantQuestion objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function getWithAll(Variant $variant, int $question_id = null)
     {
-        return $this->createQueryBuilder('v')
-            ->andWhere('v.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('v.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+        $qb = $this->createQueryBuilder('q')
+            ->select('v, q, qo')
+            ->leftJoin('q.questionOptions', 'qo')
+            ->leftJoin('q.variant', 'v')
+            ->where('v.id = :variant')
+            ->setParameters([
+                'variant' => $variant
+            ]);
+        if ($question_id) {
+            $qb->andWhere('q.id = :question_id')
+                ->setParameter('question_id', $question_id);
+        }
+        return $qb->getQuery()
+            ->getResult();
     }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?VariantQuestion
-    {
-        return $this->createQueryBuilder('v')
-            ->andWhere('v.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
 }

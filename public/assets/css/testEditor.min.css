@@ -1,1 +1,1 @@
-.test-editor{display:grid;grid-template-columns:1fr 4fr;grid-gap:40px}.test-editor .questions{display:block;margin:0;padding:0}.test-editor .questions li{list-style:none;padding:5px;border-bottom:1px solid gray}
+#test-editor{display:grid;grid-template-columns:1fr 4fr;grid-gap:40px}#test-editor .questions{display:block;margin:0;padding:0}#test-editor .questions li{list-style:none;padding:5px;border-bottom:1px solid gray}form{position:absolute}
