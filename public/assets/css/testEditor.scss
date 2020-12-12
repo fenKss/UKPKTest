@@ -16,17 +16,57 @@
     }
   }
   div.tab[data-question-id]{
-    .question-title{
-      font-size: 20px;
-      button{
-        display: none;
+    .question-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      .question-type{
+        margin-left: 20px;
       }
-      &:hover{
-        button{
-          display: inline;
+      .question-title {
+        font-size: 25px;
+
+        button {
+          display: none;
+        }
+
+        &:hover {
+          button {
+            display: inline;
+          }
+        }
+      }
+
+      .question-type {
+        display: flex;
+        align-items: center;
+
+        span {
+          margin: 10px;
         }
       }
     }
+    .question-options{
+      .question-options-head {
+        font-size: 15px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        border-bottom: 1px solid black;
+        padding-bottom: 5px;
+      }
+      .options{
+        display: flex;
+        flex-direction: column;
+        label{
+          display: flex;
+          align-items: center;
+          span{
+            margin-left:5px;
+          }
+        }
+      }
+    }
+
   }
 }
 form{

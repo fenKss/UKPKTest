@@ -25,19 +25,38 @@
         </ul>
         <div class="tab-content">
             {% for i,question in questions %}
-                <div class="tab tab-pane {% if i==0 %}active{% endif %}" id="question_{{ question.id }}" data-question-id="{{ question.id }}">
-                    <div class="question-title">
-                        <span>{{ question.text|raw }}</span> <button class="btn btn-xs btn-default edit-question-title"><i class="fa fa-edit"></i></button>
+                <div class="tab tab-pane {% if i==0 %}active{% endif %}" id="question_{{ question.id }}"
+                     data-question-id="{{ question.id }}">
+                    <div class="question-head">
+                        <div class="question-title">
+                            <span>{{ question.text|raw }}</span>
+                            <button class="btn btn-xs btn-default edit-question-title"><i class="fa fa-edit"></i>
+                            </button>
+                        </div>
+                        <div class="question-type">
+                            <span>CheckBox</span>
+                            <div class="material-switch pull-right">
+                                <input class="edit-question-type" id="questionType_{{ question.id }}" name="questionType_{{ question.id }}"
+                                       type="checkbox" {% if question.type == 'radio' %}checked{% endif %}/>
+                                <label for="questionType_{{ question.id }}" class="label-default"></label>
+                            </div>
+                            <span>Radio</span>
+                        </div>
                     </div>
-                    Варианты ответа <button class="btn btn-xs btn-success add-option"><i class="fa fa-plus"></i></button>
-                    <hr>
-                    <div class="options">
-                        {% for option in question.questionOptions %}
-                            <label for="option_{{ option.id }}">
-                                <input type="radio" value="{{ option.id }}" name="option" id="option_{{ option.id }}">
-                                {{ option.text|raw }}
-                            </label>
-                        {% endfor %}
+                    <div class="question-options">
+                        <div class="question-options-head">
+                        Варианты ответа
+                        <button class="btn btn-xs btn-success add-option"><i class="fa fa-plus"></i></button>
+                        </div>
+                        <div class="options">
+                            {% for option in question.questionOptions %}
+                                <label for="option_{{ option.id }}">
+                                    <input type="{% if question.type == 'radio' %}radio{% else %}checkbox{% endif %}" value="{{ option.id }}" name="option"
+                                           id="option_{{ option.id }}">
+                                    <span>{{ option.text|raw }}</span>
+                                </label>
+                            {% endfor %}
+                        </div>
                     </div>
                 </div>
             {% endfor %}

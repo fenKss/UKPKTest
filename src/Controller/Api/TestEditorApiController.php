@@ -56,10 +56,37 @@ class TestEditorApiController extends AbstractApiController
     public function editQuestionTitle(Variant $variant, VariantQuestion $question, Request $request): JsonResponse
     {
         $title = $request->get('title');
-        if (!$title){
+        if (!$title) {
             return $this->error('title required');
         }
         $question->setText($title);
+        $em = $this->getDoctrine()->getManager();
+
+        $em->persist($question);
+        $em->flush();
+
+        return $this->success([
+            'id' => $question->getId()
+        ]);
+    }
+
+    /**
+     * /**
+     * @Route("/question/{question}/edit/type", name="edit_question_title")
+     * @param Variant         $variant
+     * @param VariantQuestion $question
+     * @param Request         $request
+     *
+     * @return JsonResponse
+     */
+    public function editQuestionType(Variant $variant, VariantQuestion $question, Request $request): JsonResponse
+    {
+        $typeRaw = $request->get('type');
+        if (is_null($typeRaw)) {
+            return $this->error('type required');
+        }
+        $type = $typeRaw ? EQuestionType::RADIO_TYPE : EQuestionType::SELECT_TYPE;
+        $question->setType($type);
         $em = $this->getDoctrine()->getManager();
 
         $em->persist($question);

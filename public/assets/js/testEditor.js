@@ -74,6 +74,12 @@ class TestEditor {
         self.api.option.add(questionId);
       });
 
+      $(document).on('change', 'input.edit-question-type', function () {
+        const $this = $(this),
+              questionId = getQuestionId($this);
+        self.api.question.editType($this.is(':checked') ? 1 : 0, questionId);
+      });
+
     },
   };
   question = {
@@ -100,16 +106,25 @@ class TestEditor {
     request : async (url, data = [], method = 'GET') => {
       const settings = {
         method,
-        headers: {
-          'Content-Type': 'application/json;charset=utf-8',
-        },
       };
       if (method.toLowerCase() === 'post') {
-        settings.body = JSON.stringify(data);
+        function getFormData(object) {
+          const formData = new FormData(this);
+          for (const key in object) {
+            formData.append(key, object[key]);
+          }
+          return formData;
+        }
+
+        settings['body'] = getFormData(data);
+
       } else if (method.toLowerCase() === 'get') {
         url = new URL(url);
         for (let key in data) {
           url.searchParams.append(key, data[key]);
+        }
+        settings.headers= {
+          'Content-Type': 'application/json;charset=utf-8',
         }
       }
 
@@ -171,6 +186,21 @@ class TestEditor {
           `/admin/variant/${this.variantId}/question/${questionId}`;
         return await this.api.request(url);
       },
+      editType: (type,questionId) => {
+        let url = this.apiUrl + `question/${questionId}/edit/type`;
+        this.api.request(url, {type}, 'post')
+            .then(data => {
+              return data.id;
+            })
+            .catch(e => {throw e;})
+            .then(async id => {
+              return await this.api.question.get(questionId);
+            })
+            .then((data) => {
+              this.question.addToDocument(questionId, data);
+            })
+            .catch(e => {throw e;});
+      }
     },
     option  : {
       add: (questionId) => {
