@@ -72,7 +72,7 @@ class TestEditorApiController extends AbstractApiController
 
     /**
      * /**
-     * @Route("/question/{question}/edit/type", name="edit_question_title")
+     * @Route("/question/{question}/edit/type", name="edit_question_type")
      * @param Variant         $variant
      * @param VariantQuestion $question
      * @param Request         $request
