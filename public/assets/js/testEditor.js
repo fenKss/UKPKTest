@@ -44,6 +44,7 @@ class TestEditor {
       this.apiUrl = this.url + `/api/variant/${this.variantId}/`;
     },
     listeners: () => {
+      const self = this;
       this.btn.$addQuestion.click(async () => {
         this.api.question.add();
       });
@@ -51,12 +52,14 @@ class TestEditor {
       this.form.$form.find(`.close`).click(() => {
         this.form.hide();
       });
-      const self = this;
+      const getQuestionId = ($this) => {
+        return $this.closest(`[data-question-id]`)
+                    .first()
+                    .attr(`data-question-id`);
+      }
       $(document).on('click', 'button.edit-question-title', function () {
-        const $this = $(this);
-        const questionId = $this.closest(`[data-question-id]`)
-                                .first()
-                                .attr(`data-question-id`),
+        const $this = $(this),
+              questionId = getQuestionId($this),
               title      = $this.parent().find(`span`).text();
         self.form.$input.val(title);
         self.form.show($this);
@@ -64,6 +67,33 @@ class TestEditor {
           self.api.question.editTitle(questionId, self.form.$input.val());
         });
       });
+
+      $(document).on('click', 'button.add-option', function () {
+        const $this = $(this),
+              questionId = getQuestionId($this);
+        self.api.option.add(questionId);
+      });
+
+    },
+  };
+  question = {
+    addToDocument: (questionId, data) => {
+      const $data            = $(data),
+            questionSelector = `ul.questions li[data-question-id=${questionId}]`,
+            tabSelector      = `.tab[data-question-id=${questionId}]`,
+            $question        = $data.find(questionSelector),
+            $tab             = $data.find(tabSelector);
+      this.$questions.find(`li`).removeClass(`active`);
+      this.$tabs.find(`.tab`).removeClass(`active`);
+      const $existQuestion = this.$root.find(questionSelector),
+            $existTab      = this.$root.find(tabSelector);
+      if ($existQuestion.length && $existTab.length) {
+        $existQuestion.replaceWith($question);
+        $existTab.replaceWith($tab);
+      } else {
+        $question.appendTo(this.$questions);
+        $tab.appendTo(this.$tabs);
+      }
     },
   };
   api = {
@@ -83,7 +113,7 @@ class TestEditor {
         }
       }
 
-      const response = await fetch(url);
+      const response = await fetch(url, settings);
 
       if (response.ok) {
         const text = await response.text();
@@ -108,27 +138,17 @@ class TestEditor {
       add      : () => {
         let url = this.apiUrl + `question/add`;
         let questionId;
-        this.api.request(url)
+        this.api.request(url, [], 'post')
             .then(data => {
               return data.id;
             })
             .catch(e => {throw e;})
             .then(async id => {
               questionId = id;
-              url = this.url +
-                `/admin/variant/${this.variantId}/question/${questionId}`;
-              return await this.api.request(url);
+              return await this.api.question.get(questionId);
             })
             .then(data => {
-              const $data     = $(data),
-                    $question = $data.find(
-                      `ul.questions li[data-question-id=${questionId}]`),
-                    $tab      = $data.find(
-                      `.tab[data-question-id=${questionId}]`);
-              this.$questions.find(`li`).removeClass(`active`);
-              this.$tabs.find(`.tab`).removeClass(`active`);
-              $question.appendTo(this.$questions);
-              $tab.appendTo(this.$tabs);
+              this.question.addToDocument(questionId, data);
 
             })
             .catch(e => {throw e;});
@@ -146,8 +166,30 @@ class TestEditor {
         }
         this.form.hide();
       },
+      get      : async (questionId) => {
+        const url = this.url +
+          `/admin/variant/${this.variantId}/question/${questionId}`;
+        return await this.api.request(url);
+      },
     },
+    option  : {
+      add: (questionId) => {
+        let url = this.apiUrl + `question/${questionId}/option/add`;
+        this.api.request(url, [], 'post')
+            .then(data => {
+              return data.id;
+            })
+            .catch(e => {throw e;})
+            .then(async id => {
+              return await this.api.question.get(questionId);
+            })
+            .then((data) => {
+              this.question.addToDocument(questionId, data);
+            })
+            .catch(e => {throw e;});
 
+      },
+    },
   };
   form = {
     show: ($object) => {
@@ -168,4 +210,4 @@ class TestEditor {
     if (window.location.port) baseUrl += ':' + window.location.port;
     return baseUrl;
   };
-};
+}

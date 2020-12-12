@@ -26,7 +26,7 @@ class TestEditorApiController extends AbstractApiController
      *
      * @return JsonResponse
      */
-    public function addQuestion(Variant $variant, Request $request)
+    public function addQuestion(Variant $variant, Request $request): JsonResponse
     {
         $question = new VariantQuestion();
 
@@ -53,7 +53,7 @@ class TestEditorApiController extends AbstractApiController
      *
      * @return JsonResponse
      */
-    public function editQuestionTitle(Variant $variant, VariantQuestion $question, Request $request)
+    public function editQuestionTitle(Variant $variant, VariantQuestion $question, Request $request): JsonResponse
     {
         $title = $request->get('title');
         if (!$title){
@@ -67,6 +67,33 @@ class TestEditorApiController extends AbstractApiController
 
         return $this->success([
             'id' => $question->getId()
+        ]);
+    }
+
+    /**
+     * @Route("/question/{question}/option/add", name="add_question_option")
+     * @param Variant         $variant
+     * @param VariantQuestion $question
+     * @param Request         $request
+     *
+     * @return JsonResponse
+     */
+    public function addOption(Variant $variant, VariantQuestion $question, Request $request): JsonResponse
+    {
+        $option = new QuestionOption();
+
+        $options = $question->getQuestionOptions();
+        $option->setText('Вариант ' . ($options->count() + 1));
+        $option->setQuestion($question);
+        $option->setIsCorrect(false);
+
+        $em = $this->getDoctrine()->getManager();
+
+        $em->persist($option);
+        $em->flush();
+
+        return $this->success([
+            'id' => $option->getId()
         ]);
     }
 }
