@@ -7,6 +7,7 @@ use App\Entity\QuestionOption;
 use App\Entity\Variant;
 use App\Entity\VariantQuestion;
 use App\ENum\EQuestionType;
+use Symfony\Component\Console\Question\Question;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -34,6 +35,31 @@ class TestEditorApiController extends AbstractApiController
         $question->setType(EQuestionType::RADIO_TYPE);
         $question->setVariant($variant);
 
+        $em = $this->getDoctrine()->getManager();
+
+        $em->persist($question);
+        $em->flush();
+
+        return $this->success([
+            'id' => $question->getId()
+        ]);
+    }
+
+    /**
+     * @Route("/question/{question}/edit/title", name="edit_question_title")
+     * @param Variant         $variant
+     * @param VariantQuestion $question
+     * @param Request         $request
+     *
+     * @return JsonResponse
+     */
+    public function editQuestionTitle(Variant $variant, VariantQuestion $question, Request $request)
+    {
+        $title = $request->get('title');
+        if (!$title){
+            return $this->error('title required');
+        }
+        $question->setText($title);
         $em = $this->getDoctrine()->getManager();
 
         $em->persist($question);

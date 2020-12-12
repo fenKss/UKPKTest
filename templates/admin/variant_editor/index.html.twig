@@ -10,7 +10,7 @@
 {% block javascript %}
 <script src="{{ asset('assets/js/testEditor.js') }}"></script>
     <script >
-    window.testEditor = new testEditor();
+    window.testEditor = new TestEditor();
 </script>
 {% endblock %}
 {% block boxBody %}
@@ -27,7 +27,7 @@
             {% for i,question in questions %}
                 <div class="tab tab-pane {% if i==0 %}active{% endif %}" id="question_{{ question.id }}" data-question-id="{{ question.id }}">
                     <div class="question-title">
-                        {{ question.text|raw }}
+                        <span>{{ question.text|raw }}</span> <button class="btn btn-xs btn-default edit-question-title"><i class="fa fa-edit"></i></button>
                     </div>
                     Вопросы
                     <hr>

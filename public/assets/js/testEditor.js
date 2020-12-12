@@ -1,4 +1,4 @@
-const testEditor = class {
+class TestEditor {
   btn = {
     $addQuestion: null,
   };
@@ -16,11 +16,15 @@ const testEditor = class {
         throw new Error('Root not found');
       }
 
-      this.$form = $(`#testEditorForm`);
-      if (!this.$form.length) {
+      this.form.$form = $(`#testEditorForm`);
+      if (!this.form.$form.length) {
         throw new Error('Form not found');
       }
-
+      this.form.$form.on('submit', () => false);
+      this.form.$input = this.form.$form.find(`input[name='name']`);
+      if (!this.form.$input.length) {
+        throw new Error('Form input not found');
+      }
       this.$questions = this.$root.find('ul.questions');
       if (!this.$questions.length) {
         throw new Error('Questions ul not found');
@@ -36,16 +40,29 @@ const testEditor = class {
     },
     vars     : () => {
       this.url = this.generateBaseUrl();
-      this.variantId = this.$form.find(`input[name="variant"]`).val();
-      this.apiUrl = `/api/variant/${this.variantId}/`;
+      this.variantId = this.form.$form.find(`input[name="variant"]`).val();
+      this.apiUrl = this.url + `/api/variant/${this.variantId}/`;
     },
     listeners: () => {
       this.btn.$addQuestion.click(async () => {
         this.api.question.add();
       });
 
-      $(document).on('click', '.close', function () {
-        $(this).closest(`form`).addClass('hidden');
+      this.form.$form.find(`.close`).click(() => {
+        this.form.hide();
+      });
+      const self = this;
+      $(document).on('click', 'button.edit-question-title', function () {
+        const $this = $(this);
+        const questionId = $this.closest(`[data-question-id]`)
+                                .first()
+                                .attr(`data-question-id`),
+              title      = $this.parent().find(`span`).text();
+        self.form.$input.val(title);
+        self.form.show($this);
+        self.form.$form.on('submit', () => {
+          self.api.question.editTitle(questionId, self.form.$input.val());
+        });
       });
     },
   };
@@ -59,6 +76,11 @@ const testEditor = class {
       };
       if (method.toLowerCase() === 'post') {
         settings.body = JSON.stringify(data);
+      } else if (method.toLowerCase() === 'get') {
+        url = new URL(url);
+        for (let key in data) {
+          url.searchParams.append(key, data[key]);
+        }
       }
 
       const response = await fetch(url);
@@ -78,11 +100,12 @@ const testEditor = class {
         }
 
       } else {
-        throw response.error();
+        throw new Error(
+          `Request error ` + (response.statusText || response.status));
       }
     },
     question: {
-      add: () => {
+      add      : () => {
         let url = this.apiUrl + `question/add`;
         let questionId;
         this.api.request(url)
@@ -97,18 +120,31 @@ const testEditor = class {
               return await this.api.request(url);
             })
             .then(data => {
-              const $data = $(data),
-                    $question = $data.find(`ul.questions li[data-question-id=${questionId}]`),
-                    $tab = $data.find(`.tab[data-question-id=${questionId}]`);
+              const $data     = $(data),
+                    $question = $data.find(
+                      `ul.questions li[data-question-id=${questionId}]`),
+                    $tab      = $data.find(
+                      `.tab[data-question-id=${questionId}]`);
               this.$questions.find(`li`).removeClass(`active`);
               this.$tabs.find(`.tab`).removeClass(`active`);
               $question.appendTo(this.$questions);
               $tab.appendTo(this.$tabs);
 
-
             })
             .catch(e => {throw e;});
 
+      },
+      editTitle: (questionId, title) => {
+        let url = this.apiUrl + `question/${questionId}/edit/title`;
+        const $elems = $(`li[data-question-id="${questionId}"] > a, div.tab[data-question-id="${questionId}"] .question-title span`);
+        if ($elems.first().text() !== title) {
+          this.api.request(url, { title })
+              .then(data => {
+                $elems.text(title);
+              })
+              .catch(e => {throw e;});
+        }
+        this.form.hide();
       },
     },
 
@@ -118,10 +154,12 @@ const testEditor = class {
       const pos = $object.offset();
       pos.top = pos.top + 10;
       pos.left = pos.left + 10;
-      this.$form.removeClass('hidden').offset(pos);
+      this.form.$form.removeClass('hidden').offset(pos);
     },
     hide: () => {
-      this.$form.addClass('hidden');
+      this.form.$form.addClass('hidden');
+      this.form.$form.off('submit');
+      this.form.$form.on('submit', () => false);
     },
   };
 
