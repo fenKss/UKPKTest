@@ -90,6 +90,27 @@ class TestEditorApiController extends AbstractApiController
         $em = $this->getDoctrine()->getManager();
 
         $em->persist($question);
+        if ($type == EQuestionType::RADIO_TYPE){
+            $options = $question->getQuestionOptions();
+            $firstOption = null;
+            foreach ($options as $option){
+                if ($option->getIsCorrect()){
+                    $firstOption = $option;
+                    break;
+                }
+            }
+            foreach ($options as $option){
+                if ($option->getIsCorrect()){
+                    $option->setIsCorrect(false);
+                    $em->persist($option);
+                }
+            }
+            if ($firstOption){
+                $firstOption->setIsCorrect(true);
+                $em->persist($firstOption);
+            }
+
+        }
         $em->flush();
 
         return $this->success([
@@ -119,6 +140,36 @@ class TestEditorApiController extends AbstractApiController
         $em->persist($option);
         $em->flush();
 
+        return $this->success([
+            'id' => $option->getId()
+        ]);
+    }
+
+    /**
+     * @Route("/question/{question}/option/{option}/correct", name="question_option_edit_correct")
+     * @param Variant         $variant
+     * @param VariantQuestion $question
+     * @param QuestionOption  $option
+     *
+     * @return JsonResponse
+     */
+    public function editCorrectOption(Variant $variant, VariantQuestion $question, QuestionOption $option): JsonResponse
+    {
+        $type = $question->getType();
+        $em = $this->getDoctrine()->getManager();
+        switch ($type) {
+            case EQuestionType::RADIO_TYPE()->getValue():
+                $options = $question->getQuestionOptions();
+                foreach ($options as $questionOption) {
+                    $questionOption->setIsCorrect(false);
+                    $em->persist($option);
+                }
+            case EQuestionType::SELECT_TYPE()->getValue():
+                $option->setIsCorrect(true);
+                $em->persist($option);
+                break;
+        }
+        $em->flush();
         return $this->success([
             'id' => $option->getId()
         ]);

@@ -36,7 +36,8 @@
                         <div class="question-type">
                             <span>CheckBox</span>
                             <div class="material-switch pull-right">
-                                <input class="edit-question-type" id="questionType_{{ question.id }}" name="questionType_{{ question.id }}"
+                                <input class="edit-question-type" id="questionType_{{ question.id }}"
+                                       name="questionType_{{ question.id }}"
                                        type="checkbox" {% if question.type == 'radio' %}checked{% endif %}/>
                                 <label for="questionType_{{ question.id }}" class="label-default"></label>
                             </div>
@@ -45,17 +46,24 @@
                     </div>
                     <div class="question-options">
                         <div class="question-options-head">
-                        Варианты ответа
-                        <button class="btn btn-xs btn-success add-option"><i class="fa fa-plus"></i></button>
+                            Варианты ответа
+                            <button class="btn btn-xs btn-success add-option"><i class="fa fa-plus"></i></button>
                         </div>
                         <div class="options">
-                            {% for option in question.questionOptions %}
-                                <label for="option_{{ option.id }}">
-                                    <input type="{% if question.type == 'radio' %}radio{% else %}checkbox{% endif %}" value="{{ option.id }}" name="option"
-                                           id="option_{{ option.id }}">
-                                    <span>{{ option.text|raw }}</span>
-                                </label>
-                            {% endfor %}
+                            <form action="" name="question_option_edit_correct">
+                                {% for option in question.questionOptions %}
+                                    <label for="option_{{ option.id }}">
+                                        <input type="{% if question.type == 'radio' %}radio{% else %}checkbox{% endif %}"
+                                               value="{{ option.id }}" name="option"
+                                               id="option_{{ option.id }}"
+                                               data-url="{{ path("api_variant_question_option_edit_correct",
+                                                   {'variant': variant.id, 'option': option.id, 'question': question.id}) }}"
+                                               {% if option.isCorrect %}checked{% endif %}
+                                        >
+                                        <span>{{ option.text|raw }}</span>
+                                    </label>
+                                {% endfor %}
+                            </form>
                         </div>
                     </div>
                 </div>

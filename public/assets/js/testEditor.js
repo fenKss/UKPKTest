@@ -80,6 +80,13 @@ class TestEditor {
         self.api.question.editType($this.is(':checked') ? 1 : 0, questionId);
       });
 
+      $(document).on('change', 'form[name="question_option_edit_correct"]', function (e){
+        const $this = $(this),
+              $target = $(e.target),
+              questionId = getQuestionId($this);
+        self.api.option.correct($target,questionId);
+      })
+
     },
   };
   question = {
@@ -218,6 +225,22 @@ class TestEditor {
             })
             .catch(e => {throw e;});
 
+      },
+      correct:($target,questionId) => {
+        let url = this.url + $target.attr('data-url');
+        console.log($target, url);
+        this.api.request(url, [], 'post')
+            .then(data => {
+              return data.id;
+            })
+            .catch(e => {throw e;})
+            .then(async id => {
+              return await this.api.question.get(questionId);
+            })
+            .then((data) => {
+              this.question.addToDocument(questionId, data);
+            })
+            .catch(e => {throw e;});
       },
     },
   };
