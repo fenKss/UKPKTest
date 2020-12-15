@@ -165,7 +165,7 @@ class TestEditorApiController extends AbstractApiController
                     $em->persist($option);
                 }
             case EQuestionType::SELECT_TYPE()->getValue():
-                $option->setIsCorrect(true);
+                $option->setIsCorrect(!$option->getIsCorrect());
                 $em->persist($option);
                 break;
         }

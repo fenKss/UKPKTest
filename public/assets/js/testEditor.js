@@ -228,7 +228,6 @@ class TestEditor {
       },
       correct:($target,questionId) => {
         let url = this.url + $target.attr('data-url');
-        console.log($target, url);
         this.api.request(url, [], 'post')
             .then(data => {
               return data.id;
