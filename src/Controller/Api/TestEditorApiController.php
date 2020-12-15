@@ -174,4 +174,29 @@ class TestEditorApiController extends AbstractApiController
             'id' => $option->getId()
         ]);
     }
+
+    /**
+     * @Route("/question/{question}/option/{option}/edit/title", name="question_option_edit_title")
+     * @param Variant         $variant
+     * @param VariantQuestion $question
+     * @param Request         $request
+     *
+     * @return JsonResponse
+     */
+    public function editOptionTitle(Variant $variant, QuestionOption $option,VariantQuestion $question, Request $request): JsonResponse
+    {
+        $title = $request->get('title');
+        if (!$title) {
+            return $this->error('title required');
+        }
+        $option->setText($title);
+        $em = $this->getDoctrine()->getManager();
+
+        $em->persist($question);
+        $em->flush();
+
+        return $this->success([
+            'id' => $option->getId()
+        ]);
+    }
 }

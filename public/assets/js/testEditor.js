@@ -57,14 +57,27 @@ class TestEditor {
                     .first()
                     .attr(`data-question-id`);
       }
-      $(document).on('click', 'button.edit-question-title', function () {
+      $(document).on('click', 'button.edit-question-title', function (e) {
+        e.preventDefault();
         const $this = $(this),
               questionId = getQuestionId($this),
               title      = $this.parent().find(`span`).text();
         self.form.$input.val(title);
         self.form.show($this);
         self.form.$form.on('submit', () => {
-          self.api.question.editTitle(questionId, self.form.$input.val());
+          self.api.question.editTitle(questionId);
+        });
+      });
+
+      $(document).on('click', 'button.edit-option-title', function (e) {
+        e.preventDefault();
+        const $this = $(this),
+              questionId = getQuestionId($this),
+              $label = $this.parent().find(`label`);
+        self.form.$input.val($label.text().trim());
+        self.form.show($this);
+        self.form.$form.on('submit', () => {
+          self.api.option.editTitle(questionId,$label ,$this );
         });
       });
 
@@ -176,7 +189,8 @@ class TestEditor {
             .catch(e => {throw e;});
 
       },
-      editTitle: (questionId, title) => {
+      editTitle: (questionId) => {
+        const title = this.form.$input.val();
         let url = this.apiUrl + `question/${questionId}/edit/title`;
         const $elems = $(`li[data-question-id="${questionId}"] > a, div.tab[data-question-id="${questionId}"] .question-title span`);
         if ($elems.first().text() !== title) {
@@ -240,6 +254,17 @@ class TestEditor {
               this.question.addToDocument(questionId, data);
             })
             .catch(e => {throw e;});
+      },
+      editTitle: (questionId, $label, $button) => {
+        let url = this.url + $button.attr('data-url');
+        const title = this.form.$input.val().trim();
+        if ($label.text().trim() !== title)
+          this.api.request(url, { title })
+              .then(data => {
+                $label.find('span').text(title);
+              })
+              .catch(e => {throw e;});
+        this.form.hide();
       },
     },
   };

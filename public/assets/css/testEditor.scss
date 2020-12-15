@@ -69,6 +69,16 @@
 
   }
 }
+form[name="question_option_edit_correct"] > div{
+  display: flex;
+  button{
+    margin-left: 10px;
+    display: none;
+  }
+  &:hover button{
+    display: block;
+  }
+}
 #testEditorForm{
   position: absolute;
 }

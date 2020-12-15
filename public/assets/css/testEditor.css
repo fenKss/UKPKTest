@@ -56,6 +56,17 @@
   margin-left: 5px;
 }
 
+form[name=question_option_edit_correct] > div {
+  display: flex;
+}
+form[name=question_option_edit_correct] > div button {
+  margin-left: 10px;
+  display: none;
+}
+form[name=question_option_edit_correct] > div:hover button {
+  display: block;
+}
+
 #testEditorForm {
   position: absolute;
 }

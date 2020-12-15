@@ -52,6 +52,7 @@
                         <div class="options">
                             <form action="" name="question_option_edit_correct">
                                 {% for option in question.questionOptions %}
+                                    <div>
                                     <label for="option_{{ option.id }}">
                                         <input type="{% if question.type == 'radio' %}radio{% else %}checkbox{% endif %}"
                                                value="{{ option.id }}" name="option"
@@ -62,6 +63,8 @@
                                         >
                                         <span>{{ option.text|raw }}</span>
                                     </label>
+                                    <button class="btn btn-xs btn-default edit-option-title" data-url="{{ path('api_variant_question_option_edit_title',{'variant': variant.id, 'option': option.id, 'question': question.id}) }}"><i class="fa fa-edit"></i></button>
+                                    </div>
                                 {% endfor %}
                             </form>
                         </div>
