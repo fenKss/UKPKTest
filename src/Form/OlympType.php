@@ -34,8 +34,8 @@ class OlympType extends AbstractType
                 'choices'=>[
                     'Внутриколледжная'=>EOlympType::COLLEGE_TYPE()->getValue(),
                     'Городская'=>EOlympType::CITY_TYPE()->getValue(),
-                    'Областная'=>EOlympType::REGION_TYPE()->getValue(),
-                    'Казахстаская'=>EOlympType::COUNTRY_TYPE()->getValue(),
+                    'Региональная'=>EOlympType::REGION_TYPE()->getValue(),
+                    'Республиканская'=>EOlympType::COUNTRY_TYPE()->getValue(),
                     'Международная'=>EOlympType::WORLD_TYPE()->getValue(),
                 ]
             ])

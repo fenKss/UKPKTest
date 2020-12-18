@@ -19,7 +19,7 @@ class TourType extends AbstractType
     {
         $builder
             ->add('price', NumberType::class, [
-                'label' => 'Цена',
+                'label' => 'Стоимость',
                 'html5' => true,
                 'input' => 'number'
             ])
