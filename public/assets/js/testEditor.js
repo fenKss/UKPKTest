@@ -258,7 +258,7 @@ class TestEditor {
       editTitle: (questionId, $label, $button) => {
         let url = this.url + $button.attr('data-url');
         const title = this.form.$input.val().trim();
-        if ($label.text().trim() !== title)
+        if ($label?.text()?.trim() !== title)
           this.api.request(url, { title })
               .then(data => {
                 $label.find('span').text(title);
