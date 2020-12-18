@@ -13,10 +13,9 @@ class DefaultController extends AbstractController
      */
     public function index(): Response
     {
-        return $this->redirectToRoute('admin_index');
-//        return $this->render('default/index.html.twig', [
-//            'controller_name' => 'DefaultController',
-//        ]);
+//        return $this->redirectToRoute('admin_index');
+        return $this->render('title.html.twig', [
+        ]);
     }
 
     /**
