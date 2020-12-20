@@ -6,7 +6,7 @@ use App\Entity\Language;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
-class LangugeFixture extends Fixture
+class LanguageFixture extends Fixture
 {
     public function load(ObjectManager $manager)
     {

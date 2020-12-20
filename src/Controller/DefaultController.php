@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Repository\OlympRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -11,10 +12,14 @@ class DefaultController extends AbstractController
     /**
      * @Route("/", name="default")
      */
-    public function index(): Response
+    public function index(OlympRepository $olympRepository): Response
     {
+        $olymps = $olympRepository->findBy([
+
+        ]);
 //        return $this->redirectToRoute('admin_index');
         return $this->render('title.html.twig', [
+            'olymps'=>$olymps
         ]);
     }
 
