@@ -8,6 +8,7 @@
     <title>Главная</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="{{ asset('assets/css/title.min.css') }}">
+    <link rel="shortcut icon" href="{{ asset('assets/img/logo.png')}}" type="image/png">
 </head>
 <body>
 <header>
@@ -38,6 +39,9 @@
                     <li class="sp-contact-time">
                         <i class="fa fa-clock-o"></i>
                         <span>Пон - Субб 8:00 - 17:00</span>
+                    </li>
+                    <li>
+                        <i class="fa fa-user">{% if app.user %}{{ app.user.email }}{% else %}<a href="{{ path('app_login') }}">Войти/регистрация</a>{% endif %}</i>
                     </li>
                 </ul>
             </div>
