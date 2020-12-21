@@ -12,64 +12,68 @@
     {% block styles %}{% endblock %}
 </head>
 <body>
-<header class="{% block header_class %}{% endblock %}">
-    <section class="contacts">
-        <div class="contacts-wrapper">
-            <div class="contacts-left">
-                <ul class="socials">
-                    <li><a target="_blank" href="https://www.youtube.com/channel/UCTMyN8fEfQY7bzQc5_H8dLA"><i
-                                    class="fa fa-youtube"></i></a>
-                    </li>
-                    <li><a target="_blank" href="https://vk.com/ukptk_official"><i class="fa fa-vk"></i></a></li>
-                </ul>
-            </div>
-            <div class="contacts-right">
-                <ul class="phones">
-                    <li>
-                        <i class="fa fa-phone"></i>
-                        <a href="tel:+7(7232)540-731">+7(7232)540-731</a>
-                    </li>
-                    <li>
-                        <i class="fa fa-mobile"></i>
-                        <a href="tel:+7(7232)540-603">+7(7232)540-603</a>
-                    </li>
-                    <li>
-                        <i class="fa fa-envelope"></i>
-                        <a href="mailto:ukptk@mail.ru">ukptk@mail.ru</a>
-                    </li>
-                    <li class="sp-contact-time">
-                        <i class="fa fa-clock-o"></i>
-                        <span>Пон - Субб 8:00 - 17:00</span>
-                    </li>
-                    <li>
-                        <i class="fa fa-user"></i>
-                        {% if app.user %}
-                            <a href="">{{ app.user.email }}</a>
-                        {% else %}
-                            <a href="{{ path('app_login') }}">Войти/регистрация</a>{% endif %}
-                    </li>
-                </ul>
-            </div>
+<div class="wrap">
+    <header class="{% block header_class %}{% endblock %}">
+        <section class="contacts">
+            <div class="contacts-wrapper">
+                <div class="contacts-left">
+                    <ul class="socials">
+                        <li><a target="_blank" href="https://www.youtube.com/channel/UCTMyN8fEfQY7bzQc5_H8dLA"><i
+                                        class="fa fa-youtube"></i></a>
+                        </li>
+                        <li><a target="_blank" href="https://vk.com/ukptk_official"><i class="fa fa-vk"></i></a></li>
+                    </ul>
+                </div>
+                <div class="contacts-right">
+                    <ul class="phones">
+                        <li>
+                            <i class="fa fa-phone"></i>
+                            <a href="tel:+7(7232)540-731">+7(7232)540-731</a>
+                        </li>
+                        <li>
+                            <i class="fa fa-mobile"></i>
+                            <a href="tel:+7(7232)540-603">+7(7232)540-603</a>
+                        </li>
+                        <li>
+                            <i class="fa fa-envelope"></i>
+                            <a href="mailto:ukptk@mail.ru">ukptk@mail.ru</a>
+                        </li>
+                        <li class="sp-contact-time">
+                            <i class="fa fa-clock-o"></i>
+                            <span>Пон - Субб 8:00 - 17:00</span>
+                        </li>
+                        <li>
+                            <i class="fa fa-user"></i>
+                            {% if app.user %}
+                                <a href="">{{ app.user.email }}</a>
+                            {% else %}
+                                <a href="{{ path('app_login') }}">Войти/регистрация</a>{% endif %}
+                        </li>
+                    </ul>
+                </div>
 
-        </div>
-    </section>
-    <section class="logo">
-        <div class="logo-wrapper">
-            <div class="logo-content">
-                <a href="/">
-                <img src="{{ asset('/assets/img/logo.png') }}" alt="">
-                    <span>Усть-Каменогорский высший политехнический колледж</span>
-                </a>
             </div>
-        </div>
-    </section>
-</header>
-<main class="{% block main_class %}{% endblock %}">
-    {% block content %}{% endblock %}
-</main>
-<footer>
-
-</footer>
+        </section>
+        <section class="logo">
+            <div class="logo-wrapper">
+                <div class="logo-content">
+                    <a href="/">
+                        <img src="{{ asset('/assets/img/logo.png') }}" alt="">
+                        <span>Усть-Каменогорский высший политехнический колледж</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </header>
+    <main class="{% block main_class %}{% endblock %}">
+        {% block content %}{% endblock %}
+    </main>
+    <footer>
+                <span class="copyright">
+                    ©2020 Усть-Каменогорский высший политехнический колледж
+                </span>
+    </footer>
+</div>
 {% block javascript %}{% endblock %}
 </body>
 </html>
