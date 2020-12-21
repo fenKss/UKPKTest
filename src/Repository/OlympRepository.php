@@ -32,4 +32,17 @@ class OlympRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function getWithPublishedTours()
+    {
+        $result =  $this->createQueryBuilder('o')
+            ->select('o,t,l')
+            ->leftJoin('o.tours', 't')
+            ->leftJoin('o.languages','l')
+            ->where('t.publishedAt is NOT NULL')
+            ->getQuery()
+            ->getResult();
+
+        return $result;
+    }
 }

@@ -1,64 +1,7 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Главная</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="{{ asset('assets/css/title.min.css') }}">
-    <link rel="shortcut icon" href="{{ asset('assets/img/logo.png') }}" type="image/png">
-</head>
-<body>
-<header>
-    <section class="contacts">
-        <div class="contacts-wrapper">
-            <div class="contacts-left">
-                <ul class="socials">
-                    <li><a target="_blank" href="https://www.youtube.com/channel/UCTMyN8fEfQY7bzQc5_H8dLA"><i
-                                    class="fa fa-youtube"></i></a>
-                    </li>
-                    <li><a target="_blank" href="https://vk.com/ukptk_official"><i class="fa fa-vk"></i></a></li>
-                </ul>
-            </div>
-            <div class="contacts-right">
-                <ul class="phones">
-                    <li>
-                        <i class="fa fa-phone"></i>
-                        <a href="tel:+7(7232)540-731">+7(7232)540-731</a>
-                    </li>
-                    <li>
-                        <i class="fa fa-mobile"></i>
-                        <a href="tel:+7(7232)540-603">+7(7232)540-603</a>
-                    </li>
-                    <li>
-                        <i class="fa fa-envelope"></i>
-                        <a href="mailto:ukptk@mail.ru">ukptk@mail.ru</a>
-                    </li>
-                    <li class="sp-contact-time">
-                        <i class="fa fa-clock-o"></i>
-                        <span>Пон - Субб 8:00 - 17:00</span>
-                    </li>
-                    <li>
-                        <i class="fa fa-user">{% if app.user %}{{ app.user.email }}{% else %}<a
-                                href="{{ path('app_login') }}">Войти/регистрация</a>{% endif %}</i>
-                    </li>
-                </ul>
-            </div>
-
-        </div>
-    </section>
-    <section class="logo">
-        <div class="logo-wrapper">
-            <div class="logo-content">
-                <img src="{{ asset('/assets/img/logo.png') }}" alt="">
-                <a href="/">Усть-Каменогорский высший политехнический колледж</a>
-            </div>
-        </div>
-    </section>
-</header>
-<main>
+{% extends 'base.html.twig' %}
+{% block main_class %}title{% endblock %}
+{% block header_class %}title{% endblock %}
+{% block content %}
     <section class="main-title">
         <div class="main-title-wrapper">
             <h1>Портал для тестирования</h1>
@@ -66,11 +9,17 @@
         </div>
     </section>
     <section class="olymps">
-
+        {% for olymp in olymps %}
+            <div class="olymp">
+                <div class="olymp-title">
+                    {{ olymp.name }}
+                </div>
+                <div class="tour">
+                    {% for i,tour in olymp.tours %}
+                        {{ i+1 }}
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
     </section>
-</main>
-<footer>
-
-</footer>
-</body>
-</html>
+{% endblock %}

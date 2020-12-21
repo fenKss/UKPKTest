@@ -14,9 +14,7 @@ class DefaultController extends AbstractController
      */
     public function index(OlympRepository $olympRepository): Response
     {
-        $olymps = $olympRepository->findBy([
-
-        ]);
+        $olymps = $olympRepository->getWithPublishedTours();
 //        return $this->redirectToRoute('admin_index');
         return $this->render('title.html.twig', [
             'olymps'=>$olymps
