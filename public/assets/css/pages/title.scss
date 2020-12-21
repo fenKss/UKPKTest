@@ -40,6 +40,23 @@ main.title {
     .olymp{
       &-title{
         font-size: 18px;
+        font-weight: 600;
+        text-align: center;
+      }
+      .tours{
+        margin: 10px 0;
+        table{
+          width: 100%;
+          td,th{
+            padding: 5px;
+          }
+          td{
+              text-align: center;
+          }
+          th{
+            font-weight: 600;
+          }
+        }
       }
     }
   }

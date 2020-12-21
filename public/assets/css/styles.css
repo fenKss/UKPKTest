@@ -5,6 +5,8 @@ body {
   body a {
     text-decoration: none;
     color: grey; }
+  body img {
+    max-width: 100%; }
   body .wrap {
     display: flex;
     flex-direction: column;
@@ -51,16 +53,18 @@ body {
     width: 100%;
     margin: auto;
     padding: 0 10px; }
-    body header section.logo .logo-wrapper .logo-content a {
-      display: flex;
-      align-items: center;
-      max-width: 300px; }
-      body header section.logo .logo-wrapper .logo-content a img {
-        max-width: 100px; }
-      body header section.logo .logo-wrapper .logo-content a span {
-        font-weight: bold;
-        color: #005ea8;
-        margin-left: 10px; }
+    body header section.logo .logo-wrapper .logo-content {
+      padding: 10px 0; }
+      body header section.logo .logo-wrapper .logo-content a {
+        display: flex;
+        align-items: center;
+        max-width: 300px; }
+        body header section.logo .logo-wrapper .logo-content a img {
+          max-width: 100px; }
+        body header section.logo .logo-wrapper .logo-content a span {
+          font-weight: bold;
+          color: #005ea8;
+          margin-left: 10px; }
   body main {
     flex-grow: 1; }
   body footer {
@@ -104,7 +108,19 @@ main.title section.olymps {
   box-sizing: border-box;
   padding: 10px 10px; }
   main.title section.olymps .olymp-title {
-    font-size: 18px; }
+    font-size: 18px;
+    font-weight: 600;
+    text-align: center; }
+  main.title section.olymps .olymp .tours {
+    margin: 10px 0; }
+    main.title section.olymps .olymp .tours table {
+      width: 100%; }
+      main.title section.olymps .olymp .tours table td, main.title section.olymps .olymp .tours table th {
+        padding: 5px; }
+      main.title section.olymps .olymp .tours table td {
+        text-align: center; }
+      main.title section.olymps .olymp .tours table th {
+        font-weight: 600; }
 
 header.title section.logo .logo-wrapper {
   max-width: 1200px;
@@ -126,5 +142,29 @@ header.title section.logo .logo-wrapper {
       font-size: 23px;
       max-width: 500px;
       text-align: center; }
+
+main.user-cabinet .cabinet {
+  max-width: 1200px;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0 10px;
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  grid-gap: 10px;
+  margin: auto; }
+  main.user-cabinet .cabinet .user-info .avatar {
+    width: 220px;
+    height: 220px;
+    overflow: hidden;
+    position: relative;
+    border-radius: 50%;
+    margin-bottom: 10px; }
+    main.user-cabinet .cabinet .user-info .avatar img {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%); }
+  main.user-cabinet .cabinet .user-info .mail {
+    text-align: center; }
 
 /*# sourceMappingURL=styles.css.map */

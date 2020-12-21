@@ -1,10 +1,13 @@
 body {
   font-family: 'Open Sans', sans-serif;
 
-
   a {
     text-decoration: none;
     color: grey;
+  }
+
+  img {
+    max-width: 100%;
   }
 
   .wrap {
@@ -82,20 +85,22 @@ body {
         width: 100%;
         margin: auto;
         padding: 0 10px;
+        .logo-content {
+          padding: 10px 0;
+          a {
+            display: flex;
+            align-items: center;
+            max-width: 300px;
 
-        .logo-content a {
-          display: flex;
-          align-items: center;
-          max-width: 300px;
+            img {
+              max-width: 100px;
+            }
 
-          img {
-            max-width: 100px;
-          }
-
-          span {
-            font-weight: bold;
-            color: #005ea8;
-            margin-left: 10px;
+            span {
+              font-weight: bold;
+              color: #005ea8;
+              margin-left: 10px;
+            }
           }
         }
       }

@@ -14,10 +14,25 @@
                 <div class="olymp-title">
                     {{ olymp.name }}
                 </div>
-                <div class="tour">
-                    {% for i,tour in olymp.tours %}
-                        {{ i+1 }}
-                    {% endfor %}
+                <div class="tours">
+                    <table>
+                        <tr>
+                            <th>Тур</th>
+                            <th>Начало</th>
+{#                            <th>Конец</th>#}
+                            <th>Длительность</th>
+                        </tr>
+                        {% for i,tour in olymp.tours %}
+                            <tr>
+                                <td>{{ i+1 }}</td>
+                                <td>{{ tour.startedAt|date('H:i:s Y-m-d') }}</td>
+{#                                <td>{{ tour.expiredAt|date('H:i:s Y-m-d') }}</td>#}
+                                <td>{{ (date(tour.expiredAt).timestamp-date(tour.startedAt).timestamp) / 60 }} минут</td>
+{#                                    -date(tour.expiredAt)|date('H:i:s') }}</td>#}
+                            </tr>
+                        {% endfor %}
+                    </table>
+
                 </div>
             </div>
         {% endfor %}

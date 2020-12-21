@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -18,8 +18,10 @@
             <div class="contacts-wrapper">
                 <div class="contacts-left">
                     <ul class="socials">
-                        <li><a target="_blank" href="https://www.youtube.com/channel/UCTMyN8fEfQY7bzQc5_H8dLA"><i
-                                        class="fa fa-youtube"></i></a>
+                        <li>
+                            <a target="_blank" href="https://www.youtube.com/channel/UCTMyN8fEfQY7bzQc5_H8dLA">
+                                <i class="fa fa-youtube"></i>
+                            </a>
                         </li>
                         <li><a target="_blank" href="https://vk.com/ukptk_official"><i class="fa fa-vk"></i></a></li>
                     </ul>
@@ -45,13 +47,12 @@
                         <li>
                             <i class="fa fa-user"></i>
                             {% if app.user %}
-                                <a href="">{{ app.user.email }}</a>
+                                <a href="{{ path('user_index') }}">{{ app.user.email }}</a>
                             {% else %}
                                 <a href="{{ path('app_login') }}">Войти/регистрация</a>{% endif %}
                         </li>
                     </ul>
                 </div>
-
             </div>
         </section>
         <section class="logo">
@@ -69,9 +70,9 @@
         {% block content %}{% endblock %}
     </main>
     <footer>
-                <span class="copyright">
-                    ©2020 Усть-Каменогорский высший политехнический колледж
-                </span>
+        <span class="copyright">
+            ©2020 Усть-Каменогорский высший политехнический колледж
+        </span>
     </footer>
 </div>
 {% block javascript %}{% endblock %}
