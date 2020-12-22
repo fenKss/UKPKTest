@@ -23,7 +23,7 @@
     .pagination .btn-iconed {
       padding: 0; }
     .pagination .btn.active {
-      background: #C4FBC7; }
+      background: #79dbff; }
   .pagination .btn-group {
     display: flex;
     align-items: center;
@@ -60,7 +60,7 @@
       margin-right: 0; }
       .pagination .btn-group.date .chzn-container {
         box-sizing: border-box;
-        background: url("icons/svg/oah_icons/oah-sorting-up.svg") no-repeat 4px center;
+        background: url("../icons/svg/oah_icons/oah-sorting-up.svg") no-repeat 4px center;
         padding-right: 5px;
         padding-left: 25px;
         width: 100px !important; }
@@ -77,6 +77,6 @@
           border: none;
           box-shadow: none; }
         .pagination .btn-group.date .chzn-container b {
-          background: url("icons/svg/oah_icons/oah-arrdown-thin-black.svg") no-repeat center center; }
+          background: url("../icons/svg/oah_icons/oah-arrdown-thin-black.svg") no-repeat center center; }
 
 /*# sourceMappingURL=pagination.css.map */

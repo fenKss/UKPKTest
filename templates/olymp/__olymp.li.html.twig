@@ -27,7 +27,7 @@
                             Ожидает начала
                         {% endif %}
                     </td>
-                    <td>{% if canSignUp %}<a class="signup" href="#!">Записаться</a>{% endif %}</td>
+                    <td>{% if canSignUp %}<a class="signup" href="{{ path('olymp_tour_signup', {tour:tour.id, olymp:tour.olymp.id}) }}">Записаться</a>{% endif %}</td>
                 </tr>
             {% endfor %}
         </table>

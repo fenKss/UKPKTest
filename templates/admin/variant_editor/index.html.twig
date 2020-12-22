@@ -1,12 +1,13 @@
 {% extends 'admin/base.html.twig' %}
+
 {% block styles %}
-    <link rel="stylesheet" href="{{ asset('assets/css/testEditor.min.css') }}">{% endblock %}
+    <link rel="stylesheet" href="{{ asset('assets/css/pages/testEditor.min.css') }}">{% endblock %}
 {% block title %}Редактор тестов{% endblock %}
+
 {% block boxTitle %}Вопросы
-    <button id="add-question-btn" class="btn btn-success"><i class="fa fa-plus"></i></button> {% endblock %}
-{% block boxButtons %}
-    {# <a href="{{ path('admin_variant_new', {tour:tour.id, test:test.id}) }}" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i></a> #}
+    <button id="add-question-btn" class="btn btn-success"><i class="fa fa-plus"></i></button>
 {% endblock %}
+
 {% block javascript %}
 <script src="{{ asset('assets/js/testEditor.js') }}"></script>
     <script >
@@ -53,17 +54,18 @@
                             <form action="" name="question_option_edit_correct">
                                 {% for option in question.questionOptions %}
                                     <div>
-                                    <label for="option_{{ option.id }}">
-                                        <input type="{% if question.type == 'radio' %}radio{% else %}checkbox{% endif %}"
-                                               value="{{ option.id }}" name="option"
-                                               id="option_{{ option.id }}"
-                                               data-url="{{ path("api_variant_question_option_edit_correct",
-                                                   {'variant': variant.id, 'option': option.id, 'question': question.id}) }}"
-                                               {% if option.isCorrect %}checked{% endif %}
-                                        >
-                                        <span>{{ option.text|raw }}</span>
-                                    </label>
-                                    <button class="btn btn-xs btn-default edit-option-title" data-url="{{ path('api_variant_question_option_edit_title',{'variant': variant.id, 'option': option.id, 'question': question.id}) }}"><i class="fa fa-edit"></i></button>
+                                        <label for="option_{{ option.id }}">
+                                            <input type="{% if question.type == 'radio' %}radio{% else %}checkbox{% endif %}"
+                                                   value="{{ option.id }}" name="option"
+                                                   id="option_{{ option.id }}"
+                                                   data-url="{{ path("api_variant_question_option_edit_correct",
+                                                       {'variant': variant.id, 'option': option.id, 'question': question.id}) }}"
+                                                   {% if option.isCorrect %}checked{% endif %}
+                                            >
+                                            <span>{{ option.text|raw }}</span>
+                                        </label>
+                                        <button class="btn btn-xs btn-default edit-option-title" data-url="{{ path('api_variant_question_option_edit_title',{'variant': variant.id, 'option': option.id, 'question': question.id}) }}">
+                                            <i class="fa fa-edit"></i></button>
                                     </div>
                                 {% endfor %}
                             </form>
