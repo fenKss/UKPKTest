@@ -9,39 +9,48 @@
         </div>
     </section>
     <section class="olymps">
-        {% for olymp in olymps %}
-            <div class="olymp">
-                <div class="olymp-title">
-                    {{ olymp.name }}
-                </div>
-                <div class="tours">
-                    <table>
-                        <tr>
-                            <th>Тур</th>
-                            <th>Начало</th>
-                            <th>Длительность</th>
-                            <th>Статус</th>
-                            <th></th>
-                        </tr>
-                        {% for i,tour in olymp.tours %}
+        <ul class="olymp-list">
+            {% for olymp in olymps %}
+                <li class="olymp">
+                    <div class="olymp-title">
+                        {{ olymp.name }}
+                    </div>
+                    <div class="tours">
+                        <table>
                             <tr>
-                                <td>{{ i+1 }}</td>
-                                <td>{{ tour.startedAt|date('H:i:s Y-m-d') }}</td>
-                                <td>{{ (date(tour.expiredAt).timestamp-date(tour.startedAt).timestamp) / 60 }} минут</td>
-                                <td>{% if date() > tour.expiredAt %}
-                                        Завершен
-                                    {% elseif tour.expiredAt < date() and tour.startedAt > date() %}
-                                    {% else %}
-                                        Ожидает начала
-                                    {% endif %}
-                                </td>
-                                <td><a href="#!" class="signup">Записаться</a></td>
+                                <th>Тур</th>
+                                <th>Начало</th>
+                                <th>Длительность</th>
+                                <th>Статус</th>
+                                <th></th>
                             </tr>
-                        {% endfor %}
-                    </table>
+                            {% for i,tour in olymp.tours %}
+                                <tr>
+                                    <td>{{ i+1 }}</td>
+                                    <td>{{ tour.startedAt|date('Y-m-d H:i') }}</td>
+                                    <td>
+                                        {{ (date(tour.expiredAt).timestamp-date(tour.startedAt).timestamp) / 60 }}
+                                        минут
+                                    </td>{% set canSignUp = false %}
+                                    <td>{% if date() > tour.expiredAt %}
+                                            Завершен
+                                        {% elseif tour.expiredAt < date() and tour.startedAt > date() %}
+                                        {% else %}
+                                            {% set canSignUp = true %}
+                                            Ожидает начала
+                                        {% endif %}
+                                    </td>
+                                    <td>{% if canSignUp %}<a class="signup" href="#!">Записаться</a>{% endif %}</td>
+                                </tr>
+                            {% endfor %}
+                        </table>
 
-                </div>
-            </div>
-        {% endfor %}
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+        {# {% if count > olymps|length  %} #}
+        <div class="all-olymps"><a href="#!">Посмотреть список всех олимпиад</a></div>
+        {# {% endif %} #}
     </section>
 {% endblock %}

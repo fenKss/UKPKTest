@@ -40,6 +40,7 @@ class OlympRepository extends ServiceEntityRepository
             ->leftJoin('o.tours', 't')
             ->leftJoin('o.languages','l')
             ->where('t.publishedAt is NOT NULL')
+            ->orderBy('t.startedAt', 'DESC')
             ->getQuery()
             ->getResult();
 
