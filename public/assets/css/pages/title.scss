@@ -6,6 +6,7 @@ main.title {
     display: flex;
     align-items: center;
     justify-content: center;
+
     .main-title-wrapper {
       max-width: 1200px;
       width: 100%;
@@ -15,87 +16,48 @@ main.title {
       text-align: center;
       color: #0098d6;
 
-      h1{
+      h1 {
         font-size: 72px;
         line-height: 72px;
         margin-bottom: 20px;
         margin-top: 50px;
         font-weight: bold;
       }
-      h2{
+
+      h2 {
         font-size: 18pt;
       }
+
       //display: flex;
       //align-items: center;
       //justify-content: center;
       //flex-direction: column;
     }
   }
-  section.olymps{
+
+  section.olymps {
     max-width: 1200px;
     width: 100%;
     margin: auto;
     box-sizing: border-box;
     padding: 10px 10px;
-    .olymp-list {
-      .olymp {
-        padding: 10px 0;
-        list-style: none;
-        &-title {
-          font-size: 18px;
-          font-weight: 600;
-          text-align: center;
-          margin-bottom: 20px;
-        }
 
-        .tours {
-          margin: 10px 0;
-
-          table {
-            width: 100%;
-
-            td, th {
-              padding: 5px;
-              text-align: center;
-            }
-
-            th {
-              font-weight: 600;
-            }
-          }
-        }
-
-        a.signup {
-          background: #efeeee;
-          padding: 10px;
-          box-sizing: border-box;
-          display: block;
-          width: 150px;
-          margin: auto;
-          color: black;
-          &.lock{
-            visibility: hidden;
-          }
-          &:hover {
-            background: #dcdcdc;
-          }
-        }
-      }
-    }
-    .all-olymps{
+    .all-olymps {
       text-align: center;
       margin: 15px 0;
-      a{
+
+      a {
         padding: 10px;
         background: #0098d6;
-        color:#fff;
+        color: #fff;
 
       }
     }
   }
 
 }
-header.title{
+
+header.title {
   section.logo {
     .logo-wrapper {
       max-width: 1200px;
@@ -103,7 +65,7 @@ header.title{
       margin: auto;
       padding: 10px 10px;
 
-      .logo-content a{
+      .logo-content a {
         display: flex;
         align-items: center;
         justify-content: center;

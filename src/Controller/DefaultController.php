@@ -17,11 +17,10 @@ class DefaultController extends AbstractController
         $count = 2;
 
         $olymps = $olympRepository->getWithPublishedTours();
-
 //        return $this->redirectToRoute('admin_index');
         return $this->render('title.html.twig', [
-            'olymps' => array_slice($olymps, 0, 2),
-            'count' => count($olymps)
+            'count' => count($olymps),
+            'olymps' => array_slice($olymps, 0, $count),
         ]);
     }
 

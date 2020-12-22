@@ -1,0 +1,31 @@
+{% set _currentPage = app.request.query.get('p') ?: 1 %}
+{% set _currentRoute = app.request.attributes.get('_route') %}
+{% set _currentParams = app.request.query.all %}
+{% if lastPage > 1 %}
+    <div class="pagination">
+        {% if _currentPage > 1 %}
+            <a class="btn btn-iconed wrapper" href="{{ path(_currentRoute, _currentParams|merge({p: _currentPage - 1})) }}"><i class="test-icon arrow-left"></i></a>
+        {% endif %}
+        <a href="{{ path(_currentRoute, _currentParams|merge({p: 1})) }}" class="btn btn-iconed wrapper"><i class="test-icon arrow-double-left"></i></a>
+    <div class="btn-group">
+        {% for i in 1..lastPage %}
+            <a class="btn wrapper {% if _currentPage == i %}active{% endif %}"  href="{{ path(_currentRoute, _currentParams|merge({p: i}) ) }}">{{ i }}</a>
+        {% endfor %}
+    </div>
+        {% if _currentPage < lastPage %}
+            <a class="btn btn-iconed wrapper" href="{{ path(_currentRoute, _currentParams|merge({p: _currentPage + 1})) }}"><i class="test-icon arrow-right"></i></a>
+        {% endif %}
+        <a href="{{ path(_currentRoute, _currentParams|merge({p: lastPage})) }}" class="btn btn-iconed wrapper"><i class="test-icon arrow-double-right"></i></a>
+    </div>
+
+{#    <div class="pagination">#}
+{#        <a href="#!" class="btn btn-iconed wrapper"><i class="test-icon arrow-left"></i></a>#}
+{#        <a href="#!" class="btn btn-iconed wrapper"><i class="test-icon arrow-double-left"></i></a>#}
+{#        <div class="btn-group">#}
+{#            <a href="#!" class="btn active wrapper">1</a>#}
+{#            <a href="#!" class="btn wrapper">2</a>#}
+{#       #}
+{#        <a href="#!" class="btn btn-iconed wrapper"><i class="test-icon arrow-double-right"></i></a>#}
+{#        <a href="#!" class="btn btn-iconed wrapper"><i class="test-icon arrow-right"></i></a>#}
+{#    </div>#}
+{% endif %}
