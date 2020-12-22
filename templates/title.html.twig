@@ -19,16 +19,23 @@
                         <tr>
                             <th>Тур</th>
                             <th>Начало</th>
-{#                            <th>Конец</th>#}
                             <th>Длительность</th>
+                            <th>Статус</th>
+                            <th></th>
                         </tr>
                         {% for i,tour in olymp.tours %}
                             <tr>
                                 <td>{{ i+1 }}</td>
                                 <td>{{ tour.startedAt|date('H:i:s Y-m-d') }}</td>
-{#                                <td>{{ tour.expiredAt|date('H:i:s Y-m-d') }}</td>#}
                                 <td>{{ (date(tour.expiredAt).timestamp-date(tour.startedAt).timestamp) / 60 }} минут</td>
-{#                                    -date(tour.expiredAt)|date('H:i:s') }}</td>#}
+                                <td>{% if date() > tour.expiredAt %}
+                                        Завершен
+                                    {% elseif tour.expiredAt < date() and tour.startedAt > date() %}
+                                    {% else %}
+                                        Ожидает начала
+                                    {% endif %}
+                                </td>
+                                <td><a href="#!" class="signup">Записаться</a></td>
                             </tr>
                         {% endfor %}
                     </table>
