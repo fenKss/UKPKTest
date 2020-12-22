@@ -5,10 +5,13 @@ namespace App\Controller;
 use App\Entity\Olymp;
 use App\Entity\Tour;
 use App\Entity\UserTest;
+use App\ENum\EUserTestStatus;
 use App\Form\UserTestForm;
 use App\Repository\OlympRepository;
 use App\Service\PaginationService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormError;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -41,25 +44,61 @@ class OlympController extends AbstractController
 
     /**
      * @Route("/{olymp}/tour/{tour}/signup/", name="tour_signup")
-     * @param Olymp $olymp
-     * @param Tour  $tour
+     * @param Olymp   $olymp
+     * @param Tour    $tour
+     * @param Request $request
      *
      * @return Response
      */
-    public function signUpToTour(Olymp $olymp, Tour $tour): Response
+    public function signUpToTour(Olymp $olymp, Tour $tour, Request $request): Response
     {
+        if (!$this->getUser()) {
+            /**
+             * @todo Переделать на доступ из security
+             */
+            return $this->redirectToRoute("app_login");
+        }
         $userTest = new UserTest();
         $form = $this->createForm(UserTestForm::class, $userTest, [
-
+            'attr' => [
+                'class' => 'form'
+            ]
         ]);
-
+        $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            /** @var UserTest $userTest */
             $userTest = $form->getData();
-            dd($userTest);
+            $userTest->setUser($this->getUser());
+            /**
+             * @todo Переделать статус оплаты
+             */
+            $userTest->setStatus(EUserTestStatus::PAID_TYPE);
+            $userTest->setResultJson('{}');
+
+            $chosenTest = null;
+            $tests = $tour->getTests();
+            foreach ($tests as $test) {
+                if ($test->getLanguage() === $userTest->getLanguage()) {
+                    $chosenTest = $test;
+                    break;
+                }
+            }
+            if (is_null($chosenTest)) {
+                $form->addError(new FormError('Не найден тест с выбранным языком'));
+                return $this->render('olymp/signup.html.twig', [
+                    'form' => $form->createView(),
+                    'tour' => $tour
+                ]);
+            }
+            $userTest->setTest($chosenTest);
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($userTest);
+            $em->flush();
             return $this->redirectToRoute('user_index');
         }
         return $this->render('olymp/signup.html.twig', [
-            'form'=>$form->createView()
+            'form' => $form->createView(),
+            'tour' => $tour
         ]);
     }
 }

@@ -30,9 +30,15 @@ class Variant
      */
     private $variantQuestions;
 
+    /**
+     * @ORM\OneToMany(targetEntity=UserTest::class, mappedBy="variant")
+     */
+    private $userTests;
+
     public function __construct()
     {
         $this->variantQuestions = new ArrayCollection();
+        $this->userTests = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -76,6 +82,36 @@ class Variant
             // set the owning side to null (unless already changed)
             if ($variantQuestion->getVariant() === $this) {
                 $variantQuestion->setVariant(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|UserTest[]
+     */
+    public function getUserTests(): Collection
+    {
+        return $this->userTests;
+    }
+
+    public function addUserTest(UserTest $userTest): self
+    {
+        if (!$this->userTests->contains($userTest)) {
+            $this->userTests[] = $userTest;
+            $userTest->setVariant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserTest(UserTest $userTest): self
+    {
+        if ($this->userTests->removeElement($userTest)) {
+            // set the owning side to null (unless already changed)
+            if ($userTest->getVariant() === $this) {
+                $userTest->setVariant(null);
             }
         }
 

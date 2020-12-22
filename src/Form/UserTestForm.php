@@ -25,7 +25,7 @@ class UserTestForm extends AbstractType
     {
         $builder
             ->add("language", EntityType::class, [
-                "label" => "Язык",
+                "label" => "Выбрать Язык",
                 'class' => Language::class,
                 'choice_label' => function ($choice) {
                     return $choice->getName();

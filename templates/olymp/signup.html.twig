@@ -1,14 +1,21 @@
 {% extends 'base.html.twig' %}
-{% block main_class %}
-    signup-form wrapper
-{% endblock %}
-
+{% block main_class %}signup-form wrapper{% endblock %}
+{% set tour_index = tour.olymp.tours.indexOf(tour)+1 %}
 {% block content %}
+    <div class="tour-title">Регистрация на {{ tour_index }} тур "{{ tour.olymp.name}}"</div>
     {{ form_start(form) }}
     {{ form_widget(form) }}
-        <button class="btn">{{ button_label|default('Сохранить') }}</button>
+        <button class="btn" type="submit">{{ button_label|default('Записаться') }}</button>
     {{ form_end(form) }}
 
+{% endblock %}
+{% block styles %}
+    <style>
+        .tour-title{
+            margin:10px 0;
+            font-weight: 600;
+        }
+    </style>
 {% endblock %}
 
 

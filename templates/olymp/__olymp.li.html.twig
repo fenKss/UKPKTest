@@ -14,7 +14,7 @@
             {% for i,tour in olymp.tours %}
                 <tr>
                     <td>{{ i+1 }}</td>
-                    <td>{{ tour.startedAt|date('Y-m-d H:i') }}</td>
+                    <td>{{ tour.startedAt|date('d.m.Y H:i') }}</td>
                     <td>
                         {{ (date(tour.expiredAt).timestamp-date(tour.startedAt).timestamp) / 60 }}
                         минут

@@ -30,6 +30,36 @@ main.user-cabinet{
         }
 
       }
+      &-stat{
+        .olymps{
+          .title{
+            margin-bottom: 10px;
+            font-size: 18px;
+          }
+          .olymp{
+            .olymp-title{
+              //font-weight: 600;
+              text-align: center;
+              margin-bottom: 5px;
+              font-style: italic;
+            }
+            .tours{
+              table{
+                width: 100%;
+                th,td{
+                  padding: 5px;
+                }
+                th{
+                  font-weight: 600;
+                }
+                td{
+                  text-align: center;
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 }

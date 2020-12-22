@@ -42,11 +42,6 @@ class Tour
     private $expiredAt;
 
     /**
-     * @ORM\OneToMany(targetEntity=UserTest::class, mappedBy="tour")
-     */
-    private $userTests;
-
-    /**
      * @ORM\OneToMany(targetEntity=Test::class, mappedBy="tour")
      */
     private $tests;
@@ -58,7 +53,6 @@ class Tour
 
     public function __construct()
     {
-        $this->userTests = new ArrayCollection();
         $this->tests = new ArrayCollection();
     }
 
@@ -112,36 +106,6 @@ class Tour
     public function setExpiredAt(?DateTimeInterface $expiredAt): self
     {
         $this->expiredAt = $expiredAt;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|UserTest[]
-     */
-    public function getUserTests(): Collection
-    {
-        return $this->userTests;
-    }
-
-    public function addUserTest(UserTest $userTest): self
-    {
-        if (!$this->userTests->contains($userTest)) {
-            $this->userTests[] = $userTest;
-            $userTest->setTour($this);
-        }
-
-        return $this;
-    }
-
-    public function removeUserTest(UserTest $userTest): self
-    {
-        if ($this->userTests->removeElement($userTest)) {
-            // set the owning side to null (unless already changed)
-            if ($userTest->getTour() === $this) {
-                $userTest->setTour(null);
-            }
-        }
 
         return $this;
     }

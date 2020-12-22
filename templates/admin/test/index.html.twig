@@ -2,7 +2,8 @@
 
 {% block title %}Тесты{% endblock %}
 {% block subtitle %}Список{% endblock %}
-{% block boxTitle %}Список Тестов{% endblock %}
+{% set tour_index = tour.olymp.tours.indexOf(tour)+1 %}
+{% block boxTitle %}Список Тестов {{ tour_index }} тура "{{ tour.olymp.name }}"{% endblock %}
 {% block boxButtons %}
     <a href="{{ path('admin_test_new', {'tour':tour.id}) }}" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i></a>
 {% endblock %}

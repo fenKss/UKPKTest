@@ -4,7 +4,9 @@ namespace App\Repository;
 
 use App\Entity\Olymp;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @method Olymp|null find($id, $lockMode = null, $lockVersion = null)
@@ -28,30 +30,52 @@ class OlympRepository extends ServiceEntityRepository
             ->select('o,t,l')
             ->leftJoin('o.tours', 't')
             ->leftJoin('o.languages', 'l')
-            ->orderBy('o.id', 'ASC')
             ->getQuery()
             ->getResult();
     }
 
+    /**
+     * @return mixed
+     */
     public function getWithPublishedTours()
     {
-        $result = $this->getWithPublishedToursQuery()
-            ->getResult();
-
-        return $result;
+        return $this->getWithPublishedToursQuery()->getResult();
     }
 
-
-    public function getWithPublishedToursQuery()
+    /**
+     * @return Query
+     */
+    public function getWithPublishedToursQuery(): Query
     {
-        $query = $this->createQueryBuilder('o')
+        return $this->createQueryBuilder('o')
             ->select('o,t,l')
             ->leftJoin('o.tours', 't')
             ->leftJoin('o.languages', 'l')
             ->where('t.publishedAt is NOT NULL')
             ->orderBy('t.startedAt', 'DESC')
             ->getQuery();
+    }
 
-        return $query;
+    /**
+     * @param UserInterface|null $user
+     *
+     * @return int|mixed|string
+     */
+    public function getByUser(?UserInterface $user)
+    {
+        return $this->createQueryBuilder('o')
+            ->select('o,t,l')
+            ->leftJoin('o.tours', 't')
+            ->leftJoin('o.languages', 'l')
+            ->leftJoin('t.tests', "tt")
+            ->leftJoin("tt.userTests", 'ut')
+            ->where('t.publishedAt is NOT NULL')
+            ->andWhere('ut.user = :user')
+            ->setParameters([
+                'user'=>$user
+            ])
+            ->orderBy('t.startedAt', 'DESC')
+            ->getQuery()
+            ->getResult();
     }
 }

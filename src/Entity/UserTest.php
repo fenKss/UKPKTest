@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UserTestRepository;
+use Carbon\Carbon;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -24,12 +25,6 @@ class UserTest
     private $user;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Tour::class, inversedBy="userTests")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $tour;
-
-    /**
      * @ORM\ManyToOne(targetEntity=Language::class, inversedBy="userTests")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -40,6 +35,31 @@ class UserTest
      */
     private $status;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Test::class, inversedBy="userTests")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $test;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $resultJson;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $resultSavedAt;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Variant::class, inversedBy="userTests")
+     */
+    private $variant;
+
+    public function __construct()
+    {
+        $this->setResultSavedAt(new Carbon());
+    }
     public function getId(): ?int
     {
         return $this->id;
@@ -53,18 +73,6 @@ class UserTest
     public function setUser(?User $user): self
     {
         $this->user = $user;
-
-        return $this;
-    }
-
-    public function getTour(): ?Tour
-    {
-        return $this->tour;
-    }
-
-    public function setTour(?Tour $tour): self
-    {
-        $this->tour = $tour;
 
         return $this;
     }
@@ -89,6 +97,54 @@ class UserTest
     public function setStatus(string $status): self
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getTest(): ?Test
+    {
+        return $this->test;
+    }
+
+    public function setTest(?Test $test): self
+    {
+        $this->test = $test;
+
+        return $this;
+    }
+
+    public function getResultJson(): ?string
+    {
+        return $this->resultJson;
+    }
+
+    public function setResultJson(?string $resultJson): self
+    {
+        $this->resultJson = $resultJson;
+
+        return $this;
+    }
+
+    public function getResultSavedAt(): ?\DateTimeInterface
+    {
+        return $this->resultSavedAt;
+    }
+
+    public function setResultSavedAt(\DateTimeInterface $resultSavedAt): self
+    {
+        $this->resultSavedAt = $resultSavedAt;
+
+        return $this;
+    }
+
+    public function getVariant(): ?Variant
+    {
+        return $this->variant;
+    }
+
+    public function setVariant(?Variant $variant): self
+    {
+        $this->variant = $variant;
 
         return $this;
     }

@@ -17,8 +17,51 @@
 
             </div>
             <div class="olymps">
-                {% for test in user.userTests %}
-                    {{ test.id }}
+                <div class="title">
+                    Список олимпиад
+                </div>
+                {% for olymp in olymps %}
+                    <div class="olymp">
+                        <div class="olymp-title">{{ olymp.name }}</div>
+                        <div class="tours">
+                            <table>
+                                <tr>
+                                    <th>Тур</th>
+                                    <th>Статус</th>
+
+                                </tr>
+                                {% for tour in olymp.tours %}
+                                    {% set tour_index = tour.olymp.tours.indexOf(tour)+1 %}
+                                    {% set userTest = null %}
+                                    {% for ut in user.userTests %}
+                                        {% if ut.test.tour.id == tour.id %}
+                                            {% set userTest = ut %}
+                                        {% endif %}
+                                    {% endfor %}
+                                    {% if userTest %}
+                                        <tr>
+                                            <td>{{ tour_index }}</td>
+                                            <td>
+                                                {% if userTest.status == 'waiting_pay' %}
+                                                    Ожидает оплаты
+                                                {% elseif userTest.status == 'paid' %}
+                                                    Оплачен
+                                                {% elseif userTest.status == 'started' %}
+                                                    Запущен
+                                                {% elseif userTest.status == 'waiting_end' %}
+                                                    Ожидает конца тура
+                                                {% elseif userTest.status == 'finished' %}
+                                                    Завершен
+                                                {% endif %}
+                                            </td>
+
+                                        </tr>
+                                    {% endif %}
+                                {% endfor %}
+                            </table>
+
+                        </div>
+                    </div>
                 {% endfor %}
             </div>
         </div>
