@@ -1,5 +1,5 @@
-main.user-cabinet{
-  .cabinet{
+main.user-cabinet {
+  .cabinet {
     max-width: 1200px;
     width: 100%;
     box-sizing: border-box;
@@ -9,49 +9,57 @@ main.user-cabinet{
     grid-gap: 10px;
     margin: auto;
 
-    .user{
-      &-info{
-        .avatar{
+    .user {
+      &-info {
+        .avatar {
           width: 220px;
           height: 220px;
           overflow: hidden;
           position: relative;
           border-radius: 50%;
           margin-bottom: 10px;
-          img{
+
+          img {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
           }
         }
-        .mail{
+
+        .mail {
           text-align: center;
         }
 
       }
-      &-stat{
-        .olymps{
-          .title{
+
+      &-stat {
+        .olymps {
+          .title {
             margin-bottom: 10px;
             font-size: 18px;
           }
-          .olymp{
-            .olymp-title{
+
+          .olymp {
+            .olymp-title {
               text-align: center;
               margin-bottom: 5px;
               font-style: italic;
             }
-            .tours{
-              table{
+
+            .tours {
+              table {
                 width: 100%;
-                th,td{
+
+                th, td {
                   padding: 5px;
                 }
-                th{
+
+                th {
                   font-weight: 600;
                 }
-                td{
+
+                td {
                   text-align: center;
                 }
               }
