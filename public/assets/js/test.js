@@ -18,7 +18,7 @@ class Test {
         throw new Error('Root not found');
       }
 
-      this.$questions = this.$root.find('ul.questions');
+      this.$questions = this.$root.find(`ul.questions`);
       if (!this.$questions.length) {
         throw new Error('Questions ul not found');
       }
@@ -64,7 +64,9 @@ class Test {
         function getFormData (object) {
           const formData = new FormData(this);
           for (const key in object) {
-            formData.append(key, object[key]);
+            if (object.hasOwnProperty(key)){
+              formData.append(key, object[key]);
+            }
           }
           return formData;
         }
