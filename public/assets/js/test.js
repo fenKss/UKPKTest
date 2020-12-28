@@ -11,8 +11,17 @@ class Test {
     this.init.timer();
     this.token = token;
 
-    const date = new Date(parseInt(this.$saved.text() * 1000));
+    this.answers = this.answer(this.$tabs.find('.tab form'));
+
+
+    const date = new Date(parseInt(this.$savedResults.text() * 1000));
     this.updateSavedAt(date);
+
+    setInterval(() => {
+      if(JSON.stringify(this.lastSavedResults) !== JSON.stringify(this.answers)){
+        this.api.answer();
+      }
+    }, 20000)
   }
 
   init = {
@@ -25,9 +34,13 @@ class Test {
       if (!this.$timer.length) {
         throw new Error('Timer not found');
       }
-      this.$saved = $('.time .saved span');
-      if (!this.$saved.length) {
-        throw new Error('Saved not found');
+      this.$savedResults = $('.time .saved span');
+      if (!this.$savedResults.length) {
+        throw new Error('SavedResults not found');
+      }
+      this.$saveButton = $('button.save');
+      if (!this.$saveButton.length) {
+        throw new Error('SaveButton not found');
       }
       this.$questions = this.$root.find(`ul.questions`);
       if (!this.$questions.length) {
@@ -37,19 +50,22 @@ class Test {
       if (!this.$tabs.length) {
         throw new Error('Tabs not found');
       }
+      this.lastSavedResults = {};
     },
     vars     : () => {
       this.url = this.generateBaseUrl();
       this.apiUrl = this.url + `/api/test/${this.testId}/`;
       this.answers = {};
-      this.answer(this.$tabs.find('.tab form'));
     },
     listeners: () => {
       const self = this;
       $(document).on('change', 'form[name="answer"]', (e) => {
         const $this   = $(e.currentTarget),
               $target = $(e.target);
-        self.answer($this);
+        const answers =  self.answer($this);
+        for (const key in answers){
+          this.answers[key] = answers[key];
+        }
 
         const $tab = this.$tabs.find(`input[value="${$target.val()}"]`)
                          .closest(`[data-question-id]`);
@@ -62,6 +78,15 @@ class Test {
           $li.removeClass('answered');
         }
       });
+      this.$saveButton.click(() => {
+        const answer = confirm(`Вы уверены, что хотите завершить тест?`);
+        if (answer){
+          this.api.answer();
+          this.api.saveResult().then(e => {
+            location.reload();
+          });
+        }
+      })
 
     },
     timer    : () => {
@@ -112,7 +137,7 @@ class Test {
           year    = pad(date.getFullYear()),
           month   = pad(date.getMonth() + 1),
           day     = pad(date.getDate());
-    this.$saved.html(`${year}-${month}-${day} ${hours}:${minutes}:${seconds}`);
+    this.$savedResults.html(`${year}-${month}-${day} ${hours}:${minutes}:${seconds}`);
   };
   api = {
     request: async (url, data = [], method = 'GET') => {
@@ -165,25 +190,34 @@ class Test {
     },
     answer : () => {
       let url = this.apiUrl + `answer`;
-      this.api.request(url,
+      return this.api.request(url,
         { 'answers': JSON.stringify(this.answers), '_token': this.token },
         'post')
-          .then(data => this.updateSavedAt(new Date()))
+          .then(data => {
+            this.updateSavedAt(new Date())
+            this.lastSavedResults = {...this.answers};
+          })
           .catch(e => {throw e;});
+    },
+    saveResult: () => {
+      let url = this.apiUrl + `answer/all`;
+      return this.api.request(url, {'_token': this.token}, 'post');
     },
   };
   answer = ($form) => {
+    const answers = {};
     $form.each((i, form) => {
       const $form      = $(form),
             questionId = $form.find(`input[name="question_id"]`).val(),
             inputs     = $form.find('input:checked');
-      this.answers[questionId] = [];
+      answers[questionId] = [];
       inputs.each((i, input) => {
         const $input = $(input);
         const value = parseInt($input.val());
-        this.answers[questionId].push(value);
+        answers[questionId].push(value);
       });
     });
+    return answers;
   };
   generateBaseUrl = () => {
     let baseUrl = window.location.protocol + '//' + window.location.hostname;

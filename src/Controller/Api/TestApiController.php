@@ -55,4 +55,24 @@ class TestApiController extends AbstractApiController
         return $this->success([]);
 
     }
+
+    /**
+     * @Route("/answer/all", name="_answer_all")
+     * @param UserTest $test
+     * @param Request  $request
+     *
+     * @return JsonResponse
+     */
+    public function answerAll(UserTest $test, Request $request): JsonResponse
+    {
+        if (!$this->isCsrfTokenValid('answer' . $test->getId(), $request->request->get('_token'))) {
+            return $this->error('auth error');
+        }
+        /** @var User $user */
+        $user = $this->getUser();
+        if ($user->getId() != $test->getUser()->getId()){
+            return $this->error('auth error');
+        }
+        return $this->success([]);
+    }
 }

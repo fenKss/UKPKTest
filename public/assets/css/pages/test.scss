@@ -1,6 +1,7 @@
 #test{
   display: grid;
   grid-template-columns: 280px 1fr;
+  margin: 10px 0;
   ul.questions{
     display: grid;
     grid-template-columns: repeat(4,60px);
@@ -54,4 +55,13 @@
       text-align: right;
     }
   }
+}
+
+button.save{
+  padding: 10px;
+  background: #0098d6;
+  color: #fff;
+  box-shadow: none;
+  border:none;
+  cursor: pointer;
 }
