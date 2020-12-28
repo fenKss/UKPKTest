@@ -64,6 +64,7 @@
                                             <input type="{% if question.type == 'radio' %}radio{% else %}checkbox{% endif %}"
                                                    value="{{ option.id }}" name="option"
                                                    id="option_{{ option.id }}"
+                                                   {% if option.id in answers[question.id] %}checked{% endif %}
                                             >
                                             <span>{{ option.text|raw }}</span>
                                         </label>

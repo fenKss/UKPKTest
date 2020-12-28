@@ -54,7 +54,11 @@
                                                     Завершен
                                                 {% endif %}
                                             </td>
-                                            <td><a href="{{ path('test_index', {test:userTest.id}) }}">Начать</a></td>
+                                            <td>
+                                                {% if  userTest.status == 'started' %}
+                                                    <a href="{{ path('test_index', {test:userTest.id}) }}">Войти в редактор</a>
+                                                {% endif %}
+                                            </td>
                                         </tr>
                                     {% endif %}
                                 {% endfor %}

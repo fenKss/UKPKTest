@@ -11,11 +11,21 @@ class Test {
     this.init.timer();
     this.token = token;
 
-    this.answers = this.answer(this.$tabs.find('.tab form'));
-
-
     const date = new Date(parseInt(this.$savedResults.text() * 1000));
     this.updateSavedAt(date);
+
+    const $questions = this.$questions.find(
+      `li[data-question-id]`);
+    $questions.each( (i,li) => {
+      const $li =$(li),
+            questionId = $li.attr('data-question-id'),
+            $tab = this.$tabs.find(`[data-question-id="${questionId}"]`);
+      if ($tab.find(`input:checked`).length) {
+        $li.addClass('answered');
+      } else {
+        $li.removeClass('answered');
+      }
+    })
 
     setInterval(() => {
       if(JSON.stringify(this.lastSavedResults) !== JSON.stringify(this.answers)){
@@ -50,12 +60,13 @@ class Test {
       if (!this.$tabs.length) {
         throw new Error('Tabs not found');
       }
-      this.lastSavedResults = {};
     },
     vars     : () => {
       this.url = this.generateBaseUrl();
       this.apiUrl = this.url + `/api/test/${this.testId}/`;
       this.answers = {};
+      this.answers = this.answer(this.$tabs.find('.tab form'));
+      this.lastSavedResults = this.answers;
     },
     listeners: () => {
       const self = this;
@@ -67,24 +78,24 @@ class Test {
           this.answers[key] = answers[key];
         }
 
-        const $tab = this.$tabs.find(`input[value="${$target.val()}"]`)
+        const $tab = $this
                          .closest(`[data-question-id]`);
         const questionId = $tab.attr(`data-question-id`);
         const $li = this.$questions.find(
           `li[data-question-id=${questionId}]`);
+
         if ($tab.find(`input:checked`).length) {
           $li.addClass('answered');
         } else {
           $li.removeClass('answered');
         }
       });
-      this.$saveButton.click(() => {
+      this.$saveButton.click(async () => {
         const answer = confirm(`Вы уверены, что хотите завершить тест?`);
         if (answer){
-          this.api.answer();
-          this.api.saveResult().then(e => {
-            location.reload();
-          });
+          await this.api.answer();
+          await this.api.saveResult();
+          location.reload();
         }
       })
 
@@ -188,14 +199,15 @@ class Test {
           `Request error ` + (response.statusText || response.status));
       }
     },
-    answer : () => {
+    answer : async () => {
       let url = this.apiUrl + `answer`;
-      return this.api.request(url,
+      await this.api.request(url,
         { 'answers': JSON.stringify(this.answers), '_token': this.token },
         'post')
           .then(data => {
             this.updateSavedAt(new Date())
             this.lastSavedResults = {...this.answers};
+            return true;
           })
           .catch(e => {throw e;});
     },

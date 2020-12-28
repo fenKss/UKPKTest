@@ -5,6 +5,7 @@ namespace App\Controller\Api;
 
 use App\Entity\User;
 use App\Entity\UserTest;
+use App\ENum\EUserTestStatus;
 use Carbon\Carbon;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -35,7 +36,9 @@ class TestApiController extends AbstractApiController
         if ($user->getId() != $test->getUser()->getId()){
             return $this->error('auth error');
         }
-
+        if($test->getStatus() != EUserTestStatus::STARTED_TYPE){
+            return $this->error('test not started');
+        }
         $answers = $request->get('answers');
         $answers = @json_decode($answers,true);
         if (json_last_error() != JSON_ERROR_NONE) {
@@ -73,6 +76,10 @@ class TestApiController extends AbstractApiController
         if ($user->getId() != $test->getUser()->getId()){
             return $this->error('auth error');
         }
+        $test->setStatus(EUserTestStatus::WAITING_END_TYPE);
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($test);
+        $em->flush();
         return $this->success([]);
     }
 }
