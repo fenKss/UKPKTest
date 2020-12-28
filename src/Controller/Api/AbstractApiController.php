@@ -19,7 +19,7 @@ abstract class AbstractApiController extends AbstractController
      *
      * @return JsonResponse
      */
-    protected function success(?array $data): JsonResponse
+    protected function success($data): JsonResponse
     {
         return $this->json([
             'error' => false,

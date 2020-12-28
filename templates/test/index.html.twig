@@ -2,7 +2,10 @@
 
 {% block main_class %}wrapper{% endblock %}
 {% block title %}Редактор тестов{% endblock %}
-{% block javascript %}<script src="{{ asset('assets/js/test.js') }}"></script>{% endblock %}
+{% block javascript %}
+<script src="{{ asset('assets/js/test.js') }}"></script>
+    <script>window.test = new Test({{ userTest.id }}, `{{ csrf_token('answer' ~ userTest.id) }}`);</script>
+{% endblock %}
 {% block content %}
     <div id="test">
         <ul class="questions">
@@ -29,7 +32,8 @@
 
                         </div>
                         <div class="options">
-                            <form action="" name="question_option_edit_correct">
+                            <form action="" name="answer">
+                                <input type="hidden" name="question_id" value="{{ question.id }}">
                                 {% for option in question.questionOptions %}
                                     <div>
                                         <label for="option_{{ option.id }}">
@@ -46,9 +50,6 @@
                     </div>
                 </div>
             {% endfor %}
-            <!-- /.tab-pane -->
-
         </div>
-        <!-- /.tab-content -->
     </div>
 {% endblock %}

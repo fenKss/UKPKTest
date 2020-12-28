@@ -448,6 +448,8 @@ main.user-cabinet .cabinet {
       justify-content: center; }
       #test ul.questions li.active, #test ul.questions li:hover {
         background: #ECECEC; }
+      #test ul.questions li.answered {
+        background: #6bd06b; }
   #test .tab-content .question-head {
     margin-bottom: 10px; }
   #test .tab-content .question-title {
