@@ -36,12 +36,6 @@ class UserTest
     private $status;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Test::class, inversedBy="userTests")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $test;
-
-    /**
      * @ORM\Column(type="text", nullable=true)
      */
     private $resultJson;
@@ -97,18 +91,6 @@ class UserTest
     public function setStatus(string $status): self
     {
         $this->status = $status;
-
-        return $this;
-    }
-
-    public function getTest(): ?Test
-    {
-        return $this->test;
-    }
-
-    public function setTest(?Test $test): self
-    {
-        $this->test = $test;
 
         return $this;
     }

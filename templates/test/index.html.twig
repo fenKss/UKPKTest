@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block main_class %}wrapper{% endblock %}
+{% block title %}Редактор тестов{% endblock %}
+{% block javascript %}<script src="{{ asset('assets/js/test.js') }}"></script>{% endblock %}
+{% block content %}
+    <div id="test">
+        <ul class="questions">
+            {% for i,question in userTest.variant.variantQuestions %}
+                <li class="{% if i==0 %}active{% endif %}" data-question-id="{{ question.id }}" data-target="question-{{ i }}">
+                    <span>{{ i+1 }}</span>
+                </li>
+            {% endfor %}
+        </ul>
+        <div class="tab-content">
+            {% for i,question in userTest.variant.variantQuestions %}
+                <div class="tab tab-pane {% if i==0 %}active{% endif %}" id="question_{{ question.id }}"
+                     data-question-id="{{ question.id }}"
+                     data-content="question-{{ i }}"
+                >
+                    <div class="question-head">
+                        <div class="question-title">
+                            <span>{{ question.text|raw }}</span>
+                        </div>
+                    </div>
+                    <div class="question-options">
+                        <div class="question-options-head">
+                            Варианты ответа
+
+                        </div>
+                        <div class="options">
+                            <form action="" name="question_option_edit_correct">
+                                {% for option in question.questionOptions %}
+                                    <div>
+                                        <label for="option_{{ option.id }}">
+                                            <input type="{% if question.type == 'radio' %}radio{% else %}checkbox{% endif %}"
+                                                   value="{{ option.id }}" name="option"
+                                                   id="option_{{ option.id }}"
+                                            >
+                                            <span>{{ option.text|raw }}</span>
+                                        </label>
+                                    </div>
+                                {% endfor %}
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            <!-- /.tab-pane -->
+
+        </div>
+        <!-- /.tab-content -->
+    </div>
+{% endblock %}

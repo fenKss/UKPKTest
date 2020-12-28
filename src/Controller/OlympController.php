@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Olymp;
 use App\Entity\Tour;
+use App\Entity\User;
 use App\Entity\UserTest;
 use App\ENum\EUserTestStatus;
 use App\Form\UserTestForm;
@@ -68,7 +69,9 @@ class OlympController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var UserTest $userTest */
             $userTest = $form->getData();
-            $userTest->setUser($this->getUser());
+            /** @var User $user */
+            $user = $this->getUser();
+            $userTest->setUser($user);
             /**
              * @todo Переделать статус оплаты
              */
@@ -84,17 +87,29 @@ class OlympController extends AbstractController
                 }
             }
             if (is_null($chosenTest)) {
-                $form->addError(new FormError('Не найден тест с выбранным языком'));
-                return $this->render('olymp/signup.html.twig', [
-                    'form' => $form->createView(),
-                    'tour' => $tour
-                ]);
+                return $this->returnSignup($form, $tour,'Не найден тест с выбранным языком');
+
             }
-            $userTest->setTest($chosenTest);
+            $variants = $chosenTest->getVariants();
+            if (!$variants->count()) {
+                return $this->returnSignup($form, $tour,'Неверное количество вариантов');
+            }
+            //Выбираем случайно 1 из вариантов
+            $i = rand(0, $variants->count() - 1);
+            $variant = $variants[$i];
+            $userTest->setVariant($variant);
             $em = $this->getDoctrine()->getManager();
             $em->persist($userTest);
             $em->flush();
             return $this->redirectToRoute('user_index');
+        }
+        return $this->returnSignup($form, $tour);
+    }
+
+    private function returnSignup($form, $tour,?string $error = null): Response
+    {
+        if (!is_null($error)){
+            $form->addError(new FormError($error));
         }
         return $this->render('olymp/signup.html.twig', [
             'form' => $form->createView(),

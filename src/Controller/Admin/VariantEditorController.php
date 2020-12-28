@@ -6,7 +6,6 @@ namespace App\Controller\Admin;
 
 use App\Entity\Variant;
 use App\Repository\VariantQuestionRepository;
-use App\Repository\VariantRepository;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -21,6 +20,10 @@ class VariantEditorController extends AbstractController
 {
     /**
      * @Route("/", name="index")
+     * @param Variant                   $variant
+     * @param VariantQuestionRepository $questionRepository
+     *
+     * @return Response
      */
     public function index(Variant $variant, VariantQuestionRepository $questionRepository): Response
     {
@@ -33,6 +36,11 @@ class VariantEditorController extends AbstractController
 
     /**
      * @Route("/question/{question}", name="index_question")
+     * @param Variant                   $variant
+     * @param int                       $question
+     * @param VariantQuestionRepository $questionRepository
+     *
+     * @return Response
      */
     public function questionIndex(Variant $variant, int $question, VariantQuestionRepository $questionRepository): Response
     {

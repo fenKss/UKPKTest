@@ -68,7 +68,8 @@ class OlympRepository extends ServiceEntityRepository
             ->leftJoin('o.tours', 't')
             ->leftJoin('o.languages', 'l')
             ->leftJoin('t.tests', "tt")
-            ->leftJoin("tt.userTests", 'ut')
+            ->leftJoin("tt.variants", 'v')
+            ->leftJoin("v.userTests", 'ut')
             ->where('t.publishedAt is NOT NULL')
             ->andWhere('ut.user = :user')
             ->setParameters([

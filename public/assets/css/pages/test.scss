@@ -1,0 +1,36 @@
+#test{
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  ul.questions{
+    display: grid;
+    grid-template-columns: repeat(4,60px);
+    grid-gap: 5px;
+    grid-auto-rows: 60px;
+    //align-items: center;
+    li{
+      display: flex;
+      background: #cacaca;
+      &.active, &:hover{
+        background: #ECECEC;
+      }
+      cursor: pointer;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+  .tab-content{
+    .question{
+      &-head{
+        margin-bottom: 10px;
+      }
+      &-title{
+        font-size: 24px;
+      }
+      &-options{
+      .options{
+        margin-top: 10px;
+      }
+      }
+    }
+  }
+}

@@ -28,13 +28,13 @@
                                 <tr>
                                     <th>Тур</th>
                                     <th>Статус</th>
-
+                                    <th></th>
                                 </tr>
                                 {% for tour in olymp.tours %}
                                     {% set tour_index = tour.olymp.tours.indexOf(tour)+1 %}
                                     {% set userTest = null %}
                                     {% for ut in user.userTests %}
-                                        {% if ut.test.tour.id == tour.id %}
+                                        {% if ut.variant.test.tour.id == tour.id %}
                                             {% set userTest = ut %}
                                         {% endif %}
                                     {% endfor %}
@@ -54,12 +54,11 @@
                                                     Завершен
                                                 {% endif %}
                                             </td>
-
+                                            <td><a href="{{ path('test_index', {test:userTest.id}) }}">Начать</a></td>
                                         </tr>
                                     {% endif %}
                                 {% endfor %}
                             </table>
-
                         </div>
                     </div>
                 {% endfor %}

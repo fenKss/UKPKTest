@@ -432,4 +432,27 @@ main.user-cabinet .cabinet {
     main.user-cabinet .cabinet .user-stat .olymps .olymp .tours table td {
       text-align: center; }
 
+#test {
+  display: grid;
+  grid-template-columns: 280px 1fr; }
+  #test ul.questions {
+    display: grid;
+    grid-template-columns: repeat(4, 60px);
+    grid-gap: 5px;
+    grid-auto-rows: 60px; }
+    #test ul.questions li {
+      display: flex;
+      background: #cacaca;
+      cursor: pointer;
+      align-items: center;
+      justify-content: center; }
+      #test ul.questions li.active, #test ul.questions li:hover {
+        background: #ECECEC; }
+  #test .tab-content .question-head {
+    margin-bottom: 10px; }
+  #test .tab-content .question-title {
+    font-size: 24px; }
+  #test .tab-content .question-options .options {
+    margin-top: 10px; }
+
 /*# sourceMappingURL=styles.css.map */
