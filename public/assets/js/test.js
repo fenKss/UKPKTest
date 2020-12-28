@@ -8,7 +8,11 @@ class Test {
     this.init.elements();
     this.init.listeners();
     this.init.vars();
+    this.init.timer();
     this.token = token;
+
+    const date = new Date(parseInt(this.$saved.text() * 1000));
+    this.updateSavedAt(date);
   }
 
   init = {
@@ -17,7 +21,14 @@ class Test {
       if (!this.$root.length) {
         throw new Error('Root not found');
       }
-
+      this.$timer = $('.time .expired span');
+      if (!this.$timer.length) {
+        throw new Error('Timer not found');
+      }
+      this.$saved = $('.time .saved span');
+      if (!this.$saved.length) {
+        throw new Error('Saved not found');
+      }
       this.$questions = this.$root.find(`ul.questions`);
       if (!this.$questions.length) {
         throw new Error('Questions ul not found');
@@ -35,7 +46,7 @@ class Test {
     },
     listeners: () => {
       const self = this;
-      $(document).on('change', 'form[name="answer"]', (e) =>  {
+      $(document).on('change', 'form[name="answer"]', (e) => {
         const $this   = $(e.currentTarget),
               $target = $(e.target);
         self.answer($this);
@@ -53,8 +64,56 @@ class Test {
       });
 
     },
-  };
+    timer    : () => {
+      const countdown = $('.time .expired span');
+      const target_date = new Date(countdown.text());
 
+      const interval = setInterval(function () { getCountdown(); }, 1000);
+
+      getCountdown();
+
+      function getCountdown () {
+        if ((target_date - new Date()) < 0) {
+          //TODO Заменить на
+          // location.reload();
+          console.log('Время истекло');
+          clearInterval(interval);
+          return;
+        }
+        const current_date = new Date().getTime();
+        let seconds_left = (target_date - current_date) / 1000;
+
+        const days = pad(parseInt(seconds_left / 86400));
+        seconds_left = seconds_left % 86400;
+
+        const hours = pad(parseInt(seconds_left / 3600));
+        seconds_left = seconds_left % 3600;
+
+        const minutes = pad(parseInt(seconds_left / 60));
+        const seconds = pad(parseInt(seconds_left % 60));
+
+        countdown.html(
+          days + ' : ' + hours + ' : ' + minutes + ' : ' + seconds);
+      }
+
+      function pad (n) {
+        return (n < 10 ? '0' : '') + n;
+      }
+    },
+  };
+  updateSavedAt = (date) => {
+    function pad (n) {
+      return (n < 10 ? '0' : '') + n;
+    }
+
+    const hours   = pad(date.getHours()),
+          minutes = pad(date.getMinutes()),
+          seconds = pad(date.getSeconds()),
+          year    = pad(date.getFullYear()),
+          month   = pad(date.getMonth() + 1),
+          day     = pad(date.getDate());
+    this.$saved.html(`${year}-${month}-${day} ${hours}:${minutes}:${seconds}`);
+  };
   api = {
     request: async (url, data = [], method = 'GET') => {
       const settings = {
@@ -64,7 +123,7 @@ class Test {
         function getFormData (object) {
           const formData = new FormData(this);
           for (const key in object) {
-            if (object.hasOwnProperty(key)){
+            if (object.hasOwnProperty(key)) {
               formData.append(key, object[key]);
             }
           }
@@ -104,15 +163,14 @@ class Test {
           `Request error ` + (response.statusText || response.status));
       }
     },
-      answer: () => {
-        let url = this.apiUrl + `answer`;
-        this.api.request(url, {'answers':JSON.stringify(this.answers), '_token':this.token}, 'post')
-            .then(data => {
-            console.log(data);
-            })
-            .catch(e => {throw e;});
-
-      },
+    answer : () => {
+      let url = this.apiUrl + `answer`;
+      this.api.request(url,
+        { 'answers': JSON.stringify(this.answers), '_token': this.token },
+        'post')
+          .then(data => this.updateSavedAt(new Date()))
+          .catch(e => {throw e;});
+    },
   };
   answer = ($form) => {
     $form.each((i, form) => {

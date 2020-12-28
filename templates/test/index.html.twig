@@ -7,6 +7,30 @@
     <script>window.test = new Test({{ userTest.id }}, `{{ csrf_token('answer' ~ userTest.id) }}`);</script>
 {% endblock %}
 {% block content %}
+    <div class="test-head">
+        <div class="about">
+            {% set tour = userTest.variant.test.tour %}
+            <div class="olymp-name title">
+                Олимпиада: <span>{{ tour.olymp.name }}</span>
+            </div>
+            <div class="tour-name title">
+                {% set tour_index = tour.olymp.tours.indexOf(tour)+1 %}
+                Тур: <span>{{ tour_index }}</span>
+            </div>
+            <div class="variant-index title">
+                {% set variant_index = userTest.variant.test.variants.indexOf(userTest.variant)+1 %}
+                Вариант: <span>{{ variant_index }}</span>
+            </div>
+        </div>
+        <div class="time">
+            <div class="expired">
+                Осталось времени: <span>{{ tour.expiredAt|date('Y-m-d H:i:s') }}</span>
+            </div>
+            <div class="saved">
+                Результаты сохранены: <span>{{ date(userTest.resultSavedAt).timestamp }}</span>
+            </div>
+        </div>
+    </div>
     <div id="test">
         <ul class="questions">
             {% for i,question in userTest.variant.variantQuestions %}

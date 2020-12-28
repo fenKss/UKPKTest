@@ -5,6 +5,7 @@ namespace App\Controller\Api;
 
 use App\Entity\User;
 use App\Entity\UserTest;
+use Carbon\Carbon;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -47,6 +48,7 @@ class TestApiController extends AbstractApiController
         }
         $result['answers'] = $answers;
         $test->setResultJson(json_encode($result));
+        $test->setResultSavedAt(new Carbon());
         $em = $this->getDoctrine()->getManager();
         $em->persist($test);
         $em->flush();
