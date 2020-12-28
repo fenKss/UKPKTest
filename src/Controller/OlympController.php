@@ -76,7 +76,7 @@ class OlympController extends AbstractController
              * @todo Переделать статус оплаты
              */
             $userTest->setStatus(EUserTestStatus::PAID_TYPE);
-            $userTest->setResultJson('{"answers":"[]"}');
+            $userTest->setResultJson('{"answers":"{}"}');
 
             $chosenTest = null;
             $tests = $tour->getTests();
