@@ -48,6 +48,13 @@ class VariantController extends AbstractController
      */
     public function new(Tour $tour, Test $test): Response
     {
+        if ($tour->getPublishedAt()) {
+            $this->addFlash('error','Тур опубликован. Нужно сначала сделать его неопубликованным');
+            return $this->redirectToRoute('admin_variant_index', [
+                'tour' => $tour->getId(),
+                'test' => $test->getId()
+            ]);
+        }
         $variant = new Variant();
 
         $variant->setTest($test);

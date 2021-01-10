@@ -4,15 +4,21 @@
     <link rel="stylesheet" href="{{ asset('assets/css/pages/testEditor.min.css') }}">{% endblock %}
 {% block title %}Редактор тестов{% endblock %}
 
-{% block boxTitle %}Вопросы
-    <button id="add-question-btn" class="btn btn-success"><i class="fa fa-plus"></i></button>
+{% block boxTitle %}Вопросы {{ variant.test.variants.indexOf(variant)+1 }} варианта {{ variant.test.tour.tourIndex }} тура "{{ variant.test.tour.olymp.name }}"
+    {% if not variant.test.tour.publishedAt %}
+        <button id="add-question-btn" class="btn btn-success"><i class="fa fa-plus"></i></button>
+    {% else %}
+        <div class="badge bg-red">Тур Опубликован</div>
+    {% endif %}
 {% endblock %}
 
 {% block javascript %}
 <script src="{{ asset('assets/js/testEditor.js') }}"></script>
+{% if not variant.test.tour.publishedAt%}
     <script >
     window.testEditor = new TestEditor();
 </script>
+{% endif %}
 {% endblock %}
 {% block boxBody %}
     <div id="test-editor">
@@ -31,14 +37,17 @@
                     <div class="question-head">
                         <div class="question-title">
                             <span>{{ question.text|raw }}</span>
-                            <button class="btn btn-xs btn-default edit-question-title"><i class="fa fa-edit"></i>
-                            </button>
+                            {% if not variant.test.tour.publishedAt %}
+                                <button class="btn btn-xs btn-default edit-question-title">
+                                    <i class="fa fa-edit"></i>
+                                </button>
+                            {% endif %}
                         </div>
                         <div class="question-type">
                             <span>CheckBox</span>
                             <div class="material-switch pull-right">
                                 <input class="edit-question-type" id="questionType_{{ question.id }}"
-                                       name="questionType_{{ question.id }}"
+                                       name="questionType_{{ question.id }}"{% if variant.test.tour.publishedAt %} disabled{% endif %}
                                        type="checkbox" {% if question.type == 'radio' %}checked{% endif %}/>
                                 <label for="questionType_{{ question.id }}" class="label-default"></label>
                             </div>
@@ -48,7 +57,9 @@
                     <div class="question-options">
                         <div class="question-options-head">
                             Варианты ответа
-                            <button class="btn btn-xs btn-success add-option"><i class="fa fa-plus"></i></button>
+                            {% if not variant.test.tour.publishedAt %}
+                                <button class="btn btn-xs btn-success add-option"><i class="fa fa-plus"></i></button>
+                            {% endif %}
                         </div>
                         <div class="options">
                             <form action="" name="question_option_edit_correct">
@@ -64,8 +75,11 @@
                                             >
                                             <span>{{ option.text|raw }}</span>
                                         </label>
-                                        <button class="btn btn-xs btn-default edit-option-title" data-url="{{ path('api_variant_question_option_edit_title',{'variant': variant.id, 'option': option.id, 'question': question.id}) }}">
-                                            <i class="fa fa-edit"></i></button>
+                                        {% if not variant.test.tour.publishedAt %}
+                                            <button class="btn btn-xs btn-default edit-option-title" data-url="{{ path('api_variant_question_option_edit_title',{'variant': variant.id, 'option': option.id, 'question': question.id}) }}">
+                                                <i class="fa fa-edit"></i>
+                                            </button>
+                                        {% endif %}
                                     </div>
                                 {% endfor %}
                             </form>

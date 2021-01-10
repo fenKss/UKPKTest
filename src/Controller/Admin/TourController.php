@@ -106,6 +106,11 @@ class TourController extends AbstractController
         $form = $this->createForm(TourType::class, $tour);
         $form->handleRequest($request);
 
+        if ($tour->getPublishedAt()) {
+            $this->addFlash('error', 'Тур опубликован. Нужно сначала сделать его неопубликованным');
+            return $this->redirectToRoute('admin_tour_index');
+        }
+
         if ($form->isSubmitted() && $form->isValid()) {
             if ($tour->getStartedAt() >= $tour->getExpiredAt()) {
                 $this->addFlash('error', 'Тур не может закончиться раньше, чем начался');

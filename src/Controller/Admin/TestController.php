@@ -38,8 +38,14 @@ class TestController extends AbstractController
      *
      * @return Response
      */
-    public function new(Tour $tour,Request $request): Response
+    public function new(Tour $tour, Request $request): Response
     {
+        if ($tour->getPublishedAt()) {
+            $this->addFlash('error','Тур опубликован. Нужно сначала сделать его неопубликованным');
+            return $this->redirectToRoute('admin_test_index', [
+                "tour" => $tour->getId()
+            ]);
+        }
         $test = new Test();
         $form = $this->createForm(TestType::class, $test);
         $form->handleRequest($request);
@@ -48,7 +54,7 @@ class TestController extends AbstractController
             $test->setTour($tour);
             $isValid = $this->validate($test);
 
-            if ($isValid){
+            if ($isValid) {
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($test);
                 $entityManager->flush();
@@ -74,8 +80,14 @@ class TestController extends AbstractController
      *
      * @return Response
      */
-    public function edit(Tour $tour,Request $request, Test $test): Response
+    public function edit(Tour $tour, Request $request, Test $test): Response
     {
+        if ($tour->getPublishedAt()) {
+            $this->addFlash('error','Тур опубликован. Нужно сначала сделать его неопубликованным');
+            return $this->redirectToRoute('admin_test_index', [
+                "tour" => $test->getTour()->getId()
+            ]);
+        }
         $form = $this->createForm(TestType::class, $test);
         $form->handleRequest($request);
 
@@ -106,8 +118,14 @@ class TestController extends AbstractController
      *
      * @return Response
      */
-    public function delete(Tour $tour,Request $request, Test $test): Response
+    public function delete(Tour $tour, Request $request, Test $test): Response
     {
+        if ($tour->getPublishedAt()) {
+            $this->addFlash('error','Тур опубликован. Нужно сначала сделать его неопубликованным');
+            return $this->redirectToRoute('admin_test_index', [
+                "tour" => $tour->getId()
+            ]);
+        }
         if ($this->isCsrfTokenValid('delete' . $test->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($test);
@@ -153,16 +171,14 @@ class TestController extends AbstractController
 
     private function validate(Test $test): bool
     {
-        if (!$this->validateExistsLanguageInTest($test))
-        {
+        if (!$this->validateExistsLanguageInTest($test)) {
             $this->addFlash('error', 'Данный язык уже добавлен');
             return false;
         }
-        if (!$this->validateExistsLanguageInOlymp($test))
-        {
+        if (!$this->validateExistsLanguageInOlymp($test)) {
             $this->addFlash('error', 'Данный язык не разрешен у олимпиады');
             return false;
         }
-       return true;
+        return true;
     }
 }
