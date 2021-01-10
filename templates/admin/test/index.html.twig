@@ -2,8 +2,7 @@
 
 {% block title %}Тесты{% endblock %}
 {% block subtitle %}Список{% endblock %}
-{% set tour_index = tour.olymp.tours.indexOf(tour)+1 %}
-{% block boxTitle %}Список Тестов {{ tour_index }} тура "{{ tour.olymp.name }}"{% endblock %}
+{% block boxTitle %}Список Тестов {{ tour.tourIndex }} тура "{{ tour.olymp.name }}"{% endblock %}
 {% block boxButtons %}
     <a href="{{ path('admin_test_new', {'tour':tour.id}) }}" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i></a>
 {% endblock %}
@@ -19,9 +18,9 @@
             </tr>
         </thead>
         <tbody>
-        {% for test in tests %}
+        {% for i,test in tests %}
             <tr>
-                <td>{{ test.id }}</td>
+                <td>{{ i+1 }}</td>
                 <td>{{ test.language.name }}</td>
                 <td><a href="{{ path('admin_variant_index', {test:test.id, tour:test.tour.id}) }}">Варианты</a></td>
                 <td class="btn-group">

@@ -14,8 +14,7 @@
                 Олимпиада: <span>{{ tour.olymp.name }}</span>
             </div>
             <div class="tour-name title">
-                {% set tour_index = tour.olymp.tours.indexOf(tour)+1 %}
-                Тур: <span>{{ tour_index }}</span>
+                Тур: <span>{{ tour.tourIndex }}</span>
             </div>
             <div class="variant-index title">
                 {% set variant_index = userTest.variant.test.variants.indexOf(userTest.variant)+1 %}

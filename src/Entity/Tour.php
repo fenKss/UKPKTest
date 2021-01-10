@@ -51,6 +51,11 @@ class Tour
      */
     private $publishedAt;
 
+    /**
+     * @ORM\Column(type="smallint")
+     */
+    private $tourIndex;
+
     public function __construct()
     {
         $this->tests = new ArrayCollection();
@@ -148,6 +153,18 @@ class Tour
     public function setPublishedAt(?DateTimeInterface $publishedAt): self
     {
         $this->publishedAt = $publishedAt;
+
+        return $this;
+    }
+
+    public function getTourIndex(): ?int
+    {
+        return $this->tourIndex;
+    }
+
+    public function setTourIndex(int $tourIndex): self
+    {
+        $this->tourIndex = $tourIndex;
 
         return $this;
     }

@@ -26,12 +26,20 @@ class OlympRepository extends ServiceEntityRepository
      */
     public function getWithAll(): array
     {
+        return $this->getWithAllQuery()
+            ->getResult();
+    }
+
+    /**
+     * @return Query
+     */
+    public function getWithAllQuery(): Query
+    {
         return $this->createQueryBuilder('o')
             ->select('o,t,l')
             ->leftJoin('o.tours', 't')
             ->leftJoin('o.languages', 'l')
-            ->getQuery()
-            ->getResult();
+            ->getQuery();
     }
 
     /**
@@ -73,7 +81,7 @@ class OlympRepository extends ServiceEntityRepository
             ->where('t.publishedAt is NOT NULL')
             ->andWhere('ut.user = :user')
             ->setParameters([
-                'user'=>$user
+                'user' => $user
             ])
             ->orderBy('t.startedAt', 'DESC')
             ->getQuery()

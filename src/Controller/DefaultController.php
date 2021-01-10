@@ -30,8 +30,7 @@ class DefaultController extends AbstractController
     public function admin(): Response
     {
         $this->addFlash('error', '123');
-        return $this->render('admin/base.html.twig', [
-        ]);
+        return $this->render('admin/base.html.twig');
     }
 
 

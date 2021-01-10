@@ -1,8 +1,7 @@
 {% extends 'base.html.twig' %}
 {% block main_class %}signup-form wrapper{% endblock %}
-{% set tour_index = tour.olymp.tours.indexOf(tour)+1 %}
 {% block content %}
-    <div class="tour-title">Регистрация на {{ tour_index }} тур "{{ tour.olymp.name}}"</div>
+    <div class="tour-title">Регистрация на {{ tour.tourIndex }} тур "{{ tour.olymp.name}}"</div>
     {{ form_start(form) }}
     {{ form_widget(form) }}
         <button class="btn" type="submit">{{ button_label|default('Записаться') }}</button>

@@ -34,12 +34,11 @@ class TestController extends AbstractController
     public function new(Tour $tour,Request $request): Response
     {
         $test = new Test();
-        $form = $this->createForm(TestType::class, $test, [
-            'tour'=>$tour
-        ]);
+        $form = $this->createForm(TestType::class, $test);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $test->setTour($tour);
             $isValid = $this->validate($test);
 
             if ($isValid){

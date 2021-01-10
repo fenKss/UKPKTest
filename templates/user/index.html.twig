@@ -31,7 +31,6 @@
                                     <th></th>
                                 </tr>
                                 {% for tour in olymp.tours %}
-                                    {% set tour_index = tour.olymp.tours.indexOf(tour)+1 %}
                                     {% set userTest = null %}
                                     {% for ut in user.userTests %}
                                         {% if ut.variant.test.tour.id == tour.id %}
@@ -40,7 +39,7 @@
                                     {% endfor %}
                                     {% if userTest %}
                                         <tr>
-                                            <td>{{ tour_index }}</td>
+                                            <td>{{ tour.tourIndex }}</td>
                                             <td>
                                                 {% if userTest.status == 'waiting_pay' %}
                                                     Ожидает оплаты
