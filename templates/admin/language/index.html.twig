@@ -1,16 +1,21 @@
 {% extends 'admin/base.html.twig' %}
 
-{% block title %}Language index{% endblock %}
+{% block title %}Языки{% endblock %}
+{% block boxTitle %}Список языков{% endblock %}
+
+{% block boxButtons %}
+    <a href="{{ path('language_new') }}" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i></a>
+{% endblock %}
 
 {% block boxBody %}
 
     <table class="table">
         <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>actions</th>
-            </tr>
+        <tr>
+            <th>id</th>
+            <th>Название</th>
+            <th></th>
+        </tr>
         </thead>
         <tbody>
         {% for language in languages %}
@@ -18,8 +23,8 @@
                 <td>{{ language.id }}</td>
                 <td>{{ language.name }}</td>
                 <td>
-                    <a href="{{ path('language_show', {'id': language.id}) }}">show</a>
-                    <a href="{{ path('language_edit', {'id': language.id}) }}">edit</a>
+                    <a href="{{ path('language_show', {'id': language.id}) }}">Показать</a>
+                    <a class="btn-sm btn-primary" href="{{ path('language_edit', {'id': language.id}) }}"><i class="fa fa-edit"></i></a>
                 </td>
             </tr>
         {% else %}
@@ -30,5 +35,4 @@
         </tbody>
     </table>
 
-    <a href="{{ path('language_new') }}">Create new</a>
 {% endblock %}

@@ -1,13 +1,13 @@
 {% extends 'admin/base.html.twig' %}
 
-{% block title %}Edit Language{% endblock %}
+{% block title %}Изменение языка{% endblock %}
+{% block boxTitle %}Язык{% endblock %}
 
 {% block boxBody %}
-    <h1>Edit Language</h1>
 
-    {{ include('language/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('admin/language/_form.html.twig', {'button_label': 'Обновить'}) }}
 
-    <a href="{{ path('language_index') }}">back to list</a>
+    <a class="btn btn-default" href="{{ path('language_index') }}">Назад <i class="fa fa-undo"></i></a>
 
-    {{ include('language/_delete_form.html.twig') }}
+    {{ include('admin/language/_delete_form.html.twig') }}
 {% endblock %}
