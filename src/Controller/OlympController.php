@@ -91,12 +91,23 @@ class OlympController extends AbstractController
             }
             if (is_null($chosenTest)) {
                 return $this->returnSignup($form, $tour,'Не найден тест с выбранным языком');
-
             }
+            $userTests = $user->getUserTests();
+            foreach ($userTests as $userTest){
+                if ($userTest->getVariant()->getTest()->getTour() === $chosenTest->getTour()){
+                    return $this->returnSignup($form, $tour,'Вы уже записаны на данный тур');
+                }
+            }
+
             $variants = $chosenTest->getVariants();
             if (!$variants->count()) {
                 return $this->returnSignup($form, $tour,'Неверное количество вариантов');
             }
+
+            if (!$chosenTest->getTour()->getPublishedAt()){
+                return $this->returnSignup($form, $tour,'Тур еще не опубликован');
+            }
+
             //Выбираем случайно 1 из вариантов
             $i = rand(0, $variants->count() - 1);
             $variant = $variants[$i];
