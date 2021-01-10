@@ -17,6 +17,9 @@ class OlympController extends AbstractController
 {
     /**
      * @Route("/", name="index", methods={"GET"})
+     * @param OlympRepository $olympRepository
+     *
+     * @return Response
      */
     public function index(OlympRepository $olympRepository): Response
     {
@@ -27,6 +30,9 @@ class OlympController extends AbstractController
 
     /**
      * @Route("/new", name="new", methods={"GET","POST"})
+     * @param Request $request
+     *
+     * @return Response
      */
     public function new(Request $request): Response
     {
@@ -50,6 +56,9 @@ class OlympController extends AbstractController
 
     /**
      * @Route("/{id}", name="show", methods={"GET"})
+     * @param Olymp $olymp
+     *
+     * @return Response
      */
     public function show(Olymp $olymp): Response
     {
@@ -60,6 +69,10 @@ class OlympController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="edit", methods={"GET","POST"})
+     * @param Request $request
+     * @param Olymp   $olymp
+     *
+     * @return Response
      */
     public function edit(Request $request, Olymp $olymp): Response
     {
@@ -80,6 +93,10 @@ class OlympController extends AbstractController
 
     /**
      * @Route("/{id}", name="delete", methods={"DELETE"})
+     * @param Request $request
+     * @param Olymp   $olymp
+     *
+     * @return Response
      */
     public function delete(Request $request, Olymp $olymp): Response
     {

@@ -40,19 +40,6 @@ class TourType extends AbstractType
                 'widget' => 'single_text',
                 'data' => new \DateTime()
             ]);
-        $olymp = $options['olymp'];
-        $olympSettings = [
-            "label" => "Олимпиада",
-            'class' => Olymp::class,
-            'choice_label' => function ($choice, $key, $value) {
-                return $choice->getName();
-            },
-            'required' => true,
-        ];
-        if ($olymp) {
-            $olympSettings['data'] = $olymp;
-        }
-        $builder->add("olymp", EntityType::class, $olympSettings);
     }
 
     public function configureOptions(OptionsResolver $resolver)

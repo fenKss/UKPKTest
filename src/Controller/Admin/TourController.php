@@ -7,7 +7,6 @@ use App\Entity\Tour;
 use App\Form\TourType;
 use App\Repository\OlympRepository;
 use App\Service\PaginationService;
-use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,6 +20,10 @@ class TourController extends AbstractController
 {
     /**
      * @Route("/", name="index", methods={"GET"})
+     * @param OlympRepository   $olympRepository
+     * @param PaginationService $pagination
+     *
+     * @return Response
      */
     public function index(OlympRepository $olympRepository, PaginationService $pagination): Response
     {
@@ -42,13 +45,20 @@ class TourController extends AbstractController
     public function new(Olymp $olymp, Request $request): Response
     {
         $tour = new Tour();
-        $form = $this->createForm(TourType::class, $tour, [
-            "olymp" => $olymp
-        ]);
+        $form = $this->createForm(TourType::class, $tour);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            if ($tour->getStartedAt() >= $tour->getExpiredAt()) {
+                $this->addFlash('error', 'Тур не может закончиться раньше, чем начался');
+                return $this->render('admin/tour/new.html.twig', [
+                    'tour' => $tour,
+                    'form' => $form->createView(),
+                    'olymp' => $olymp
+                ]);
+            }
+            $tour->setOlymp($olymp);
             $index = $olymp->getTours()->count() + 1;
             $tour->setTourIndex($index);
 
@@ -62,6 +72,7 @@ class TourController extends AbstractController
         return $this->render('admin/tour/new.html.twig', [
             'tour' => $tour,
             'form' => $form->createView(),
+            'olymp' => $olymp
         ]);
     }
 
@@ -149,7 +160,7 @@ class TourController extends AbstractController
             return $this->addErrorOnPublishAndRedirect(
                 'Языки олимпиады не совпадают с языками тестов внутри тура',
                 $page);
-        };
+        }
 
         $variantsCount = [];
         $optionsCount = [];
@@ -202,7 +213,7 @@ class TourController extends AbstractController
         return $this->addErrorOnPublishAndRedirect(null, $page);
     }
 
-    private function addErrorOnPublishAndRedirect(?string $error, ?int $page)
+    private function addErrorOnPublishAndRedirect(?string $error, ?int $page): RedirectResponse
     {
         if ($error) {
             $this->addFlash('error', $error);

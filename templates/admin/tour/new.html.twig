@@ -3,7 +3,7 @@
 
 {% block title %}Тур{% endblock %}
 {% block subtitle %}Добавление{% endblock %}
-{% block boxTitle %}Создание нового тура{% endblock %}
+{% block boxTitle %}Создание нового тура "{{ olymp.name }}"{% endblock %}
 
 {% block boxBody %}
     {{ include('admin/tour/_form.html.twig') }}

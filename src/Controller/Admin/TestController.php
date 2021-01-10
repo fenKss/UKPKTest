@@ -5,7 +5,6 @@ namespace App\Controller\Admin;
 use App\Entity\Test;
 use App\Entity\Tour;
 use App\Form\TestType;
-use App\Repository\TourRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,6 +18,9 @@ class TestController extends AbstractController
 
     /**
      * @Route("/", name="index", methods={"GET"})
+     * @param Tour $tour
+     *
+     * @return Response
      */
     public function tests(Tour $tour): Response
     {
@@ -28,8 +30,13 @@ class TestController extends AbstractController
             'tour' => $tour
         ]);
     }
+
     /**
      * @Route("/new", name="new", methods={"GET","POST"})
+     * @param Tour    $tour
+     * @param Request $request
+     *
+     * @return Response
      */
     public function new(Tour $tour,Request $request): Response
     {
@@ -61,6 +68,11 @@ class TestController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="edit", methods={"GET","POST"})
+     * @param Tour    $tour
+     * @param Request $request
+     * @param Test    $test
+     *
+     * @return Response
      */
     public function edit(Tour $tour,Request $request, Test $test): Response
     {
@@ -88,6 +100,11 @@ class TestController extends AbstractController
 
     /**
      * @Route("/{id}", name="delete", methods={"DELETE"})
+     * @param Tour    $tour
+     * @param Request $request
+     * @param Test    $test
+     *
+     * @return Response
      */
     public function delete(Tour $tour,Request $request, Test $test): Response
     {

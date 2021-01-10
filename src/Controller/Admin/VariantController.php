@@ -18,13 +18,18 @@ class VariantController extends AbstractController
 {
     /**
      * @Route("/", name="index", methods={"GET"})
+     * @param Tour              $tour
+     * @param Test              $test
+     * @param VariantRepository $variantRepository
+     *
+     * @return Response
      */
     public function index(Tour $tour, Test $test, VariantRepository $variantRepository): Response
     {
         $variants = $variantRepository->getByTestWithQuestions($test);
         $letters = [];
         foreach ($variants as $key => $variant) {
-            $letters[$variant->getId()] = chr(substr("000".($key+65),-3));
+            $letters[$variant->getId()] = chr(substr("000" . ($key + 65), -3));
         }
         return $this->render('admin/variant/index.html.twig', [
             'variants' => $variants,
@@ -36,6 +41,10 @@ class VariantController extends AbstractController
 
     /**
      * @Route("/new", name="new", methods={"GET","POST"})
+     * @param Tour $tour
+     * @param Test $test
+     *
+     * @return Response
      */
     public function new(Tour $tour, Test $test): Response
     {
@@ -55,15 +64,18 @@ class VariantController extends AbstractController
 
     /**
      * @Route("/{id}", name="delete", methods={"DELETE"})
+     * @param Tour    $tour
+     * @param Test    $test
+     * @param Request $request
+     * @param Variant $variant
+     *
+     * @return Response
      */
     public function delete(Tour $tour, Test $test, Request $request, Variant $variant): Response
     {
-        $test = $variant->getTest();
-        $tour = $test->getTour();
-
-        if ($variant->getVariantQuestions()->count()){
+        if ($variant->getVariantQuestions()->count()) {
             $this->addFlash('error', 'У варианта имеются вопросы. Необходимо их удалить');
-        }elseif ($this->isCsrfTokenValid('delete' . $variant->getId(), $request->request->get('_token'))) {
+        } elseif ($this->isCsrfTokenValid('delete' . $variant->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($variant);
             $entityManager->flush();

@@ -11,13 +11,15 @@ class DefaultController extends AbstractController
 {
     /**
      * @Route("/", name="default")
+     * @param OlympRepository $olympRepository
+     *
+     * @return Response
      */
     public function index(OlympRepository $olympRepository): Response
     {
         $count = 2;
 
         $olymps = $olympRepository->getWithPublishedTours();
-//        return $this->redirectToRoute('admin_index');
         return $this->render('title.html.twig', [
             'count' => count($olymps),
             'olymps' => array_slice($olymps, 0, $count),
