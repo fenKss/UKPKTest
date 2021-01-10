@@ -41,7 +41,8 @@
                             <td>{{ tour.price }}</td>
                             <td>
                                 {% if tour.publishedAt %}
-                                    {{ tour.publishedAt|date('Y-m-d H:i:s') }}
+                                    <span>{{ tour.publishedAt|date('Y-m-d H:i:s') }}</span>
+                                    <a class="btn-sm btn-danger" href="{{ path('admin_tour_publish_revert', {id:tour.id}) }}" title="Отменить публикацию"><i class="fa fa-undo"></i></a>
                                 {% else %}
                                     <a href="{{ path('admin_tour_publish', {id:tour.id, p:app.request.get('p')}) }}">Опубликовать</a>
                                 {% endif %}
@@ -61,9 +62,7 @@
                     </tbody>
                 </table>
             </div>
-            <!-- /.box-body -->
         </div>
-
     {% endfor %}
     {% include "default/_pagination.html.twig" %}
 {% endblock %}

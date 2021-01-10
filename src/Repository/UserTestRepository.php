@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Tour;
 use App\Entity\UserTest;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -19,32 +20,14 @@ class UserTestRepository extends ServiceEntityRepository
         parent::__construct($registry, UserTest::class);
     }
 
-    // /**
-    //  * @return UserTest[] Returns an array of UserTest objects
-    //  */
-    /*
-    public function findByExampleField($value)
-    {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('u.id', 'ASC')
-            ->setMaxResults(10)
+   public function getByTour(Tour $tour){
+        return $this->createQueryBuilder('ut')
+            ->leftJoin('ut.variant', 'v')
+            ->leftJoin("v.test", 't')
+            ->leftJoin('t.tour', 'to')
+            ->where("to = :tour")
+            ->setParameter('tour', $tour)
             ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
-
-    /*
-    public function findOneBySomeField($value): ?UserTest
-    {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-    }
-    */
+            ->getResult();
+   }
 }

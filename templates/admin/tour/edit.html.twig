@@ -2,7 +2,7 @@
 
 {% block title %}Тур{% endblock %}
 {% block subtitle %}Изменение{% endblock %}
-{% block boxTitle %}Изменение тура{% endblock %}
+{% block boxTitle %}Изменение {{ tour.tourIndex }} тура "{{ tour.olymp.name }}"{% endblock %}
 
 {% block boxBody %}
     {{ include('admin/tour/_form.html.twig', {'button_label': 'Обновить'}) }}

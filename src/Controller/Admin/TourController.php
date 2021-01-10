@@ -4,10 +4,14 @@ namespace App\Controller\Admin;
 
 use App\Entity\Olymp;
 use App\Entity\Tour;
+use App\Entity\UserTest;
 use App\Form\TourType;
 use App\Repository\OlympRepository;
+use App\Repository\UserTestRepository;
 use App\Service\PaginationService;
 use Carbon\Carbon;
+use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -103,6 +107,14 @@ class TourController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if ($tour->getStartedAt() >= $tour->getExpiredAt()) {
+                $this->addFlash('error', 'Тур не может закончиться раньше, чем начался');
+                return $this->render('admin/tour/edit.html.twig', [
+                    'tour' => $tour,
+                    'form' => $form->createView(),
+                ]);
+            }
+
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('admin_tour_index');
@@ -218,6 +230,39 @@ class TourController extends AbstractController
         return $this->addErrorOnPublishAndRedirect(null, $page);
     }
 
+    /**
+     * @Route("/{id}/publish/revert", name="publish_revert")
+     * @param Tour                   $tour
+     * @param EntityManagerInterface $em
+     * @param UserTestRepository     $userTestRepository
+     * @param Request                $request
+     *
+     * @return RedirectResponse
+     */
+    public function publishRevert(
+        Tour $tour,
+        EntityManagerInterface $em,
+        UserTestRepository $userTestRepository,
+        Request $request
+    ): RedirectResponse {
+        $page = $request->get('p');
+        $userTests = $userTestRepository->getByTour($tour);
+        if (count($userTests)) {
+            return $this->addErrorOnPublishAndRedirect('На данный тур уже записаны люди', $page);
+        }
+        $tour->setPublishedAt(null);
+        $em->persist($tour);
+        $em->flush();
+
+        return $this->addErrorOnPublishAndRedirect(null, $page);
+    }
+
+    /**
+     * @param string|null $error
+     * @param int|null    $page
+     *
+     * @return RedirectResponse
+     */
     private function addErrorOnPublishAndRedirect(?string $error, ?int $page): RedirectResponse
     {
         if ($error) {
