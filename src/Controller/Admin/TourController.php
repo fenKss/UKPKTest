@@ -7,6 +7,7 @@ use App\Entity\Tour;
 use App\Form\TourType;
 use App\Repository\OlympRepository;
 use App\Service\PaginationService;
+use Carbon\Carbon;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -209,6 +210,10 @@ class TourController extends AbstractController
                 'Не совпадает количество ответов на вариант',
                 $page);
         }
+        $tour->setPublishedAt(new Carbon());
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($tour);
+        $em->flush();
 
         return $this->addErrorOnPublishAndRedirect(null, $page);
     }
