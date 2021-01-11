@@ -41,9 +41,10 @@
         {{ form_row(registrationForm.email) }}
         {{ form_row(registrationForm.plainPassword) }}
         {{ form_row(registrationForm.agreeTerms) }}
-
+        <div class="form-group">
         <button type="submit" class="btn">Зарегистрироваться</button>
         <a href="{{ path('app_login') }}">Вы уже зарегистрированы?</a>
+        </div>
         {{ form_end(registrationForm) }}
 
         {#        <div class="social-auth-links text-center">#}
