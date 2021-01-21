@@ -44,6 +44,41 @@ class User implements UserInterface
      */
     private $userTests;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $bornAt;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $address;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $studyPlace;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $class;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Image::class, inversedBy="users")
+     */
+    private $avatar;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $name;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $surname;
+
     public function __construct()
     {
         $this->userTests = new ArrayCollection();
@@ -153,6 +188,90 @@ class User implements UserInterface
                 $userTest->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getBornAt(): ?\DateTimeInterface
+    {
+        return $this->bornAt;
+    }
+
+    public function setBornAt(\DateTimeInterface $bornAt): self
+    {
+        $this->bornAt = $bornAt;
+
+        return $this;
+    }
+
+    public function getAddress(): ?string
+    {
+        return $this->address;
+    }
+
+    public function setAddress(string $address): self
+    {
+        $this->address = $address;
+
+        return $this;
+    }
+
+    public function getStudyPlace(): ?string
+    {
+        return $this->studyPlace;
+    }
+
+    public function setStudyPlace(?string $studyPlace): self
+    {
+        $this->studyPlace = $studyPlace;
+
+        return $this;
+    }
+
+    public function getClass(): ?string
+    {
+        return $this->class;
+    }
+
+    public function setClass(?string $class): self
+    {
+        $this->class = $class;
+
+        return $this;
+    }
+
+    public function getAvatar(): ?Image
+    {
+        return $this->avatar;
+    }
+
+    public function setAvatar(?Image $avatar): self
+    {
+        $this->avatar = $avatar;
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): self
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getSurname(): ?string
+    {
+        return $this->surname;
+    }
+
+    public function setSurname(string $surname): self
+    {
+        $this->surname = $surname;
 
         return $this;
     }

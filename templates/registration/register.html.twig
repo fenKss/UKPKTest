@@ -16,7 +16,12 @@
     <link rel="stylesheet" href="{{ asset('assets/css/AdminLTE.min.css')}}">
     <!-- iCheck -->
     <link rel="stylesheet" href="{{ asset('assets/plugins/iCheck/square/blue.css') }}">
-
+    <style>
+        label.required:after{
+            content:"*";
+            color:red;
+        }
+    </style>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -24,26 +29,29 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 </head>
-<body class="hold-transition login-page">
-<div class="login-box">
-    <div class="login-logo">
+<body class="hold-transition register-page">
+<div class="register-box">
+    <div class="register-logo">
         <a href="{{ path('default') }}"><span class="logo-lg"><b>UKHPC</b>Test</span></a>
     </div>
-    <!-- /.login-logo -->
-    <div class="login-box-body">
-        <p class="login-box-msg">Регистрация</p>
+    <!-- /.register-logo -->
+    <div class="register-box-body">
+        <p class="register-box-msg">Регистрация</p>
 
         {% for flashError in app.flashes('verify_email_error') %}
             <div class="alert alert-danger" role="alert">{{ flashError }}</div>
         {% endfor %}
 
         {{ form_start(registrationForm) }}
+        {{ form_row(registrationForm.name) }}
+        {{ form_row(registrationForm.surname) }}
+        {{ form_row(registrationForm.bornAt) }}
         {{ form_row(registrationForm.email) }}
         {{ form_row(registrationForm.plainPassword) }}
         {{ form_row(registrationForm.agreeTerms) }}
+        {{ form_row(registrationForm.submit) }}
         <div class="form-group">
-        <button type="submit" class="btn">Зарегистрироваться</button>
-        <a href="{{ path('app_login') }}">Вы уже зарегистрированы?</a>
+            <a href="{{ path('app_login') }}">Вы уже зарегистрированы?</a>
         </div>
         {{ form_end(registrationForm) }}
 
