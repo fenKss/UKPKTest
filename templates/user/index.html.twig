@@ -1,15 +1,30 @@
 {% extends 'base.html.twig' %}
 
 {% block page_title %}Личный кабинет{% endblock %}
-{% block main_class %}user-cabinet{% endblock %}
+{% block main_class %}user-cabinet main-center{% endblock %}
 {% block content %}
     <div class="cabinet">
         <div class="user-info">
             <div class="avatar">
                 <img src="{{ asset('assets/img/no_img.jpg') }}" alt="">
             </div>
+            <div class="name">
+                <span>{{ user.name }}</span>
+                <span>{{ user.surname }}</span>
+            </div>
             <div class="mail">
                 <a href="mailto:{{ user.email }}">{{ user.email }}</a>
+            </div>
+            <div class="study">
+                <span class="label">Место учебы:</span>
+                <span>{{ user.studyPlace }}</span>
+            </div>
+            <div class="live">
+                <span class="label">Класс:</span>
+                <span>{{ user.class }}</span>
+            </div>
+            <div class="edit">
+                <a href="{{ path('user_edit') }}">Изменить</a>
             </div>
         </div>
         <div class="user-stat">

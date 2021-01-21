@@ -11,6 +11,9 @@ main.user-cabinet {
 
     .user {
       &-info {
+        >*{
+          margin-bottom: 8px;
+        }
         .avatar {
           width: 220px;
           height: 220px;
@@ -26,9 +29,25 @@ main.user-cabinet {
             transform: translate(-50%, -50%);
           }
         }
+        .name{
+          display: flex;
+          justify-content: center;
+          span{
+            margin-left: 2px;
+            margin-right: 2px;
+          }
+        }
 
         .mail {
           text-align: center;
+        }
+        .edit{
+          display: flex;
+          justify-content: center;
+          a{
+            color:#22b8f0;
+            text-decoration: underline;
+          }
         }
 
       }

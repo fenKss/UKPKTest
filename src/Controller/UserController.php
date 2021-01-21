@@ -4,9 +4,11 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\ENum\EUserTestStatus;
+use App\Form\UserFormType;
 use App\Repository\OlympRepository;
 use Carbon\Carbon;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -55,6 +57,42 @@ class UserController extends AbstractController
         return $this->render('user/index.html.twig', [
             'user' => $user,
             'olymps'=>$olymps
+        ]);
+    }
+
+    /**
+     * @Route("/edit", name="edit")
+     *
+     * @return Response
+     */
+    public function edit(Request $request): Response
+    {
+        /**
+         * @var ?User $user
+         */
+        $user = $this->getUser();
+        if (!$user){
+            return $this->redirectToRoute('default');
+        }
+
+        $form = $this->createForm(UserFormType::class, $user, [
+            'allow_extra_fields'=>true,
+            'attr'=>[
+                'class'=>'form'
+            ]
+        ]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()){
+            $user = $form->getData();
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush();
+            return $this->redirectToRoute("user_index");
+        }
+        return $this->render('user/edit.html.twig', [
+            'user' => $user,
+            'form'=>$form->createView()
         ]);
     }
 }

@@ -49,6 +49,14 @@ form.form {
 
     }
   }
+  input{
+    border-radius:4px;
+    box-shadow: none;
+    background: none;
+    outline:none;
+    border-width:1px;
+    padding: 10px;
+  }
   button{
     align-self: flex-start;
     border: 1px solid transparent;
