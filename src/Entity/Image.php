@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use App\lib\IFile;
+use App\lib\FS\IFile;
 use App\Repository\ImageRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -49,6 +49,11 @@ class Image implements IFile
      * @ORM\OneToMany(targetEntity=User::class, mappedBy="avatar")
      */
     private $users;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $extension;
 
     public function __construct()
     {
@@ -146,6 +151,18 @@ class Image implements IFile
                 $user->setAvatar(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getExtension(): ?string
+    {
+        return $this->extension;
+    }
+
+    public function setExtension(string $extension): self
+    {
+        $this->extension = $extension;
 
         return $this;
     }

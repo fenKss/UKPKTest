@@ -8,6 +8,7 @@ use MyCLabs\Enum\Enum;
 
 /**
  * Class EOlympType
+ *
  * @method static EOlympType COLLEGE_TYPE
  * @method static EOlympType CITY_TYPE
  * @method static EOlympType REGION_TYPE

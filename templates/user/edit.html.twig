@@ -3,5 +3,6 @@
 {% block page_title %}Редактирование информации{% endblock %}
 {% block main_class %}user-cabinet-edit main-center{% endblock %}
 {% block content %}
+    <div class="alert alert-error">{{ error }}</div>
     {{ form(form) }}
 {% endblock %}

@@ -6,7 +6,11 @@
     <div class="cabinet">
         <div class="user-info">
             <div class="avatar">
+                {% if user.avatar %}
+                    <img src="{{ user.avatar.path }}" alt="">
+                {% else %}
                 <img src="{{ asset('assets/img/no_img.jpg') }}" alt="">
+                {% endif %}
             </div>
             <div class="name">
                 <span>{{ user.name }}</span>
