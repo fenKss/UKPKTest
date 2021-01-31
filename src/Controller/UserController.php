@@ -4,9 +4,10 @@ namespace App\Controller;
 
 use App\Entity\Image;
 use App\Entity\User;
-use App\ENum\EImageType;
+use App\ENum\EQuestionTextType;
 use App\ENum\EUserTestStatus;
 use App\Form\UserFormType;
+use App\lib\FS\Exceptions\FileNotExistException;
 use App\lib\FS\FS;
 use App\Repository\OlympRepository;
 use Carbon\Carbon;
@@ -80,8 +81,7 @@ class UserController extends AbstractController
      * @param Request $request
      *
      * @return Response
-     * @throws \App\lib\FS\Exceptions\FileExistsException
-     * @throws \App\lib\FS\Exceptions\FileNotExistException
+     * @throws FileNotExistException
      */
     public function edit(Request $request): Response
     {
@@ -129,7 +129,7 @@ class UserController extends AbstractController
                 $image->setFilename($filename);
                 $image->setPath($path);
                 $image->setFullPath($this->projectPublicDir.$path);
-                $image->setType(EImageType::AVATAR_TYPE);
+                $image->setType(EQuestionTextType::AVATAR_TYPE);
                 $image->setExtension($extension);
 
                 if (move_uploaded_file($avatarFile->getRealPath(), $fullPath)) {

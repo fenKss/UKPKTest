@@ -83,14 +83,10 @@ class FS
 
     /**
      * @param string $dir
-     *
-     * @throws FileExistsException
      */
     public static function mkdir(string $dir) {
         if ( !file_exists( $dir ) && !is_dir( $dir ) ) {
             mkdir($dir, 0777, true);
-        }else{
-            throw new FileExistsException();
         }
     }
 

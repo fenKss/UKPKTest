@@ -6,6 +6,7 @@ namespace App\Controller\Api;
 use App\Entity\QuestionOption;
 use App\Entity\Variant;
 use App\Entity\VariantQuestion;
+use App\ENum\EQuestionTextType;
 use App\ENum\EQuestionType;
 use Symfony\Component\Console\Question\Question;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -22,6 +23,7 @@ class TestEditorApiController extends AbstractApiController
 {
     /**
      * @Route("/question/add", name="add_question")
+     * @param Variant $variant
      * @param Request $request
      *
      * @return JsonResponse
@@ -34,7 +36,7 @@ class TestEditorApiController extends AbstractApiController
         $question->setText('Вопрос ' . ($questions->count() + 1));
         $question->setType(EQuestionType::RADIO_TYPE);
         $question->setVariant($variant);
-
+        $question->setTextType(EQuestionTextType::TEXT_TYPE);
         $em = $this->getDoctrine()->getManager();
 
         $em->persist($question);

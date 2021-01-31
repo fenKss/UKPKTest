@@ -40,6 +40,11 @@ class VariantQuestion
      */
     private $questionOptions;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $textType;
+
     public function __construct()
     {
         $this->questionOptions = new ArrayCollection();
@@ -112,6 +117,18 @@ class VariantQuestion
                 $questionOption->setQuestion(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getTextType(): ?string
+    {
+        return $this->textType;
+    }
+
+    public function setTextType(string $textType): self
+    {
+        $this->textType = $textType;
 
         return $this;
     }
