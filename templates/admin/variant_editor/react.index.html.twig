@@ -1,0 +1,23 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block styles %}
+    {{ encore_entry_link_tags('app') }}
+    <link rel="stylesheet" href="{{ asset('assets/css/pages/testEditor.min.css') }}">
+{% endblock %}
+{% block javascript %}
+  {{ encore_entry_script_tags('app') }}
+{% endblock %}
+
+{% block title %}Редактор тестов{% endblock %}
+
+{% block boxTitle %}Вопросы {{ variant.test.variants.indexOf(variant)+1 }} варианта {{ variant.test.tour.tourIndex }} тура "{{ variant.test.tour.olymp.name }}"
+    {% if not variant.test.tour.publishedAt %}
+        <button id="add-question-btn" class="btn btn-success"><i class="fa fa-plus"></i></button>
+    {% else %}
+        <div class="badge bg-red">Тур Опубликован</div>
+    {% endif %}
+{% endblock %}
+
+{% block boxBody %}
+    <div id="root"></div>
+{% endblock %}

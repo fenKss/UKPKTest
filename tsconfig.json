@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "removeComments": true,
+    "jsx": "react",
+    //    "outFile": "../../built/local/tsc.js"
+  },
+  "exclude":[
+    //    "assets/components",
+    "node_modules",
+    "**/*.jpg"
+  ],
+  "typeRoots": ["assets/types"]
+}

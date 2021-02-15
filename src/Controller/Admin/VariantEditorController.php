@@ -19,6 +19,18 @@ use Symfony\Component\Routing\Annotation\Route;
 class VariantEditorController extends AbstractController
 {
     /**
+     * @Route("/react", name="index_react")
+     */
+    public function indexReact(Variant $variant, VariantQuestionRepository $questionRepository): Response
+    {
+        $questions = $questionRepository->getWithAll($variant);
+        return $this->render('admin/variant_editor/react.index.html.twig', [
+            'questions'=>$questions,
+            'variant'=>$variant
+        ]);
+    }
+
+    /**
      * @Route("/", name="index")
      * @param Variant                   $variant
      * @param VariantQuestionRepository $questionRepository
