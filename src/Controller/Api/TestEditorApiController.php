@@ -229,7 +229,6 @@ class TestEditorApiController extends AbstractApiController
 
         $questions = $variant->getQuestions();
         foreach ($questions as $question) {
-
             $returnData[$question->getId()] = $this->_getQuestionWithOptionsAsArray($question);
         }
         return $returnData;

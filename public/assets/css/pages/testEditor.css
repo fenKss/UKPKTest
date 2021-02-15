@@ -12,6 +12,10 @@
   list-style: none;
   padding: 5px;
   border-bottom: 1px solid grey;
+  cursor: pointer;
+}
+#test-editor .questions li.selected {
+  color: #3c8dbc;
 }
 #test-editor div.tab[data-question-id] .question-head {
   display: flex;

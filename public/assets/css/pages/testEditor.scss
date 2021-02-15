@@ -10,6 +10,10 @@
       list-style: none;
       padding: 5px;
       border-bottom:1px solid grey;
+      cursor: pointer;
+      &.selected{
+        color:#3c8dbc;
+      }
     }
     .options{
 

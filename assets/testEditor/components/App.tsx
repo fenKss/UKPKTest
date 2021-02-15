@@ -1,6 +1,12 @@
 import * as React from 'react';
+import QuestionAsideContainer from "./QuestionAside/QuestionAsideContainer";
 
 const App = () => {
-    return <div>Some 123</div>
+    return(
+        <div id={"test-editor"}>
+            <QuestionAsideContainer/>
+        </div>
+    )
+
 };
-export default  App ;
+export default App;
