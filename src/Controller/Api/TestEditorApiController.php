@@ -28,15 +28,7 @@ class TestEditorApiController extends AbstractApiController
      */
     public function getAll(Variant $variant): JsonResponse
     {
-        $returnData = [];
-
-        $questions = $variant->getQuestions();
-        foreach ($questions as $question){
-            $returnData[$question->getId()] = [
-              'title'=>$question->getTitle()
-            ];
-        }
-        return $this->success([]);
+        return $this->success($this->_getQuestionsAsArray($variant));
     }
 
     /**
@@ -224,5 +216,55 @@ class TestEditorApiController extends AbstractApiController
         return $this->success([
             'id' => $option->getId()
         ]);
+    }
+
+    /**
+     * @param Variant $variant
+     *
+     * @return array
+     */
+    private function _getQuestionsAsArray(Variant $variant): array
+    {
+        $returnData = [];
+
+        $questions = $variant->getQuestions();
+        foreach ($questions as $question) {
+
+            $returnData[$question->getId()] = $this->_getQuestionWithOptionsAsArray($question);
+        }
+        return $returnData;
+    }
+
+    /**
+     * @param Question $question
+     *
+     * @return array
+     */
+    private function _getQuestionWithOptionsAsArray(Question $question): array
+    {
+        $questionArray = [
+            'id' => $question->getId(),
+            'title' => $question->getTitle(),
+            'options' => []
+        ];
+        $options = $question->getPossibleAnswers();
+        foreach ($options as $option) {
+            $questionArray['options'][$option->getId()] = $this->_getOptionAsArray($option);
+        }
+        return  $questionArray;
+    }
+
+    /**
+     * @param PossibleAnswer $option
+     *
+     * @return array
+     */
+    private function _getOptionAsArray(PossibleAnswer $option): array
+    {
+       return [
+           'id' => $option->getId(),
+           'text' => $option->getText(),
+           'isCorrect' => $option->getIsCorrect()
+       ];
     }
 }
