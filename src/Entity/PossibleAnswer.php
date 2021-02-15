@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\QuestionOptionRepository;
+use App\Repository\OptionRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=QuestionOptionRepository::class)
+ * @ORM\Entity(repositoryClass=OptionRepository::class)
  */
-class QuestionOption
+class PossibleAnswer
 {
     /**
      * @ORM\Id
@@ -18,7 +18,7 @@ class QuestionOption
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=VariantQuestion::class, inversedBy="questionOptions")
+     * @ORM\ManyToOne(targetEntity=Question::class, inversedBy="possibleAnswers")
      */
     private $question;
 
@@ -37,12 +37,12 @@ class QuestionOption
         return $this->id;
     }
 
-    public function getQuestion(): ?VariantQuestion
+    public function getQuestion(): ?Question
     {
         return $this->question;
     }
 
-    public function setQuestion(?VariantQuestion $question): self
+    public function setQuestion(?Question $question): self
     {
         $this->question = $question;
 

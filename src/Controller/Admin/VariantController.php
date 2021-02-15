@@ -80,7 +80,7 @@ class VariantController extends AbstractController
      */
     public function delete(Tour $tour, Test $test, Request $request, Variant $variant): Response
     {
-        if ($variant->getVariantQuestions()->count()) {
+        if ($variant->getQuestions()->count()) {
             $this->addFlash('error', 'У варианта имеются вопросы. Необходимо их удалить');
         } elseif ($this->isCsrfTokenValid('delete' . $variant->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();

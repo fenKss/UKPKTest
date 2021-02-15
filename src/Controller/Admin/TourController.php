@@ -195,7 +195,7 @@ class TourController extends AbstractController
                 /*
                  * Проверяем количество вопросов в варианте
                  */
-                $questions = $variant->getVariantQuestions();
+                $questions = $variant->getQuestions();
                 $questionsCount[$variant->getId()] = $questions->count();
 
 
@@ -203,7 +203,7 @@ class TourController extends AbstractController
                     /*
                      * Проверяем количество ответов в варианте
                      */
-                    $options = $question->getQuestionOptions();
+                    $options = $question->getPossibleAnswers();
                     if (!isset($optionsCount[$variant->getId()])) {
                         $optionsCount[$variant->getId()] = 0;
                     }

@@ -11,9 +11,7 @@
 {% block title %}Редактор тестов{% endblock %}
 
 {% block boxTitle %}Вопросы {{ variant.test.variants.indexOf(variant)+1 }} варианта {{ variant.test.tour.tourIndex }} тура "{{ variant.test.tour.olymp.name }}"
-    {% if not variant.test.tour.publishedAt %}
-        <button id="add-question-btn" class="btn btn-success"><i class="fa fa-plus"></i></button>
-    {% else %}
+    {% if variant.test.tour.publishedAt %}
         <div class="badge bg-red">Тур Опубликован</div>
     {% endif %}
 {% endblock %}

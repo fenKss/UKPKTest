@@ -26,7 +26,7 @@
             {% for i,question in questions %}
                 <li class="{% if i==0 %}active{% endif %}" data-question-id="{{ question.id }}">
                     <a href="#question_{{ question.id }}"
-                       data-toggle="tab">{{ question.text|raw }}</a>
+                       data-toggle="tab">{{ question.title|raw }}</a>
                 </li>
             {% endfor %}
         </ul>
@@ -36,7 +36,7 @@
                      data-question-id="{{ question.id }}">
                     <div class="question-head">
                         <div class="question-title">
-                            <span>{{ question.text|raw }}</span>
+                            <span>{{ question.title|raw }}</span>
                             {% if not variant.test.tour.publishedAt %}
                                 <button class="btn btn-xs btn-default edit-question-title">
                                     <i class="fa fa-edit"></i>
@@ -63,7 +63,7 @@
                         </div>
                         <div class="options">
                             <form action="" name="question_option_edit_correct">
-                                {% for option in question.questionOptions %}
+                                {% for option in question.possibleAnswers %}
                                     <div>
                                         <label for="option_{{ option.id }}">
                                             <input type="{% if question.type == 'radio' %}radio{% else %}checkbox{% endif %}"

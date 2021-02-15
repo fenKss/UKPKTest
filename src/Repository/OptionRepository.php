@@ -2,25 +2,25 @@
 
 namespace App\Repository;
 
-use App\Entity\QuestionOption;
+use App\Entity\PossibleAnswer;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method QuestionOption|null find($id, $lockMode = null, $lockVersion = null)
- * @method QuestionOption|null findOneBy(array $criteria, array $orderBy = null)
- * @method QuestionOption[]    findAll()
- * @method QuestionOption[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method PossibleAnswer|null find($id, $lockMode = null, $lockVersion = null)
+ * @method PossibleAnswer|null findOneBy(array $criteria, array $orderBy = null)
+ * @method PossibleAnswer[]    findAll()
+ * @method PossibleAnswer[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class QuestionOptionRepository extends ServiceEntityRepository
+class OptionRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, QuestionOption::class);
+        parent::__construct($registry, PossibleAnswer::class);
     }
 
     // /**
-    //  * @return QuestionOption[] Returns an array of QuestionOption objects
+    //  * @return PossibleAnswer[] Returns an array of PossibleAnswer objects
     //  */
     /*
     public function findByExampleField($value)
@@ -37,7 +37,7 @@ class QuestionOptionRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?QuestionOption
+    public function findOneBySomeField($value): ?PossibleAnswer
     {
         return $this->createQueryBuilder('q')
             ->andWhere('q.exampleField = :val')

@@ -2,15 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\VariantQuestionRepository;
+use App\Repository\QuestionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=VariantQuestionRepository::class)
+ * @ORM\Entity(repositoryClass=QuestionRepository::class)
  */
-class VariantQuestion
+class Question
 {
     /**
      * @ORM\Id
@@ -20,7 +20,7 @@ class VariantQuestion
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Variant::class, inversedBy="variantQuestions")
+     * @ORM\ManyToOne(targetEntity=Variant::class, inversedBy="questions")
      * @ORM\JoinColumn(nullable=false)
      */
     private $variant;
@@ -33,12 +33,12 @@ class VariantQuestion
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    private $text;
+    private $title;
 
     /**
-     * @ORM\OneToMany(targetEntity=QuestionOption::class, mappedBy="question")
+     * @ORM\OneToMany(targetEntity=PossibleAnswer::class, mappedBy="question")
      */
-    private $questionOptions;
+    private $possibleAnswers;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -47,7 +47,7 @@ class VariantQuestion
 
     public function __construct()
     {
-        $this->questionOptions = new ArrayCollection();
+        $this->possibleAnswers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -79,39 +79,39 @@ class VariantQuestion
         return $this;
     }
 
-    public function getText(): ?string
+    public function getTitle(): ?string
     {
-        return $this->text;
+        return $this->title;
     }
 
-    public function setText(?string $text): self
+    public function setTitle(?string $title): self
     {
-        $this->text = $text;
+        $this->title = $title;
 
         return $this;
     }
 
     /**
-     * @return Collection|QuestionOption[]
+     * @return Collection|PossibleAnswer[]
      */
-    public function getQuestionOptions(): Collection
+    public function getPossibleAnswers(): Collection
     {
-        return $this->questionOptions;
+        return $this->possibleAnswers;
     }
 
-    public function addQuestionOption(QuestionOption $questionOption): self
+    public function addPossibleAnswer(PossibleAnswer $questionOption): self
     {
-        if (!$this->questionOptions->contains($questionOption)) {
-            $this->questionOptions[] = $questionOption;
+        if (!$this->possibleAnswers->contains($questionOption)) {
+            $this->possibleAnswers[] = $questionOption;
             $questionOption->setQuestion($this);
         }
 
         return $this;
     }
 
-    public function removeQuestionOption(QuestionOption $questionOption): self
+    public function removePossibleAnswer(PossibleAnswer $questionOption): self
     {
-        if ($this->questionOptions->removeElement($questionOption)) {
+        if ($this->possibleAnswers->removeElement($questionOption)) {
             // set the owning side to null (unless already changed)
             if ($questionOption->getQuestion() === $this) {
                 $questionOption->setQuestion(null);

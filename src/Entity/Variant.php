@@ -26,9 +26,9 @@ class Variant
     private $test;
 
     /**
-     * @ORM\OneToMany(targetEntity=VariantQuestion::class, mappedBy="variant")
+     * @ORM\OneToMany(targetEntity=Question::class, mappedBy="variant")
      */
-    private $variantQuestions;
+    private $questions;
 
     /**
      * @ORM\OneToMany(targetEntity=UserTest::class, mappedBy="variant")
@@ -37,7 +37,7 @@ class Variant
 
     public function __construct()
     {
-        $this->variantQuestions = new ArrayCollection();
+        $this->questions = new ArrayCollection();
         $this->userTests = new ArrayCollection();
     }
 
@@ -59,27 +59,28 @@ class Variant
     }
 
     /**
-     * @return Collection|VariantQuestion[]
+     * @return Collection|Question[]
      */
-    public function getVariantQuestions(): Collection
+    public function getQuestions(): Collection
     {
-        return $this->variantQuestions;
+        return $this->questions;
     }
 
-    public function addVariantQuestion(VariantQuestion $variantQuestion): self
+    public function addQuestion(Question $variantQuestion): self
     {
-        if (!$this->variantQuestions->contains($variantQuestion)) {
-            $this->variantQuestions[] = $variantQuestion;
+        if (!$this->questions->contains($variantQuestion)) {
+            $this->questions[] = $variantQuestion;
             $variantQuestion->setVariant($this);
         }
 
         return $this;
     }
 
-    public function removeVariantQuestion(VariantQuestion $variantQuestion): self
+    public function removeQuestion(Question $variantQuestion): self
     {
-        if ($this->variantQuestions->removeElement($variantQuestion)) {
-            // set the owning side to null (unless already changed)
+        if ($this->questions->removeElement($variantQuestion)) {
+            // set the owning si
+            //de to null (unless already changed)
             if ($variantQuestion->getVariant() === $this) {
                 $variantQuestion->setVariant(null);
             }
