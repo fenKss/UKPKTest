@@ -43,7 +43,7 @@ class Question
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $textType;
+    private $titleType;
 
     public function __construct()
     {
@@ -121,14 +121,14 @@ class Question
         return $this;
     }
 
-    public function getTextType(): ?string
+    public function getTitleType(): ?string
     {
-        return $this->textType;
+        return $this->titleType;
     }
 
-    public function setTextType(string $textType): self
+    public function setTitleType(string $titleType): self
     {
-        $this->textType = $textType;
+        $this->titleType = $titleType;
 
         return $this;
     }

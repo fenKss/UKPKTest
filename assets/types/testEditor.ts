@@ -1,5 +1,6 @@
 export const ADD_QUESTION = "ADD_QUESTION"
 export const SELECT_QUESTION = "SELECT_QUESTION"
+export const SET_QUESTIONS = "SET_QUESTIONS"
 
 export type Option = {
     id:number,
@@ -25,4 +26,9 @@ export interface SelectQuestionAction  {
     type:typeof SELECT_QUESTION,
     id: number
 }
-export type QuestionActions = AddQuestionAction | SelectQuestionAction ;
+export interface SetQuestionsAction  {
+    type:typeof SET_QUESTIONS,
+    questions: Array<Question>
+}
+
+export type QuestionActions = AddQuestionAction | SelectQuestionAction | SetQuestionsAction;

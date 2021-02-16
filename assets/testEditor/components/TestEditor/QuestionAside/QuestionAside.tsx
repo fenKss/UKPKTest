@@ -1,11 +1,12 @@
 import * as React from 'react';
-import {Question} from "../../../types/testEditor";
+import {Question} from "../../../../types/testEditor";
 
 
 interface Props {
     questions: Array<Question>,
     selectedQuestion?: number,
     onSelectQuestion: (id: number) => void
+    onAddQuestion: Function
 }
 
 const QuestionAside = (props: Props) => {
@@ -22,10 +23,14 @@ const QuestionAside = (props: Props) => {
             {question.title}
         </li>
     });
+
     return (
+        <aside className={"asideLeft"}>
+            <button className="btn btn-success"><i className="fa fa-plus"/></button>
         <ul className={'questions'}>
             {Questions}
         </ul>
+        </aside>
     )
 };
 

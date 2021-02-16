@@ -2,6 +2,11 @@
   display: grid;
   grid-template-columns: 1fr 4fr;
   grid-gap: 40px;
+  aside > button{
+    position: absolute;
+    top: 2px;
+    right: 60px;
+  }
   .questions{
     display: block;
     margin: 0;

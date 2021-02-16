@@ -21,7 +21,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class TestEditorApiController extends AbstractApiController
 {
     /**
-     * @Route("/", name="index")
+     * @Route("/question/", name="index")
      * @param Variant $variant
      *
      * @return JsonResponse
@@ -46,7 +46,7 @@ class TestEditorApiController extends AbstractApiController
         $question->setTitle('Вопрос ' . ($questions->count() + 1));
         $question->setType(EQuestionType::RADIO_TYPE);
         $question->setVariant($variant);
-        $question->setTextType(EQuestionTextType::TEXT_TYPE);
+        $question->setTitleType(EQuestionTextType::TEXT_TYPE);
         $em = $this->getDoctrine()->getManager();
 
         $em->persist($question);

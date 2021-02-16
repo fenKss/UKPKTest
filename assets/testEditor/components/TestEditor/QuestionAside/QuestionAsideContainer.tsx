@@ -1,7 +1,7 @@
 import * as React from 'react';
 import {connect, ConnectedProps} from "react-redux";
-import {QuestionsState} from "../../../types/testEditor";
-import {addQuestion, selectQuestion} from "../../store/questionsReducer";
+import {QuestionsState} from "../../../../types/testEditor";
+import {addQuestion, selectQuestion} from "../../../store/questionsReducer";
 import QuestionAside from "./QuestionAside";
 
 const mapStateToProps = (state: any): QuestionsState => {
@@ -23,6 +23,7 @@ const QuestionAsideContainer = (props: QuestionAsideContainerProps) => {
             questions={questions}
             selectedQuestion={selectedQuestion}
             onSelectQuestion={selectQuestion}
+            onAddQuestion={addQuestion}
     />
     )
 };
