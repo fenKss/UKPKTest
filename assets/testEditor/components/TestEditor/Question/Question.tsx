@@ -1,8 +1,16 @@
 import * as React from 'react';
+import  {Question} from "../../../../types/testEditor";
 
-const Question = () => {
+type Props = {
+    question:Question
+}
+const Question = (props: Props) => {
+    const {question} = props;
+    if (!question){
+        return <></>
+    }
     return (
-        <div>123</div>
+        <div>{question.title}</div>
     )
 }
 

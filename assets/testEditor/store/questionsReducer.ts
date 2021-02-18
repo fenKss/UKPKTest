@@ -45,10 +45,18 @@ const questionsReducer = (state = initState, action: QuestionActions): Questions
                 questions: [...state.questions, action.question]
             }
         case "SET_QUESTIONS":
-            return {
-                ...state,
-                questions: [...action.questions]
+            if (state.selectedQuestion){
+                return {
+                    ...state,
+                    questions: [...action.questions]
+                }
             }
+                return {
+                    ...state,
+                    questions: [...action.questions],
+                    selectedQuestion:action.questions[0]?.id
+                }
+
         case "SELECT_QUESTION":
             return {
                 ...state,
