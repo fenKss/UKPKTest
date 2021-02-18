@@ -6,11 +6,11 @@ interface Props {
     questions: Array<Question>,
     selectedQuestion?: number,
     onSelectQuestion: (id: number) => void
-    onAddQuestion: Function
+    onAddQuestion: (e:React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
 }
 
 const QuestionAside = (props: Props) => {
-    const {questions, selectedQuestion, onSelectQuestion} = props;
+    const {questions, selectedQuestion, onSelectQuestion, onAddQuestion} = props;
     
     const Questions = questions.map((question, i) => {
         const className = question.id == selectedQuestion ? 'selected' : null;
@@ -26,7 +26,7 @@ const QuestionAside = (props: Props) => {
 
     return (
         <aside className={"asideLeft"}>
-            <button className="btn btn-success"><i className="fa fa-plus"/></button>
+            <button className="btn btn-success" onClick={onAddQuestion}><i className="fa fa-plus"/></button>
         <ul className={'questions'}>
             {Questions}
         </ul>
