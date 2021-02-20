@@ -1,8 +1,6 @@
 import * as React from 'react';
 import Question from "./Question";
 import {connect, ConnectedProps} from "react-redux";
-import {useEffect} from "react";
-
 
 const mapStateToProps = (state) => {
     return {

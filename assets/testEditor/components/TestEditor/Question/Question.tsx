@@ -10,7 +10,11 @@ const Question = (props: Props) => {
         return <></>
     }
     return (
-        <div>{question.title}</div>
+        <div className="question">
+            <div className="question-head">
+                <div className="question-title">{question.title}</div>
+            </div>
+        </div>
     )
 }
 

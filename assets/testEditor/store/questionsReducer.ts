@@ -12,29 +12,7 @@ import {
 import TestEditorApi from "../lib/testEditorApi";
 
 const initState: QuestionsState = {
-    questions: [
-        // {
-        //     id: 1,
-        //     title: "Вопрос 1",
-        //     options: [
-        //         {
-        //             id: 1,
-        //             text: "Вариант 1",
-        //             isCorrect: false
-        //         }
-        //     ]
-        // },
-        // {
-        //     id: 2,
-        //     title: "Вопрос 2",
-        //     options: []
-        // },
-        // {
-        //     id: 3,
-        //     title: "Вопрос 3",
-        //     options: []
-        // }
-    ],
+    questions: [],
     selectedQuestion: null
 }
 const questionsReducer = (state = initState, action: QuestionActions): QuestionsState => {
