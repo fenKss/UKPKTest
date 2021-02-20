@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {Question} from "../../types/testEditor";
+import {Question, QuestionType} from "../../types/testEditor";
 
 class TestEditorApi {
     private readonly baseUrl: string;
@@ -74,6 +74,22 @@ class TestEditorApi {
             const {data} = response;
             return data.id
         })
+    }
+
+     changeQuestionType = async(questionId:number, type: QuestionType) =>{
+         const url = this.baseUrl + `/question/${questionId}/edit/type`;
+         const form = new FormData();
+         form.append('type', type);
+         return axios({
+                 method:'post',
+                 url,
+                 headers: {'Content-Type': 'multipart/form-data' },
+                 data:form
+             }
+         ).then(response => {
+             const {data} = response;
+             return data.id
+         })
     }
 }
 

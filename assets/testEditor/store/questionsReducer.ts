@@ -3,7 +3,7 @@ import {
     AddQuestionAction,
     Question,
     QuestionActions,
-    QuestionsState,
+    QuestionsState, QuestionType,
     SELECT_QUESTION,
     SelectQuestionAction,
     SET_QUESTIONS,
@@ -62,6 +62,11 @@ export const addQuestion = (variantId: number) => async (dispatch) => {
 export const addOption = (variantId: number, questionId:number) => async (dispatch) => {
     const api = new TestEditorApi(variantId);
     await api.addOption(questionId);
+    dispatch(getQuestions(variantId));
+}
+export const changeQuestionType = (variantId: number,questionId:number, type:QuestionType) => async (dispatch) => {
+    const api = new TestEditorApi(variantId);
+    await api.changeQuestionType(questionId, type);
     dispatch(getQuestions(variantId));
 }
 export default questionsReducer;

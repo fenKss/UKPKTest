@@ -1,17 +1,21 @@
 export const ADD_QUESTION = "ADD_QUESTION"
 export const SELECT_QUESTION = "SELECT_QUESTION"
 export const SET_QUESTIONS = "SET_QUESTIONS"
-
+export const RADIO_TYPE = 'radio';
+export const SELECT_TYPE = 'select';
+export type QuestionType = typeof RADIO_TYPE | typeof SELECT_TYPE;
 export type Option = {
     id:number,
     text:string,
-    isCorrect:boolean
+    isCorrect:boolean,
+
 }
 
 export type Question = {
     id:number,
     title:string,
-    options:Array<Option>
+    options:Array<Option>,
+    type: QuestionType
 }
 
 export interface QuestionsState {

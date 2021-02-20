@@ -2,8 +2,8 @@ import * as React from 'react';
 import Question from "./Question";
 import {connect, ConnectedProps} from "react-redux";
 import {setPopupObjectId, setPopupPosition, setPopupType, setPopupVisibility} from "../../../store/popupReducer";
-import {POPUP_QUESTION_TITLE_TYPE} from "../../../../types/testEditor";
-import {addOption} from "../../../store/questionsReducer";
+import {POPUP_QUESTION_TITLE_TYPE, RADIO_TYPE, SELECT_TYPE} from "../../../../types/testEditor";
+import {addOption, changeQuestionType} from "../../../store/questionsReducer";
 import validate = WebAssembly.validate;
 import {useParams} from "react-router-dom";
 
@@ -19,11 +19,12 @@ const mapDispatchToProps = {
     setPopupObjectId,
     setPopupType,
     addOption,
+    changeQuestionType
 };
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
 const QuestionContainer = (props: QuestionContainerProps) => {
-    const {questions, selectedQuestion, setPopupVisibility, setPopupPosition, setPopupObjectId, setPopupType, addOption} = props;
+    const {questions, selectedQuestion, setPopupVisibility, setPopupPosition, setPopupObjectId, setPopupType, addOption,changeQuestionType} = props;
     // @ts-ignore
     const {variantId} = useParams();
     const question = questions.find((q) => q.id == selectedQuestion);
@@ -37,10 +38,14 @@ const QuestionContainer = (props: QuestionContainerProps) => {
         })
     }
     const onAddOption = (questionId:number) => {
-        addOption(variantId, questionId);
+        addOption(variantId, question.id);
+    }
+    const onChangeType = () => {
+        const type = question.type == RADIO_TYPE ? SELECT_TYPE : RADIO_TYPE;
+        changeQuestionType(variantId, question.id,type);
     }
     return (
-        <Question question={question} onEditTitle={onEditTitle} onAddOption={onAddOption}/>
+        <Question question={question} onEditTitle={onEditTitle} onAddOption={onAddOption} onChangeType={onChangeType}/>
     )
 }
 

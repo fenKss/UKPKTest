@@ -94,11 +94,13 @@ class TestEditorApiController extends AbstractApiController
      */
     public function editQuestionType(Variant $variant, Question $question, Request $request): JsonResponse
     {
-        $typeRaw = $request->get('type');
-        if (is_null($typeRaw)) {
+        $type = $request->get('type');
+        if (is_null($type)) {
             return $this->error('type required');
         }
-        $type = $typeRaw ? EQuestionType::RADIO_TYPE : EQuestionType::SELECT_TYPE;
+        if (!in_array($type, [EQuestionType::RADIO_TYPE, EQuestionType::SELECT_TYPE])){
+            return $this->error("invalid question type. Allowed: ".EQuestionType::RADIO_TYPE." ,".EQuestionType::SELECT_TYPE);
+        }
         $question->setType($type);
         $em = $this->getDoctrine()->getManager();
 
@@ -245,6 +247,8 @@ class TestEditorApiController extends AbstractApiController
         $questionArray = [
             'id' => $question->getId(),
             'title' => $question->getTitle(),
+            'type'=>$question->getType(),
+            'titleType'=>$question->getTitleType(),
             'options' => []
         ];
         $options = $question->getPossibleAnswers();
