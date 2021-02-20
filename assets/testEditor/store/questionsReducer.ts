@@ -59,4 +59,9 @@ export const addQuestion = (variantId: number) => async (dispatch) => {
     await api.addQuestion();
     dispatch(getQuestions(variantId));
 }
+export const addOption = (variantId: number, questionId:number) => async (dispatch) => {
+    const api = new TestEditorApi(variantId);
+    await api.addOption(questionId);
+    dispatch(getQuestions(variantId));
+}
 export default questionsReducer;

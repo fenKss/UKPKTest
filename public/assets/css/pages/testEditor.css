@@ -53,6 +53,9 @@
   border-bottom: 1px solid black;
   padding-bottom: 5px;
 }
+#test-editor div.tab[data-question-id] .question-options .question-options-head .add-option, #test-editor div.question .question-options .question-options-head .add-option {
+  margin-left: 5px;
+}
 #test-editor div.tab[data-question-id] .question-options .options, #test-editor div.question .question-options .options {
   display: flex;
   flex-direction: column;
@@ -65,14 +68,14 @@
   margin-left: 5px;
 }
 
-form[name=question_option_edit_correct] > div {
+.options > div {
   display: flex;
 }
-form[name=question_option_edit_correct] > div button {
+.options > div button {
   margin-left: 10px;
   display: none;
 }
-form[name=question_option_edit_correct] > div:hover button {
+.options > div:hover button {
   display: block;
 }
 

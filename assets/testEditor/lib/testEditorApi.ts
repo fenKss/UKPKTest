@@ -18,6 +18,16 @@ class TestEditorApi {
             return data.data.id;
         })
     }
+    addOption = async (questionId:number) => {
+        const url = this.baseUrl + `/question/${questionId}/option/add`;
+        return axios.post(url).then(response => {
+            const {data} = response;
+            if (data.error) {
+                throw data.error_msg;
+            }
+            return data.data.id;
+        })
+    }
     getQuestions = async () => {
         const url = this.baseUrl + '/question';
         return axios.get(url).then(response => {
@@ -37,6 +47,21 @@ class TestEditorApi {
     }
     setQuestionTitle = async (id:number,title: string) => {
         const url = this.baseUrl + `/question/${id}/edit/title`;
+        const form = new FormData();
+        form.append('title', title);
+        return axios({
+            method:'post',
+            url,
+            headers: {'Content-Type': 'multipart/form-data' },
+            data:form
+            }
+        ).then(response => {
+            const {data} = response;
+            return data.id
+        })
+    }
+    setOptionTitle = async (questionId:number,optionId:number, title: string) => {
+        const url = this.baseUrl + `/question/${questionId}/option/${optionId}/edit/title`;
         const form = new FormData();
         form.append('title', title);
         return axios({
