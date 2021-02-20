@@ -21,7 +21,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class TestEditorApiController extends AbstractApiController
 {
     /**
-     * @Route("/question/", name="index")
+     * @Route("/question", name="index")
      * @param Variant $variant
      *
      * @return JsonResponse
@@ -71,6 +71,7 @@ class TestEditorApiController extends AbstractApiController
         if (!$title) {
             return $this->error('title required');
         }
+
         $question->setTitle($title);
         $em = $this->getDoctrine()->getManager();
 

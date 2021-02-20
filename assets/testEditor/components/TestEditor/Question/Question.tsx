@@ -1,18 +1,24 @@
 import * as React from 'react';
-import  {Question} from "../../../../types/testEditor";
+import {Question} from "../../../../types/testEditor";
 
 type Props = {
-    question:Question
+    question: Question,
+    onEditTitle:(e:React.MouseEvent<HTMLButtonElement, MouseEvent>) => void,
 }
 const Question = (props: Props) => {
-    const {question} = props;
-    if (!question){
+    const {question, onEditTitle} = props;
+    if (!question) {
         return <></>
     }
     return (
         <div className="question">
             <div className="question-head">
-                <div className="question-title">{question.title}</div>
+                <div className="question-title">
+                    <span>{question.title}</span>
+                    <button className="btn btn-xs btn-default edit-question-title" onClick={onEditTitle}>
+                        <i className="fa fa-edit"/>
+                    </button>
+                </div>
             </div>
         </div>
     )

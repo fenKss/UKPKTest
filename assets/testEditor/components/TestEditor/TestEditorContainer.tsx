@@ -19,6 +19,7 @@ type Props = ConnectedProps<typeof connector>;
 
 const TestEditorContainer = (props: Props) => {
     const {getQuestions, questions} = props;
+    //@ts-ignore
     const {variantId} = useParams();
     useEffect(()=> {
         getQuestions(variantId);

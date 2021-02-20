@@ -19,6 +19,7 @@ const mapDispatchToProps = {
 
 const QuestionAsideContainer = (props: QuestionAsideContainerProps) => {
     const {questions, selectedQuestion,addQuestion, selectQuestion} = props;
+    //@ts-ignore
     const {variantId} = useParams();
     const onAddQuestion = () => {
 

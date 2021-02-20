@@ -52,12 +52,11 @@ export const setQuestions = (questions: Array<Question>): SetQuestionsAction => 
 export const getQuestions = (variantId: number) => async (dispatch) => {
     const api = new TestEditorApi(variantId);
     const questions = await api.getQuestions();
-    console.log(questions);
     dispatch(setQuestions(questions));
 }
 export const addQuestion = (variantId: number) => async (dispatch) => {
     const api = new TestEditorApi(variantId);
-    const a = await api.addQuestion();
+    await api.addQuestion();
     dispatch(getQuestions(variantId));
 }
 export default questionsReducer;

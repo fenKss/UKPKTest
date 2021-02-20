@@ -35,6 +35,21 @@ class TestEditorApi {
             return questions;
         })
     }
+    setQuestionTitle = async (id:number,title: string) => {
+        const url = this.baseUrl + `/question/${id}/edit/title`;
+        const form = new FormData();
+        form.append('title', title);
+        return axios({
+            method:'post',
+            url,
+            headers: {'Content-Type': 'multipart/form-data' },
+            data:form
+            }
+        ).then(response => {
+            const {data} = response;
+            return data.id
+        })
+    }
 }
 
 export default TestEditorApi;
