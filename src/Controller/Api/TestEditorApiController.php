@@ -149,7 +149,7 @@ class TestEditorApiController extends AbstractApiController
         $option->setText('Вариант ' . ($options->count() + 1));
         $option->setQuestion($question);
         $option->setIsCorrect(false);
-
+        $option->setType(EQuestionTextType::TEXT_TYPE);
         $em = $this->getDoctrine()->getManager();
 
         $em->persist($option);
