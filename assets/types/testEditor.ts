@@ -78,6 +78,6 @@ export interface SetPopupPositionAction{
 }
 export interface SetPopupObjectIdAction{
     type: typeof SET_POPUP_OBJECT_ID,
-    id:number
+    id:Array<number>
 }
 export type PopupActions = SetPopupTextAction | SetPopupTypeAction | SetPopupVisibilityAction | SetPopupPositionAction | SetPopupObjectIdAction;

@@ -1,13 +1,14 @@
 import * as React from 'react';
-import {Question} from "../../../../../types/testEditor";
+import {Question,Option as OptionType} from "../../../../../types/testEditor";
 import Option from "./Option/Option";
 
 type Props = {
     question: Question,
-    onAddOption: (questionId: number) => void
+    onAddOption: (questionId: number) => void,
+    onEditOptionTitle:(e:React.MouseEvent<HTMLButtonElement, MouseEvent>, option: OptionType) => void,
 }
 const Options = (props: Props) => {
-    const {question, onAddOption} = props;
+    const {question, onAddOption,onEditOptionTitle} = props;
     return (
         <div className="question-options">
             <div className="question-options-head">
@@ -19,7 +20,7 @@ const Options = (props: Props) => {
             <div className="options">
                 {
                     question.options.map((option, i) => (
-                        <Option option={option} key={i} question={question}/>
+                        <Option option={option} key={i} question={question}  onEditOptionTitle={onEditOptionTitle}/>
                     ))
                 }
             </div>

@@ -1,15 +1,16 @@
 import * as React from 'react';
-import {Question, RADIO_TYPE} from "../../../../types/testEditor";
+import {Option, Question, RADIO_TYPE} from "../../../../types/testEditor";
 import Options from "./Options/Options";
 
 type Props = {
     question: Question,
     onEditTitle:(e:React.MouseEvent<HTMLButtonElement, MouseEvent>) => void,
+    onEditOptionTitle:(e:React.MouseEvent<HTMLButtonElement, MouseEvent>, option: Option) => void,
     onAddOption:(questionId:number) => void,
     onChangeType:()=>void
 }
 const Question = (props: Props) => {
-    const {question, onEditTitle,onAddOption, onChangeType} = props;
+    const {question, onEditTitle,onAddOption, onChangeType,onEditOptionTitle} = props;
     if (!question) {
         return <></>
     }
@@ -32,7 +33,7 @@ const Question = (props: Props) => {
                 </div>
             </div>
 
-            <Options question={question} onAddOption={onAddOption} />
+            <Options question={question} onAddOption={onAddOption} onEditOptionTitle={onEditOptionTitle} />
         </div>
     )
 }

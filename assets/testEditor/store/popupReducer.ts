@@ -68,16 +68,19 @@ export const setPopupPosition = (position: Position): SetPopupPositionAction => 
     type: SET_POPUP_POSITION,
     position
 });
-export const setPopupObjectId = (id: number): SetPopupObjectIdAction => ({
+export const setPopupObjectId = (id: Array<number>): SetPopupObjectIdAction => ({
     type: SET_POPUP_OBJECT_ID,
     id
 });
-
-export const updateTitle = (variantId: number, type: PopupType, id: number, title: string) => async (dispatch) => {
+//questionId костыль
+export const updateTitle = (variantId: number, type: PopupType, id: Array<number>, title: string) => async (dispatch) => {
     const api = new TestEditorApi(variantId);
     switch (type) {
         case "POPUP_QUESTION_TITLE_TYPE":
-            await api.setQuestionTitle(id, title);
+            await api.setQuestionTitle(id[0], title);
+            break;
+        case "POPUP_OPTION_TITLE_TYPE":
+            await api.setOptionTitle(id[0],id[1], title);
             break;
     }
     dispatch(getQuestions(variantId));

@@ -1,10 +1,21 @@
 import * as React from 'react';
 import Question from "./Question";
 import {connect, ConnectedProps} from "react-redux";
-import {setPopupObjectId, setPopupPosition, setPopupType, setPopupVisibility} from "../../../store/popupReducer";
-import {POPUP_QUESTION_TITLE_TYPE, RADIO_TYPE, SELECT_TYPE} from "../../../../types/testEditor";
+import {
+    setPopupObjectId,
+    setPopupPosition,
+    setPopupText,
+    setPopupType,
+    setPopupVisibility
+} from "../../../store/popupReducer";
+import {
+    Option,
+    POPUP_OPTION_TITLE_TYPE,
+    POPUP_QUESTION_TITLE_TYPE,
+    RADIO_TYPE,
+    SELECT_TYPE
+} from "../../../../types/testEditor";
 import {addOption, changeQuestionType} from "../../../store/questionsReducer";
-import validate = WebAssembly.validate;
 import {useParams} from "react-router-dom";
 
 const mapStateToProps = (state) => {
@@ -18,35 +29,61 @@ const mapDispatchToProps = {
     setPopupPosition,
     setPopupObjectId,
     setPopupType,
+    setPopupText,
     addOption,
     changeQuestionType
 };
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
 const QuestionContainer = (props: QuestionContainerProps) => {
-    const {questions, selectedQuestion, setPopupVisibility, setPopupPosition, setPopupObjectId, setPopupType, addOption,changeQuestionType} = props;
+    const {
+        questions,
+        selectedQuestion,
+        setPopupVisibility,
+        setPopupPosition,
+        setPopupObjectId,
+        setPopupType,
+        addOption,
+        changeQuestionType,
+        setPopupText
+    } = props;
     // @ts-ignore
     const {variantId} = useParams();
     const question = questions.find((q) => q.id == selectedQuestion);
     const onEditTitle = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         setPopupVisibility(true);
-        setPopupObjectId(question.id);
+        setPopupObjectId([question.id]);
         setPopupType(POPUP_QUESTION_TITLE_TYPE);
+        setPopupText(question.title);
         setPopupPosition({
             top: e.currentTarget.offsetTop - 2,
             left: e.currentTarget.offsetLeft + 15
-        })
+        });
     }
-    const onAddOption = (questionId:number) => {
+    const onEditOptionTitle = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, option: Option) => {
+        setPopupVisibility(true);
+        setPopupObjectId([question.id,option.id]);
+        setPopupType(POPUP_OPTION_TITLE_TYPE);
+        setPopupText(option.text);
+        setPopupPosition({
+            top: e.currentTarget.offsetTop - 2,
+            left: e.currentTarget.offsetLeft + 15
+        });
+    }
+    const onAddOption = (questionId: number) => {
         addOption(variantId, question.id);
     }
     const onChangeType = () => {
-        const type = question.type == RADIO_TYPE ? SELECT_TYPE : RADIO_TYPE;
-        changeQuestionType(variantId, question.id,type);
+        const type = question.type == RADIO_TYPE ? RADIO_TYPE : SELECT_TYPE;
+        changeQuestionType(variantId, question.id, type);
     }
-    return (
-        <Question question={question} onEditTitle={onEditTitle} onAddOption={onAddOption} onChangeType={onChangeType}/>
-    )
+    return <Question question={question}
+                     onEditTitle={onEditTitle}
+                     onEditOptionTitle={onEditOptionTitle}
+                     onAddOption={onAddOption}
+                     onChangeType={onChangeType}
+    />
+
 }
 
 type QuestionContainerProps = ConnectedProps<typeof connector>;
