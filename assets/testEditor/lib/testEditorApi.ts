@@ -91,6 +91,19 @@ class TestEditorApi {
              return data.id
          })
     }
+    changeOptionIsCorrect = async (questionId:number, optionId:number) => {
+        const url = this.baseUrl + `/question/${questionId}/option/${optionId}/correct`;
+
+        return axios({
+                method:'post',
+                url,
+                headers: {'Content-Type': 'multipart/form-data' },
+            }
+        ).then(response => {
+            const {data} = response;
+            return data.id
+        })
+    }
 }
 
 export default TestEditorApi;

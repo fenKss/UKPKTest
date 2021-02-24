@@ -1,6 +1,6 @@
 import {
     ADD_QUESTION,
-    AddQuestionAction,
+    AddQuestionAction, Option,
     Question,
     QuestionActions,
     QuestionsState, QuestionType,
@@ -67,6 +67,11 @@ export const addOption = (variantId: number, questionId:number) => async (dispat
 export const changeQuestionType = (variantId: number,questionId:number, type:QuestionType) => async (dispatch) => {
     const api = new TestEditorApi(variantId);
     await api.changeQuestionType(questionId, type);
+    dispatch(getQuestions(variantId));
+}
+export const setOptionIsCorrect = (variantId,question: Question, option:Option) => async (dispatch) => {
+    const api = new TestEditorApi(variantId);
+    await api.changeOptionIsCorrect(question.id, option.id);
     dispatch(getQuestions(variantId));
 }
 export default questionsReducer;

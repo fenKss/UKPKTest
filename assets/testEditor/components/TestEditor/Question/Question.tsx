@@ -6,11 +6,12 @@ type Props = {
     question: Question,
     onEditTitle:(e:React.MouseEvent<HTMLButtonElement, MouseEvent>) => void,
     onEditOptionTitle:(e:React.MouseEvent<HTMLButtonElement, MouseEvent>, option: Option) => void,
+    onEditIsOptionCorrect:(option: Option) => void,
     onAddOption:(questionId:number) => void,
     onChangeType:()=>void
 }
 const Question = (props: Props) => {
-    const {question, onEditTitle,onAddOption, onChangeType,onEditOptionTitle} = props;
+    const {question, onEditTitle,onAddOption, onChangeType,onEditOptionTitle,onEditIsOptionCorrect} = props;
     if (!question) {
         return <></>
     }
@@ -33,7 +34,7 @@ const Question = (props: Props) => {
                 </div>
             </div>
 
-            <Options question={question} onAddOption={onAddOption} onEditOptionTitle={onEditOptionTitle} />
+            <Options question={question} onEditOptionIsCorrect={onEditIsOptionCorrect} onAddOption={onAddOption} onEditOptionTitle={onEditOptionTitle} />
         </div>
     )
 }

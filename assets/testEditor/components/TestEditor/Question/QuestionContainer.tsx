@@ -15,7 +15,7 @@ import {
     RADIO_TYPE,
     SELECT_TYPE
 } from "../../../../types/testEditor";
-import {addOption, changeQuestionType} from "../../../store/questionsReducer";
+import {addOption, changeQuestionType, setOptionIsCorrect} from "../../../store/questionsReducer";
 import {useParams} from "react-router-dom";
 
 const mapStateToProps = (state) => {
@@ -31,7 +31,8 @@ const mapDispatchToProps = {
     setPopupType,
     setPopupText,
     addOption,
-    changeQuestionType
+    changeQuestionType,
+    setOptionIsCorrect
 };
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
@@ -45,7 +46,8 @@ const QuestionContainer = (props: QuestionContainerProps) => {
         setPopupType,
         addOption,
         changeQuestionType,
-        setPopupText
+        setPopupText,
+        setOptionIsCorrect
     } = props;
     // @ts-ignore
     const {variantId} = useParams();
@@ -74,14 +76,18 @@ const QuestionContainer = (props: QuestionContainerProps) => {
         addOption(variantId, question.id);
     }
     const onChangeType = () => {
-        const type = question.type == RADIO_TYPE ? RADIO_TYPE : SELECT_TYPE;
+        const type = question.type == RADIO_TYPE ? SELECT_TYPE : RADIO_TYPE;
         changeQuestionType(variantId, question.id, type);
+    }
+    const onEditOptionIsCorrect = (option: Option) => {
+        setOptionIsCorrect(variantId, question, option)
     }
     return <Question question={question}
                      onEditTitle={onEditTitle}
                      onEditOptionTitle={onEditOptionTitle}
                      onAddOption={onAddOption}
                      onChangeType={onChangeType}
+                     onEditIsOptionCorrect={onEditOptionIsCorrect}
     />
 
 }

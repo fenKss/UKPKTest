@@ -1,8 +1,9 @@
 import {
+    Option,
     PopupActions,
     PopupState,
     PopupType,
-    Position,
+    Position, Question,
     SET_POPUP_OBJECT_ID,
     SET_POPUP_POSITION,
     SET_POPUP_TEXT,
@@ -72,7 +73,6 @@ export const setPopupObjectId = (id: Array<number>): SetPopupObjectIdAction => (
     type: SET_POPUP_OBJECT_ID,
     id
 });
-//questionId костыль
 export const updateTitle = (variantId: number, type: PopupType, id: Array<number>, title: string) => async (dispatch) => {
     const api = new TestEditorApi(variantId);
     switch (type) {
