@@ -38,11 +38,13 @@
     <aside class="main-sidebar">
         <section class="sidebar">
             <ul class="sidebar-menu">
+                {% if is_granted('ROLE_ADMIN') %}
                 <li>
                     <a href="{{ path('admin_user_index') }}">
                         <i class="fa fa-user"></i> <span>Пользователи</span>
                     </a>
                 </li>
+                {% endif %}
                 <li>
                     <a href="{{ path('admin_olymp_index') }}">
                         <i class="fa fa-th"></i> <span>Олимпиады</span>

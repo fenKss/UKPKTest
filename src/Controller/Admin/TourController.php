@@ -12,6 +12,7 @@ use App\Service\PaginationService;
 use Carbon\Carbon;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -151,7 +152,7 @@ class TourController extends AbstractController
 
     /**
      * @Route("/{id}/publish", name="publish")
-     *
+     * @IsGranted("ROLE_ADMIN")
      * @param Tour    $tour
      * @param Request $request
      *
