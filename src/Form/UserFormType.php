@@ -27,35 +27,35 @@ class UserFormType extends AbstractType
     {
         $builder
             ->add('avatarFile', FileType::class, [
-                'multiple'=>"false",
-                'label'=>'Изображение профиля',
-                'required'=>false,
-                'mapped'=>false
+                'multiple' => "false",
+                'label' => 'Изображение профиля',
+                'required' => false,
+                'mapped' => false
             ])
             ->add('name', TextType::class, [
-                'label'=>"Имя",
+                'label' => "Имя",
             ])
             ->add('surname', TextType::class, [
-                'label'=>"Фамилия",
+                'label' => "Фамилия",
             ])
             ->add('bornAt', DateType::class, [
-                'label'=>"Дата Рождения",
-                'html5'=>true,
+                'label' => "Дата Рождения",
+                'html5' => true,
                 'widget' => 'single_text',
-                'required'=>true
+                'required' => true
             ])
             ->add('studyPlace', TextType::class, [
-                'label'=>"Место учебы",
-                'required'=>true
+                'label' => "Место учебы",
+                'required' => true
             ])
             ->add('class', TextType::class, [
-                'label'=>"Класс/Курс",
-                'required'=>true
+                'label' => "Класс/Курс",
+                'required' => true
             ])
             ->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'mapped' => false,
-                'required'=>false,
+                'required' => false,
                 'first_options' => [
                     'label' => 'Пароль'
                 ],
@@ -76,19 +76,18 @@ class UserFormType extends AbstractType
                 'required' => true,
             ])
             ->add('submit', SubmitType::class, [
-                'label'=>'Cохранить',
-                    'attr'=>[
+                'label' => 'Cохранить',
+                'attr' => [
 
-                    ]
-                ])
-        ;
+                ]
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
             'data_class' => User::class,
-            'allow_extra_fields'=>true,
+            'allow_extra_fields' => true,
         ]);
     }
 }

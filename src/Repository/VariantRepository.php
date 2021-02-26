@@ -29,7 +29,7 @@ class VariantRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('v')
             ->select('v, q')
-            ->leftJoin('v.variantQuestions', 'q')
+            ->leftJoin('v.questions', 'q')
             ->where('v.test = :test')
             ->setParameters([
                 'test' => $test

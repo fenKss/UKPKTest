@@ -24,7 +24,6 @@
                 <td>{{ test.language.name }}</td>
                 <td><a href="{{ path('admin_variant_index', {test:test.id, tour:test.tour.id}) }}">Варианты</a></td>
                 <td class="btn-group">
-{#                    <a href="{{ path('admin_test_show', {'id': test.id}) }}">show</a>#}
                     <a class="btn btn-sm btn-primary" href="{{ path('admin_test_edit', {'id': test.id, 'tour':tour.id}) }}"><i class="fa fa-edit"></i></a>
                 </td>
             </tr>
