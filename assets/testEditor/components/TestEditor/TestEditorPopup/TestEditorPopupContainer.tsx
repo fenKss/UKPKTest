@@ -9,7 +9,7 @@ const mapStateToProps = (state) => {
         text: state.popup.text,
         type: state.popup.type,
         position: state.popup.position,
-        objectId: state.popup.objectId,
+        object: state.popup.object,
     }
 }
 const mapDispatchToProps = {
@@ -21,14 +21,14 @@ type Props = ConnectedProps<typeof connector>;
 
 const TestEditorPopupContainer = (props: Props) => {
     const {setPopupText, updateTitle} = props;
-    const {isVisible, text, type, position, objectId} = props;//@ts-ignore
+    const {isVisible, text, type, position, object} = props;//@ts-ignore
     const {variantId} = useParams();
     const onChangeText = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
         setPopupText(value);
     }
     const onUpdateTitle = (e:React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        updateTitle(variantId, type,objectId,text);
+        updateTitle(variantId, type,object,text);
     }
 
     return <TestEditorPopup

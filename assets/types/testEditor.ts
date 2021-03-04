@@ -8,6 +8,7 @@ export type Option = {
     id:number,
     text:string,
     isCorrect:boolean,
+    questionId:number
 }
 
 export type Question = {
@@ -50,7 +51,7 @@ export interface PopupState{
     text:string,
     type:PopupType,
     position:Position,
-    objectId?:number
+    object?:Option | Question
 }
 export type Position = {
     top:number,
@@ -75,8 +76,8 @@ export interface SetPopupPositionAction{
     type: typeof SET_POPUP_POSITION,
     position:Position
 }
-export interface SetPopupObjectIdAction{
+export interface SetPopupObjectAction {
     type: typeof SET_POPUP_OBJECT_ID,
-    id:Array<number>
+    object:Option | Question
 }
-export type PopupActions = SetPopupTextAction | SetPopupTypeAction | SetPopupVisibilityAction | SetPopupPositionAction | SetPopupObjectIdAction;
+export type PopupActions = SetPopupTextAction | SetPopupTypeAction | SetPopupVisibilityAction | SetPopupPositionAction | SetPopupObjectAction;

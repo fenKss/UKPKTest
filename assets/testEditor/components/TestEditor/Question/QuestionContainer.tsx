@@ -42,7 +42,7 @@ const QuestionContainer = (props: QuestionContainerProps) => {
         selectedQuestion,
         setPopupVisibility,
         setPopupPosition,
-        setPopupObjectId,
+        setPopupObjectId: setPopupObject,
         setPopupType,
         addOption,
         changeQuestionType,
@@ -54,7 +54,7 @@ const QuestionContainer = (props: QuestionContainerProps) => {
     const question = questions.find((q) => q.id == selectedQuestion);
     const onEditTitle = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         setPopupVisibility(true);
-        setPopupObjectId([question.id]);
+        setPopupObject(question);
         setPopupType(POPUP_QUESTION_TITLE_TYPE);
         setPopupText(question.title);
         setPopupPosition({
@@ -64,7 +64,7 @@ const QuestionContainer = (props: QuestionContainerProps) => {
     }
     const onEditOptionTitle = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, option: Option) => {
         setPopupVisibility(true);
-        setPopupObjectId([question.id,option.id]);
+        setPopupObject(option);
         setPopupType(POPUP_OPTION_TITLE_TYPE);
         setPopupText(option.text);
         setPopupPosition({

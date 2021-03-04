@@ -270,7 +270,8 @@ class TestEditorApiController extends AbstractApiController
        return [
            'id' => $option->getId(),
            'text' => $option->getText(),
-           'isCorrect' => $option->getIsCorrect()
+           'isCorrect' => $option->getIsCorrect(),
+           'questionId'=>$option->getQuestion()->getId()
        ];
     }
 }
