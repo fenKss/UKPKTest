@@ -97,5 +97,18 @@
   width: 200px;
   padding: 10px;
 }
+.test-editor-popup_header {
+  position: relative;
+}
+.test-editor-popup_header .popup-title {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+.test-editor-popup_header .popup-close {
+  position: absolute;
+  right: 0;
+  top: 0;
+  cursor: pointer;
+}
 
 /*# sourceMappingURL=testEditor.css.map */

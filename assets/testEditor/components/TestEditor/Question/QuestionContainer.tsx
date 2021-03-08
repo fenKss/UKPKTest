@@ -2,8 +2,8 @@ import * as React from 'react';
 import Question from "./Question";
 import {connect, ConnectedProps} from "react-redux";
 import {
-    setPopupObjectId,
-    setPopupText,
+    setPopupObject,
+    setPopupText, setPopupTitle,
     setPopupType,
     setPopupVisibility
 } from "../../../store/popupReducer";
@@ -25,12 +25,13 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = {
     setPopupVisibility,
-    setPopupObjectId,
+    setPopupObjectId: setPopupObject,
     setPopupType,
     setPopupText,
     addOption,
     changeQuestionType,
-    setOptionIsCorrect
+    setOptionIsCorrect,
+    setPopupTitle
 };
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
@@ -44,19 +45,22 @@ const QuestionContainer = (props: QuestionContainerProps) => {
         addOption,
         changeQuestionType,
         setPopupText,
-        setOptionIsCorrect
+        setOptionIsCorrect,
+        setPopupTitle
     } = props;
     // @ts-ignore
     const {variantId} = useParams();
     const question = questions.find((q) => q.id == selectedQuestion);
     const onEditTitle = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         setPopupVisibility(true);
+        setPopupTitle('Вариант ответа');
         setPopupObject(question);
         setPopupType(POPUP_QUESTION_TITLE_TYPE);
         setPopupText(question.title);
     }
     const onEditOptionTitle = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, option: Option) => {
         setPopupVisibility(true);
+        setPopupTitle('Вопрос');
         setPopupObject(option);
         setPopupType(POPUP_OPTION_TITLE_TYPE);
         setPopupText(option.text);

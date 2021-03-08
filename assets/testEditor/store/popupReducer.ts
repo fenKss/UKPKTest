@@ -3,14 +3,15 @@ import {
     PopupActions,
     PopupState,
     PopupType,
-    Position, Question,
+    Question,
     SET_POPUP_OBJECT,
-    SET_POPUP_POSITION,
     SET_POPUP_TEXT,
+    SET_POPUP_TITLE,
     SET_POPUP_TYPE,
     SET_POPUP_VISIBILITY,
     SetPopupObjectAction,
     SetPopupTextAction,
+    SetPopupTitleAction,
     SetPopupTypeAction,
     SetPopupVisibilityAction
 } from "../../types/testEditor";
@@ -45,17 +46,23 @@ const questionReducer = (state = initState, action: PopupActions) => {
                 ...state,
                 object: action.object
             }
+        case "SET_TITLE":
+            return {
+                ...state,
+                title: action.title
+            }
     }
     return state;
 }
 
 export const setPopupText = (text: string): SetPopupTextAction => ({type: SET_POPUP_TEXT, text});
+export const setPopupTitle = (title: string): SetPopupTitleAction => ({type: SET_POPUP_TITLE, title});
 export const setPopupType = (value: PopupType): SetPopupTypeAction => ({type: SET_POPUP_TYPE, value});
 export const setPopupVisibility = (isVisible: boolean): SetPopupVisibilityAction => ({
     type: SET_POPUP_VISIBILITY,
     isVisible
 });
-export const setPopupObjectId = (object: Option | Question): SetPopupObjectAction => ({
+export const setPopupObject = (object: Option | Question): SetPopupObjectAction => ({
     type: SET_POPUP_OBJECT,
     object
 });
@@ -67,7 +74,7 @@ export const updateTitle = (variantId: number, type: PopupType, object: Option |
             break;
         case "POPUP_OPTION_TITLE_TYPE":
             //@ts-ignore
-            await api.setOptionTitle(object.questionId,object.id, title);
+            await api.setOptionTitle(object.questionId, object.id, title);
             break;
     }
     dispatch(getQuestions(variantId));

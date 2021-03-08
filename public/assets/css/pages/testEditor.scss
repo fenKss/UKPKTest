@@ -109,5 +109,19 @@
     box-sizing: border-box;
     width: 200px;
     padding: 10px;
+
+  }
+  &_header{
+    position: relative;
+    .popup-title{
+      font-size: 20px;
+      margin-bottom: 10px;
+    }
+    .popup-close{
+      position: absolute;
+      right: 0;
+      top: 0;
+      cursor: pointer;
+    }
   }
 }

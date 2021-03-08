@@ -1,7 +1,7 @@
 import * as React from 'react';
 import TestEditorPopup from "./TestEditorPopup";
 import {connect, ConnectedProps} from "react-redux";
-import {setPopupText, updateTitle} from "../../../store/popupReducer";
+import {setPopupText, setPopupVisibility, updateTitle} from "../../../store/popupReducer";
 import {useParams} from "react-router-dom";
 const mapStateToProps = (state) => {
     return {
@@ -10,18 +10,20 @@ const mapStateToProps = (state) => {
         type: state.popup.type,
         position: state.popup.position,
         object: state.popup.object,
+        title: state.popup.title,
     }
 }
 const mapDispatchToProps = {
     setPopupText,
-    updateTitle
+    updateTitle,
+    setPopupVisibility,
 }
 const connector = connect(mapStateToProps, mapDispatchToProps);
 type Props = ConnectedProps<typeof connector>;
 
 const TestEditorPopupContainer = (props: Props) => {
-    const {setPopupText, updateTitle} = props;
-    const {isVisible, text, type, position, object} = props;//@ts-ignore
+    const {setPopupText, updateTitle,setPopupVisibility} = props;
+    const {isVisible, text, type, position, object, title} = props;//@ts-ignore
     const {variantId} = useParams();
     const onChangeText = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
@@ -36,8 +38,10 @@ const TestEditorPopupContainer = (props: Props) => {
         isVisible={isVisible}
         text={text}
         type={type}
+        title={title}
         onChangeText={onChangeText}
         onUpdateTitle={onUpdateTitle}
+        setPopupVisibility={setPopupVisibility}
     />
 }
 
