@@ -41,7 +41,7 @@ export const SET_POPUP_TEXT = "SET_TEXT";
 export const SET_POPUP_TYPE = "SET_TYPE";
 export const SET_POPUP_VISIBILITY = "SET_VISIBILITY"
 export const SET_POPUP_POSITION = "SET_POPUP_POSITION"
-export const SET_POPUP_OBJECT_ID = "SET_POPUP_OBJECT_ID"
+export const SET_POPUP_OBJECT = "SET_POPUP_OBJECT_ID"
 export const POPUP_QUESTION_TITLE_TYPE = "POPUP_QUESTION_TITLE_TYPE";
 export const POPUP_OPTION_TITLE_TYPE = "POPUP_OPTION_TITLE_TYPE";
 export type PopupType = typeof POPUP_OPTION_TITLE_TYPE | typeof POPUP_QUESTION_TITLE_TYPE;
@@ -50,7 +50,6 @@ export interface PopupState{
     isVisible:boolean,
     text:string,
     type:PopupType,
-    position:Position,
     object?:Option | Question
 }
 export type Position = {
@@ -70,14 +69,9 @@ export interface SetPopupTypeAction{
 export interface SetPopupVisibilityAction{
     type: typeof SET_POPUP_VISIBILITY,
     isVisible:boolean
-
-}
-export interface SetPopupPositionAction{
-    type: typeof SET_POPUP_POSITION,
-    position:Position
 }
 export interface SetPopupObjectAction {
-    type: typeof SET_POPUP_OBJECT_ID,
+    type: typeof SET_POPUP_OBJECT,
     object:Option | Question
 }
-export type PopupActions = SetPopupTextAction | SetPopupTypeAction | SetPopupVisibilityAction | SetPopupPositionAction | SetPopupObjectAction;
+export type PopupActions = SetPopupTextAction | SetPopupTypeAction | SetPopupVisibilityAction  | SetPopupObjectAction;

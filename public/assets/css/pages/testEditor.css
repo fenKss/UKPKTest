@@ -79,8 +79,23 @@
   display: block;
 }
 
-#testEditorForm {
+.test-editor-popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.2);
+}
+.test-editor-popup_wrapper {
   position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #fff;
+  box-sizing: border-box;
+  width: 200px;
+  padding: 10px;
 }
 
 /*# sourceMappingURL=testEditor.css.map */

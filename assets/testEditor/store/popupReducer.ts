@@ -4,13 +4,12 @@ import {
     PopupState,
     PopupType,
     Position, Question,
-    SET_POPUP_OBJECT_ID,
+    SET_POPUP_OBJECT,
     SET_POPUP_POSITION,
     SET_POPUP_TEXT,
     SET_POPUP_TYPE,
     SET_POPUP_VISIBILITY,
     SetPopupObjectAction,
-    SetPopupPositionAction,
     SetPopupTextAction,
     SetPopupTypeAction,
     SetPopupVisibilityAction
@@ -22,10 +21,6 @@ const initState: PopupState = {
     isVisible: false,
     text: "",
     type: undefined,
-    position: {
-        top: 0,
-        left: 0
-    },
     object: undefined
 }
 const questionReducer = (state = initState, action: PopupActions) => {
@@ -45,11 +40,6 @@ const questionReducer = (state = initState, action: PopupActions) => {
                 ...state,
                 isVisible: action.isVisible
             }
-        case "SET_POPUP_POSITION":
-            return {
-                ...state,
-                position: action.position
-            }
         case "SET_POPUP_OBJECT_ID":
             return {
                 ...state,
@@ -65,17 +55,12 @@ export const setPopupVisibility = (isVisible: boolean): SetPopupVisibilityAction
     type: SET_POPUP_VISIBILITY,
     isVisible
 });
-export const setPopupPosition = (position: Position): SetPopupPositionAction => ({
-    type: SET_POPUP_POSITION,
-    position
-});
 export const setPopupObjectId = (object: Option | Question): SetPopupObjectAction => ({
-    type: SET_POPUP_OBJECT_ID,
+    type: SET_POPUP_OBJECT,
     object
 });
 export const updateTitle = (variantId: number, type: PopupType, object: Option | Question, title: string) => async (dispatch) => {
     const api = new TestEditorApi(variantId);
-    console.log(object);
     switch (type) {
         case "POPUP_QUESTION_TITLE_TYPE":
             await api.setQuestionTitle(object.id, title);

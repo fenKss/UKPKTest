@@ -3,7 +3,6 @@ import Question from "./Question";
 import {connect, ConnectedProps} from "react-redux";
 import {
     setPopupObjectId,
-    setPopupPosition,
     setPopupText,
     setPopupType,
     setPopupVisibility
@@ -26,7 +25,6 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = {
     setPopupVisibility,
-    setPopupPosition,
     setPopupObjectId,
     setPopupType,
     setPopupText,
@@ -41,7 +39,6 @@ const QuestionContainer = (props: QuestionContainerProps) => {
         questions,
         selectedQuestion,
         setPopupVisibility,
-        setPopupPosition,
         setPopupObjectId: setPopupObject,
         setPopupType,
         addOption,
@@ -57,20 +54,12 @@ const QuestionContainer = (props: QuestionContainerProps) => {
         setPopupObject(question);
         setPopupType(POPUP_QUESTION_TITLE_TYPE);
         setPopupText(question.title);
-        setPopupPosition({
-            top: e.currentTarget.offsetTop - 2,
-            left: e.currentTarget.offsetLeft + 15
-        });
     }
     const onEditOptionTitle = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, option: Option) => {
         setPopupVisibility(true);
         setPopupObject(option);
         setPopupType(POPUP_OPTION_TITLE_TYPE);
         setPopupText(option.text);
-        setPopupPosition({
-            top: e.currentTarget.offsetTop - 2,
-            left: e.currentTarget.offsetLeft + 15
-        });
     }
     const onAddOption = (questionId: number) => {
         addOption(variantId, question.id);
