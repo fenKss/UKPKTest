@@ -19,7 +19,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class VariantEditorController extends AbstractController
 {
     /**
-     * @Route("/react", name="index_react")
+     * @Route("/", name="index_react")
      */
     public function indexReact(Variant $variant, QuestionRepository $questionRepository): Response
     {

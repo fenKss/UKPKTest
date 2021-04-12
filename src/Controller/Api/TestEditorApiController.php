@@ -40,6 +40,11 @@ class TestEditorApiController extends AbstractApiController
      */
     public function addQuestion(Variant $variant, Request $request): JsonResponse
     {
+        $isPublished = $this->_checkTourIsPublished($variant);
+        if ($isPublished) {
+            return $isPublished;
+        }
+
         $question = new Question();
 
         $questions = $variant->getQuestions();
@@ -67,6 +72,10 @@ class TestEditorApiController extends AbstractApiController
      */
     public function editQuestionTitle(Variant $variant, Question $question, Request $request): JsonResponse
     {
+        $isPublished = $this->_checkTourIsPublished($variant);
+        if ($isPublished) {
+            return $isPublished;
+        }
         $title = $request->get('title');
         if (!$title) {
             return $this->error('title required');
@@ -94,12 +103,16 @@ class TestEditorApiController extends AbstractApiController
      */
     public function editQuestionType(Variant $variant, Question $question, Request $request): JsonResponse
     {
+        $isPublished = $this->_checkTourIsPublished($variant);
+        if ($isPublished) {
+            return $isPublished;
+        }
         $type = $request->get('type');
         if (is_null($type)) {
             return $this->error('type required');
         }
-        if (!in_array($type, [EQuestionType::RADIO_TYPE, EQuestionType::SELECT_TYPE])){
-            return $this->error("invalid question type. Allowed: ".EQuestionType::RADIO_TYPE." ,".EQuestionType::SELECT_TYPE);
+        if (!in_array($type, [EQuestionType::RADIO_TYPE, EQuestionType::SELECT_TYPE])) {
+            return $this->error("invalid question type. Allowed: " . EQuestionType::RADIO_TYPE . " ," . EQuestionType::SELECT_TYPE);
         }
         $question->setType($type);
         $em = $this->getDoctrine()->getManager();
@@ -143,6 +156,10 @@ class TestEditorApiController extends AbstractApiController
      */
     public function addOption(Variant $variant, Question $question, Request $request): JsonResponse
     {
+        $isPublished = $this->_checkTourIsPublished($variant);
+        if ($isPublished) {
+            return $isPublished;
+        }
         $option = new PossibleAnswer();
 
         $options = $question->getPossibleAnswers();
@@ -170,6 +187,10 @@ class TestEditorApiController extends AbstractApiController
      */
     public function editCorrectOption(Variant $variant, Question $question, PossibleAnswer $option): JsonResponse
     {
+        $isPublished = $this->_checkTourIsPublished($variant);
+        if ($isPublished) {
+            return $isPublished;
+        }
         $type = $question->getType();
         $em = $this->getDoctrine()->getManager();
         switch ($type) {
@@ -208,6 +229,10 @@ class TestEditorApiController extends AbstractApiController
         Question $question,
         Request $request
     ): JsonResponse {
+        $isPublished = $this->_checkTourIsPublished($variant);
+        if ($isPublished) {
+            return $isPublished;
+        }
         $title = $request->get('title');
         if (!$title) {
             return $this->error('title required');
@@ -249,15 +274,15 @@ class TestEditorApiController extends AbstractApiController
         $questionArray = [
             'id' => $question->getId(),
             'title' => $question->getTitle(),
-            'type'=>$question->getType(),
-            'titleType'=>$question->getTitleType(),
+            'type' => $question->getType(),
+            'titleType' => $question->getTitleType(),
             'options' => []
         ];
         $options = $question->getPossibleAnswers();
         foreach ($options as $option) {
             $questionArray['options'][$option->getId()] = $this->_getOptionAsArray($option);
         }
-        return  $questionArray;
+        return $questionArray;
     }
 
     /**
@@ -267,11 +292,23 @@ class TestEditorApiController extends AbstractApiController
      */
     private function _getOptionAsArray(PossibleAnswer $option): array
     {
-       return [
-           'id' => $option->getId(),
-           'text' => $option->getText(),
-           'isCorrect' => $option->getIsCorrect(),
-           'questionId'=>$option->getQuestion()->getId()
-       ];
+        return [
+            'id' => $option->getId(),
+            'text' => $option->getText(),
+            'isCorrect' => $option->getIsCorrect(),
+            'questionId' => $option->getQuestion()->getId()
+        ];
+    }
+
+    /**
+     * @return false|JsonResponse
+     */
+    private function _checkTourIsPublished(Variant $variant)
+    {
+        $tourPublishedAt = $variant->getTest()->getTour()->getPublishedAt();
+        if ($tourPublishedAt) {
+            return $this->error("Tour is published at {$tourPublishedAt->format('Y-m-d H:i:s')}");
+        }
+        return false;
     }
 }
