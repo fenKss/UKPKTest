@@ -1,15 +1,14 @@
 import * as React from 'react';
 import TestEditorContainer from "./TestEditor/TestEditorContainer";
-import { BrowserRouter as Router,Route, useParams } from "react-router-dom";
+import {BrowserRouter as Router, Route} from "react-router-dom";
 
 const App = () => {
-    return(
+    return (
         <Router>
             <Route path="/admin/variant/:variantId">
-                <TestEditorContainer />
+                <TestEditorContainer/>
             </Route>
         </Router>
     )
-
 };
 export default App;

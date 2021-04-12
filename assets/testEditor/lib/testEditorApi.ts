@@ -1,16 +1,19 @@
 import axios from 'axios'
+import {AxiosInstance} from 'axios'
 import {Question, QuestionType} from "../../types/testEditor";
 
 class TestEditorApi {
-    private readonly baseUrl: string;
+    private readonly axios: AxiosInstance;
 
     constructor(variantId: number) {
-        this.baseUrl = `/api/variant/${variantId}`;
+        this.axios = axios.create({
+            baseURL: `/api/variant/${variantId}`
+        })
     }
 
     addQuestion = async () => {
-        const url = this.baseUrl + '/question/add';
-        return axios.post(url).then(response => {
+        const url = '/question/add';
+        return this.axios.post(url).then(response => {
             const {data} = response;
             if (data.error) {
                 throw data.error_msg;
@@ -18,9 +21,9 @@ class TestEditorApi {
             return data.data.id;
         })
     }
-    addOption = async (questionId:number) => {
-        const url = this.baseUrl + `/question/${questionId}/option/add`;
-        return axios.post(url).then(response => {
+    addOption = async (questionId: number) => {
+        const url =  `/question/${questionId}/option/add`;
+        return this.axios.post(url).then(response => {
             const {data} = response;
             if (data.error) {
                 throw data.error_msg;
@@ -29,8 +32,8 @@ class TestEditorApi {
         })
     }
     getQuestions = async () => {
-        const url = this.baseUrl + '/question';
-        return axios.get(url).then(response => {
+        const url =  '/question';
+        return this.axios.get(url).then(response => {
             const {data} = response;
             let questions: Array<Question> = [];
             if (data.error) {
@@ -45,59 +48,58 @@ class TestEditorApi {
             return questions;
         })
     }
-    setQuestionTitle = async (id:number,title: string) => {
-        const url = this.baseUrl + `/question/${id}/edit/title`;
-        const form = new FormData();
+    setQuestionTitle = async (id: number, title: string) => {
+        const url  =  `/question/${id}/edit/title`,
+              form = new FormData();
         form.append('title', title);
         return axios({
-            method:'post',
-            url,
-            headers: {'Content-Type': 'multipart/form-data' },
-            data:form
-            }
-        ).then(response => {
-            const {data} = response;
-            return data.id
-        })
-    }
-    setOptionTitle = async (questionId:number,optionId:number, title: string) => {
-        const url = this.baseUrl + `/question/${questionId}/option/${optionId}/edit/title`;
-        const form = new FormData();
-        form.append('title', title);
-        return axios({
-            method:'post',
-            url,
-            headers: {'Content-Type': 'multipart/form-data' },
-            data:form
-            }
-        ).then(response => {
-            const {data} = response;
-            return data.id
-        })
-    }
-
-     changeQuestionType = async(questionId:number, type: QuestionType) =>{
-         const url = this.baseUrl + `/question/${questionId}/edit/type`;
-         const form = new FormData();
-         form.append('type', type);
-         return axios({
-                 method:'post',
-                 url,
-                 headers: {'Content-Type': 'multipart/form-data' },
-                 data:form
-             }
-         ).then(response => {
-             const {data} = response;
-             return data.id
-         })
-    }
-    changeOptionIsCorrect = async (questionId:number, optionId:number) => {
-        const url = this.baseUrl + `/question/${questionId}/option/${optionId}/correct`;
-
-        return axios({
-                method:'post',
+                method: 'post',
                 url,
-                headers: {'Content-Type': 'multipart/form-data' },
+                headers: {'Content-Type': 'multipart/form-data'},
+                data: form
+            }
+        ).then(response => {
+            const {data} = response;
+            return data.id
+        })
+    }
+    setOptionTitle = async (questionId: number, optionId: number, title: string) => {
+        const url  = `/question/${questionId}/option/${optionId}/edit/title`,
+              form = new FormData();
+        form.append('title', title);
+        return this.axios({
+                method: 'post',
+                url,
+                headers: {'Content-Type': 'multipart/form-data'},
+                data: form
+            }
+        ).then(response => {
+            const {data} = response;
+            return data.id
+        })
+    }
+
+    changeQuestionType = async (questionId: number, type: QuestionType) => {
+        const url = `/question/${questionId}/edit/type`;
+        const form = new FormData();
+        form.append('type', type);
+        return this.axios({
+                method: 'post',
+                url,
+                headers: {'Content-Type': 'multipart/form-data'},
+                data: form
+            }
+        ).then(response => {
+            const {data} = response;
+            return data.id
+        })
+    }
+    changeOptionIsCorrect = async (questionId: number, optionId: number) => {
+        const url = `/question/${questionId}/option/${optionId}/correct`;
+        return this.axios({
+                method: 'post',
+                url,
+                headers: {'Content-Type': 'multipart/form-data'},
             }
         ).then(response => {
             const {data} = response;
