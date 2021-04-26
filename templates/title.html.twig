@@ -8,14 +8,14 @@
             <h2>Портал для тестирования на базе Усть-Каменогорского высшего политехнического колледжа</h2>
         </div>
     </section>
-    <section class="olymps">
-        <ul class="olymp-list">
-            {% for olymp in olymps %}
-                {% include 'olymp/__olymp.li.html.twig' with {olymp:olymp} %}
+    <section class="olympics">
+        <ul class="olympic-list">
+            {% for olympic in olympics %}
+                {% include 'olympic/__olympic.li.html.twig' with {olympic:olympic} %}
             {% endfor %}
         </ul>
-         {% if count > olymps|length  %}
-        <div class="all-olymps"><a href="{{ path('olymp_index') }}">Посмотреть список всех олимпиад</a></div>
+         {% if count > olympics|length  %}
+        <div class="all-olympics"><a href="{{ path('olympic_index') }}">Посмотреть список всех олимпиад</a></div>
          {% endif %}
     </section>
 {% endblock %}

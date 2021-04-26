@@ -161,11 +161,11 @@ class TestController extends AbstractController
      *
      * @return bool
      */
-    private function validateExistsLanguageInOlymp(Test $test): bool
+    private function validateExistsLanguageInOlympic(Test $test): bool
     {
-        $olymp = $test->getTour()->getOlymp();
+        $olympic = $test->getTour()->getOlympic();
         $language = $test->getLanguage();
-        return $olymp->getLanguages()->contains($language);
+        return $olympic->getLanguages()->contains($language);
 
     }
 
@@ -175,7 +175,7 @@ class TestController extends AbstractController
             $this->addFlash('error', 'Данный язык уже добавлен');
             return false;
         }
-        if (!$this->validateExistsLanguageInOlymp($test)) {
+        if (!$this->validateExistsLanguageInOlympic($test)) {
             $this->addFlash('error', 'Данный язык не разрешен у олимпиады');
             return false;
         }

@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpPropertyOnlyWrittenInspection */
 
 namespace App\Entity;
 
@@ -17,34 +17,34 @@ class Language
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $name;
+    private ?string $name;
 
     /**
      * @ORM\OneToMany(targetEntity=Test::class, mappedBy="language")
      */
-    private $tests;
+    private Collection $tests;
 
     /**
      * @ORM\OneToMany(targetEntity=UserTest::class, mappedBy="language")
      */
-    private $userTests;
+    private Collection $userTests;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Olymp::class, mappedBy="languages")
+     * @ORM\ManyToMany(targetEntity=Olympic::class, mappedBy="languages")
      */
-    private $olymps;
+    private Collection $olympics;
 
 
     public function __construct()
     {
         $this->tests = new ArrayCollection();
         $this->userTests = new ArrayCollection();
-        $this->olymps = new ArrayCollection();
+        $this->olympics = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -125,27 +125,27 @@ class Language
     }
 
     /**
-     * @return Collection|Olymp[]
+     * @return Collection|Olympic[]
      */
-    public function getOlymps(): Collection
+    public function getOlympics(): Collection
     {
-        return $this->olymps;
+        return $this->olympics;
     }
 
-    public function addOlymp(Olymp $olymp): self
+    public function addOlympic(Olympic $olympic): self
     {
-        if (!$this->olymps->contains($olymp)) {
-            $this->olymps[] = $olymp;
-            $olymp->addLanguage($this);
+        if (!$this->olympics->contains($olympic)) {
+            $this->olympics[] = $olympic;
+            $olympic->addLanguage($this);
         }
 
         return $this;
     }
 
-    public function removeOlymp(Olymp $olymp): self
+    public function removeOlympic(Olympic $olympic): self
     {
-        if ($this->olymps->removeElement($olymp)) {
-            $olymp->removeLanguage($this);
+        if ($this->olympics->removeElement($olympic)) {
+            $olympic->removeLanguage($this);
         }
 
         return $this;

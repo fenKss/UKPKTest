@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 abstract class AbstractApiController extends AbstractController
 {
     /**
-     * @param array|null $data
+     * @param $data
      *
      * @return JsonResponse
      */

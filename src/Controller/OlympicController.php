@@ -2,13 +2,13 @@
 
 namespace App\Controller;
 
-use App\Entity\Olymp;
+use App\Entity\Olympic;
 use App\Entity\Tour;
 use App\Entity\User;
 use App\Entity\UserTest;
 use App\ENum\EUserTestStatus;
 use App\Form\UserTestForm;
-use App\Repository\OlympRepository;
+use App\Repository\OlympicRepository;
 use App\Service\PaginationService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormError;
@@ -17,41 +17,31 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * Class OlympController
+ * Class OlympicController
  *
- * @Route("/olymp", name="olymp_")
+ * @Route("/Olympic", name="olymp_")
  * @package App\Controller
  */
-class OlympController extends AbstractController
+class OlympicController extends AbstractController
 {
     /**
      * @Route("/", name="index")
-     *
-     * @param OlympRepository   $olympRepository
-     * @param PaginationService $pagination
-     *
-     * @return Response
      */
-    public function index(OlympRepository $olympRepository, PaginationService $pagination): Response
+    public function index(OlympicRepository $olympicRepository, PaginationService $pagination): Response
     {
-        $queryOlymps = $olympRepository->getWithPublishedToursQuery();
-        $olymps = $pagination->paginate($queryOlymps, 3);
+        $queryOlympics = $olympicRepository->getWithPublishedToursQuery();
+        $olympics = $pagination->paginate($queryOlympics, 3);
 
-        return $this->render('olymp/index.html.twig', [
-            'olymps' => $olymps,
-            'lastPage' => $pagination->lastPage($olymps),
+        return $this->render('Olympic/index.html.twig', [
+            'olympics' => $olympics,
+            'lastPage' => $pagination->lastPage($olympics),
         ]);
     }
 
     /**
-     * @Route("/{olymp}/tour/{tour}/signup/", name="tour_signup")
-     * @param Olymp   $olymp
-     * @param Tour    $tour
-     * @param Request $request
-     *
-     * @return Response
+     * @Route("/{olympic}/tour/{tour}/signup/", name="tour_signup")
      */
-    public function signUpToTour(Olymp $olymp, Tour $tour, Request $request): Response
+    public function signUpToTour(Olympic $olympic, Tour $tour, Request $request): Response
     {
         if (!$this->getUser()) {
             /**
@@ -125,7 +115,7 @@ class OlympController extends AbstractController
         if (!is_null($error)){
             $form->addError(new FormError($error));
         }
-        return $this->render('olymp/signup.html.twig', [
+        return $this->render('Olympic/signup.html.twig', [
             'form' => $form->createView(),
             'tour' => $tour
         ]);

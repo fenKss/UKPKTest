@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block main_class %}wrapper olymp-list{% endblock %}
+{% block main_class %}wrapper olympic-list{% endblock %}
 {% block content %}
-<div class="olymps">
-    <ul class="olymp-list">
-        {% for olymp in olymps %}
-            {% include 'olymp/__olymp.li.html.twig' with {olymp:olymp} %}
+<div class="olympics">
+    <ul class="olympic-list">
+        {% for olympic in olympics %}
+            {% include 'olympic/__olympic.li.html.twig' with {olympic:olympic} %}
         {% endfor %}
     </ul>
     {% include "default/_pagination.html.twig" %}

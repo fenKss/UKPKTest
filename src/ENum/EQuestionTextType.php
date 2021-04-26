@@ -12,6 +12,6 @@ namespace App\ENum;
  */
 class EQuestionTextType
 {
-    public const TEXT_TYPE = 'text';
-    public const IMAGE_TYPE = 'image';
+    public const TEXT_TYPE = 0;
+    public const IMAGE_TYPE = 1;
 }

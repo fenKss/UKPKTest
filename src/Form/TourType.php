@@ -2,13 +2,10 @@
 
 namespace App\Form;
 
-use App\Entity\Olymp;
 use App\Entity\Tour;
-use Doctrine\DBAL\Types\FloatType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use DateTime;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -32,13 +29,13 @@ class TourType extends AbstractType
                 'label' => 'Начало Тура',
                 'html5' => true,
                 'widget' => 'single_text',
-                'data' => new \DateTime()
+                'data' => new DateTime()
             ])
             ->add('expiredAt', DateTimeType::class, [
                 'label' => 'Конец Тура',
                 'html5' => true,
                 'widget' => 'single_text',
-                'data' => new \DateTime()
+                'data' => new DateTime()
             ]);
     }
 
@@ -47,7 +44,7 @@ class TourType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Tour::class,
             'allow_extra_fields' => true,
-            "olymp" => null
+            "olympic" => null
         ]);
     }
 }

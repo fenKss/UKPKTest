@@ -1,43 +1,43 @@
-<?php
+<?php /** @noinspection PhpPropertyOnlyWrittenInspection */
 
 namespace App\Entity;
 
-use App\Repository\OlympRepository;
+use App\Repository\OlympicRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=OlympRepository::class)
+ * @ORM\Entity(repositoryClass=OlympicRepository::class)
  */
-class Olymp
+class Olympic
 {
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id;
 
     /**
      * @ORM\Column(type="string", length=500)
      */
-    private $name;
+    private ?string $name;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="smallint")
      */
-    private $type;
+    private ?int $type;
 
     /**
-     * @ORM\OneToMany(targetEntity=Tour::class, mappedBy="olymp")
+     * @ORM\OneToMany(targetEntity=Tour::class, mappedBy="olympic")
      */
-    private $tours;
+    private Collection $tours;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Language::class, inversedBy="olymps")
+     * @ORM\ManyToMany(targetEntity=Language::class, inversedBy="olympics")
      */
-    private $languages;
+    private Collection $languages;
 
 
     public function __construct()
@@ -63,12 +63,12 @@ class Olymp
         return $this;
     }
 
-    public function getType(): ?string
+    public function getType(): ?int
     {
         return $this->type;
     }
 
-    public function setType(string $type): self
+    public function setType(int $type): self
     {
         $this->type = $type;
 
@@ -87,7 +87,7 @@ class Olymp
     {
         if (!$this->tours->contains($tour)) {
             $this->tours[] = $tour;
-            $tour->setOlymp($this);
+            $tour->setOlympic($this);
         }
 
         return $this;
@@ -97,8 +97,8 @@ class Olymp
     {
         if ($this->tours->removeElement($tour)) {
             // set the owning side to null (unless already changed)
-            if ($tour->getOlymp() === $this) {
-                $tour->setOlymp(null);
+            if ($tour->getOlympic() === $this) {
+                $tour->setOlympic(null);
             }
         }
 

@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpPropertyOnlyWrittenInspection */
 
 namespace App\Entity;
 
@@ -8,34 +8,34 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass=OptionRepository::class)
  */
-class PossibleAnswer
+class QuestionOption
 {
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Question::class, inversedBy="possibleAnswers")
+     * @ORM\ManyToOne(targetEntity=Question::class, inversedBy="options")
      */
-    private $question;
+    private ?Question $question;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private $isCorrect;
+    private ?bool $isCorrect;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    private $text;
+    private ?string $text;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="smallint")
      */
-    private $type;
+    private ?string $type;
 
     public function getId(): ?int
     {
@@ -78,12 +78,12 @@ class PossibleAnswer
         return $this;
     }
 
-    public function getType(): ?string
+    public function getType(): ?int
     {
         return $this->type;
     }
 
-    public function setType(string $type): self
+    public function setType(int $type): self
     {
         $this->type = $type;
 

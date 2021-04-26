@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpPropertyOnlyWrittenInspection */
 
 namespace App\Entity;
 
@@ -17,37 +17,37 @@ class Question
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id;
 
     /**
      * @ORM\ManyToOne(targetEntity=Variant::class, inversedBy="questions")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $variant;
+    private ?Variant $variant;
 
     /**
      * @ORM\Column(type="string", length=100)
      */
-    private $type;
+    private ?string $type;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    private $title;
+    private ?string $title;
 
     /**
-     * @ORM\OneToMany(targetEntity=PossibleAnswer::class, mappedBy="question")
+     * @ORM\OneToMany(targetEntity=QuestionOption::class, mappedBy="question")
      */
-    private $possibleAnswers;
+    private Collection $options;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $titleType;
+    private ?string $titleType;
 
     public function __construct()
     {
-        $this->possibleAnswers = new ArrayCollection();
+        $this->options = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -92,26 +92,26 @@ class Question
     }
 
     /**
-     * @return Collection|PossibleAnswer[]
+     * @return Collection|QuestionOption[]
      */
     public function getPossibleAnswers(): Collection
     {
-        return $this->possibleAnswers;
+        return $this->options;
     }
 
-    public function addPossibleAnswer(PossibleAnswer $questionOption): self
+    public function addPossibleAnswer(QuestionOption $questionOption): self
     {
-        if (!$this->possibleAnswers->contains($questionOption)) {
-            $this->possibleAnswers[] = $questionOption;
+        if (!$this->options->contains($questionOption)) {
+            $this->options[] = $questionOption;
             $questionOption->setQuestion($this);
         }
 
         return $this;
     }
 
-    public function removePossibleAnswer(PossibleAnswer $questionOption): self
+    public function removePossibleAnswer(QuestionOption $questionOption): self
     {
-        if ($this->possibleAnswers->removeElement($questionOption)) {
+        if ($this->options->removeElement($questionOption)) {
             // set the owning side to null (unless already changed)
             if ($questionOption->getQuestion() === $this) {
                 $questionOption->setQuestion(null);

@@ -2,27 +2,27 @@
 
 namespace App\Repository;
 
-use App\Entity\Olymp;
+use App\Entity\Olympic;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
- * @method Olymp|null find($id, $lockMode = null, $lockVersion = null)
- * @method Olymp|null findOneBy(array $criteria, array $orderBy = null)
- * @method Olymp[]    findAll()
- * @method Olymp[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Olympic|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Olympic|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Olympic[]    findAll()
+ * @method Olympic[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class OlympRepository extends ServiceEntityRepository
+class OlympicRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Olymp::class);
+        parent::__construct($registry, Olympic::class);
     }
 
     /**
-     * @return Olymp[]
+     * @return Olympic[]
      */
     public function getWithAll(): array
     {
@@ -42,26 +42,25 @@ class OlympRepository extends ServiceEntityRepository
             ->getQuery();
     }
 
-    /**
-     * @return mixed
-     */
-    public function getWithPublishedTours()
+    public function getWithPublishedTours(?int $limit)
     {
-        return $this->getWithPublishedToursQuery()->getResult();
+        return $this->getWithPublishedToursQuery($limit)->getResult();
     }
 
-    /**
-     * @return Query
-     */
-    public function getWithPublishedToursQuery(): Query
+    public function getWithPublishedToursQuery(?int $limit): Query
     {
-        return $this->createQueryBuilder('o')
+        $query = $this->createQueryBuilder('o')
             ->select('o,t,l')
             ->leftJoin('o.tours', 't')
             ->leftJoin('o.languages', 'l')
             ->where('t.publishedAt is NOT NULL')
             ->orderBy('t.startedAt', 'DESC')
-            ->getQuery();
+            ->getQuery()
+        ;
+        if ($limit) {
+            $query->setMaxResults($limit);
+        }
+        return $query;
     }
 
     /**

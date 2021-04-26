@@ -15,9 +15,9 @@ namespace App\ENum;
  */
 class EUserTestStatus
 {
-    public const WAITING_PAY_TYPE = 'waiting_pay';
-    public const PAID_TYPE = 'paid';
-    public const STARTED_TYPE = 'started';
-    public const WAITING_END_TYPE = 'waiting_end';
-    public const FINISHED_TYPE = 'finished';
+    public const WAITING_PAY_TYPE = 0;
+    public const PAID_TYPE = 1;
+    public const STARTED_TYPE = 2;
+    public const WAITING_END_TYPE = 3;
+    public const FINISHED_TYPE = 4;
 }

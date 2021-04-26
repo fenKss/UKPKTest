@@ -15,6 +15,6 @@ use MyCLabs\Enum\Enum;
  */
 class EQuestionType extends Enum
 {
-    public const RADIO_TYPE = 'radio';
-    public const SELECT_TYPE = 'select';
+    public const RADIO_TYPE = 0;
+    public const SELECT_TYPE = 1;
 }

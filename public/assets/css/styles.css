@@ -103,7 +103,7 @@ body footer .copyright {
   font-size: 14px;
   color: #fff;
 }
-body .olymp-list .olymp {
+body .olymp-list .olympic {
   padding: 10px 0;
   list-style: none;
 }
@@ -113,13 +113,13 @@ body .olymp-list .olymp-title {
   text-align: center;
   margin-bottom: 20px;
 }
-body .olymp-list .olymp .tours {
+body .olymp-list .olympic .tours {
   margin: 10px 0;
 }
-body .olymp-list .olymp .tours table {
+body .olymp-list .olympic .tours table {
   width: 100%;
 }
-body .olymp-list .olymp .tours table td, body .olymp-list .olymp .tours table th {
+body .olymp-list .olympic .tours table td, body .olymp-list .olymp .tours table th {
   padding: 5px;
   text-align: center;
 }
@@ -582,7 +582,7 @@ main.user-cabinet .cabinet .user-stat .olymps .olymp .tours table {
 main.user-cabinet .cabinet .user-stat .olymps .olymp .tours table th, main.user-cabinet .cabinet .user-stat .olymps .olymp .tours table td {
   padding: 5px;
 }
-main.user-cabinet .cabinet .user-stat .olymps .olymp .tours table th {
+main.user-cabinet .cabinet .user-stat .olymps .olympic .tours table th {
   font-weight: 600;
 }
 main.user-cabinet .cabinet .user-stat .olymps .olymp .tours table td {

@@ -11,5 +11,5 @@ namespace App\ENum;
  */
 class EImageType
 {
-    public const AVATAR_TYPE = 'avatar';
+    public const AVATAR_TYPE = 0;
 }

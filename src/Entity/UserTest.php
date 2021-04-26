@@ -1,9 +1,10 @@
-<?php
+<?php /** @noinspection PhpPropertyOnlyWrittenInspection */
 
 namespace App\Entity;
 
 use App\Repository\UserTestRepository;
 use Carbon\Carbon;
+use DateTimeInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -16,39 +17,39 @@ class UserTest
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="userTests")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $user;
+    private ?User $user;
 
     /**
      * @ORM\ManyToOne(targetEntity=Language::class, inversedBy="userTests")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $language;
+    private ?Language $language;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $status;
+    private ?string $status;
 
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    private $resultJson;
+    private ?string $resultJson;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private $resultSavedAt;
+    private ?DateTimeInterface $resultSavedAt;
 
     /**
      * @ORM\ManyToOne(targetEntity=Variant::class, inversedBy="userTests")
      */
-    private $variant;
+    private ?Variant $variant;
 
     public function __construct()
     {
@@ -107,12 +108,12 @@ class UserTest
         return $this;
     }
 
-    public function getResultSavedAt(): ?\DateTimeInterface
+    public function getResultSavedAt(): ?DateTimeInterface
     {
         return $this->resultSavedAt;
     }
 
-    public function setResultSavedAt(\DateTimeInterface $resultSavedAt): self
+    public function setResultSavedAt(DateTimeInterface $resultSavedAt): self
     {
         $this->resultSavedAt = $resultSavedAt;
 

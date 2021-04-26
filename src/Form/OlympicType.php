@@ -3,8 +3,8 @@
 namespace App\Form;
 
 use App\Entity\Language;
-use App\Entity\Olymp;
-use App\ENum\EOlympType;
+use App\Entity\Olympic;
+use App\ENum\EOlympicType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -12,7 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class OlympType extends AbstractType
+class OlympicType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -32,11 +32,11 @@ class OlympType extends AbstractType
             ->add('type', ChoiceType::class, [
                 'label'=>'Тип',
                 'choices'=>[
-                    'Внутриколледжная'=>EOlympType::COLLEGE_TYPE()->getValue(),
-                    'Городская'=>EOlympType::CITY_TYPE()->getValue(),
-                    'Региональная'=>EOlympType::REGION_TYPE()->getValue(),
-                    'Республиканская'=>EOlympType::COUNTRY_TYPE()->getValue(),
-                    'Международная'=>EOlympType::WORLD_TYPE()->getValue(),
+                    'Внутриколледжная'=>EOlympicType::COLLEGE_TYPE()->getValue(),
+                    'Городская'=>EOlympicType::CITY_TYPE()->getValue(),
+                    'Региональная'=>EOlympicType::REGION_TYPE()->getValue(),
+                    'Республиканская'=>EOlympicType::COUNTRY_TYPE()->getValue(),
+                    'Международная'=>EOlympicType::WORLD_TYPE()->getValue(),
                 ]
             ])
         ;
@@ -45,7 +45,7 @@ class OlympType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Olymp::class,
+            'data_class' => Olympic::class,
         ]);
     }
 }

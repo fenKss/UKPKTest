@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpPropertyOnlyWrittenInspection */
 
 namespace App\Entity;
 
@@ -18,42 +18,42 @@ class Image implements IFile
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $filename;
+    private ?string $filename;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $path;
+    private ?string $path;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $fullPath;
+    private ?string $fullPath;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $size;
+    private ?int $size;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="smallint")
      */
-    private $type;
+    private ?int $type;
 
     /**
      * @ORM\OneToMany(targetEntity=User::class, mappedBy="avatar")
      */
-    private $users;
+    private Collection $users;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $extension;
+    private ?string $extension;
 
     public function __construct()
     {
@@ -113,12 +113,12 @@ class Image implements IFile
         return $this;
     }
 
-    public function getType(): ?string
+    public function getType(): ?int
     {
         return $this->type;
     }
 
-    public function setType(string $type): self
+    public function setType(int $type): self
     {
         $this->type = $type;
 

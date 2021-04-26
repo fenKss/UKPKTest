@@ -76,7 +76,7 @@ class UserFormType extends AbstractType
                 'required' => true,
             ])
             ->add('submit', SubmitType::class, [
-                'label' => 'Cохранить',
+                'label' => 'Сохранить',
                 'attr' => [
 
                 ]

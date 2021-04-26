@@ -1,8 +1,9 @@
-<?php
+<?php /** @noinspection PhpPropertyOnlyWrittenInspection */
 
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use DateTimeInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -21,63 +22,63 @@ class User implements UserInterface
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
      */
-    private $email;
+    private ?string $email;
 
     /**
      * @ORM\Column(type="json")
      */
-    private $roles = [];
+    private array $roles = [];
 
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
      */
-    private $password;
+    private string $password;
 
     /**
      * @ORM\OneToMany(targetEntity=UserTest::class, mappedBy="user")
      */
-    private $userTests;
+    private Collection $userTests;
 
     /**
      * @ORM\Column(type="datetime")
      */
-    private $bornAt;
+    private ?DateTimeInterface $bornAt;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $address;
+    private ?string $address;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $studyPlace;
+    private ?string $studyPlace;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $class;
+    private ?string $class;
 
     /**
      * @ORM\ManyToOne(targetEntity=Image::class, inversedBy="users")
      */
-    private $avatar;
+    private ?Image $avatar;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $name;
+    private ?string $name;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $surname;
+    private ?string $surname;
 
     public function __construct()
     {
@@ -108,7 +109,7 @@ class User implements UserInterface
      */
     public function getUsername(): string
     {
-        return (string) $this->email;
+        return (string)$this->email;
     }
 
     /**
@@ -135,7 +136,7 @@ class User implements UserInterface
      */
     public function getPassword(): string
     {
-        return (string) $this->password;
+        return $this->password;
     }
 
     public function setPassword(string $password): self
@@ -192,12 +193,12 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getBornAt(): ?\DateTimeInterface
+    public function getBornAt(): ?DateTimeInterface
     {
         return $this->bornAt;
     }
 
-    public function setBornAt(\DateTimeInterface $bornAt): self
+    public function setBornAt(DateTimeInterface $bornAt): self
     {
         $this->bornAt = $bornAt;
 

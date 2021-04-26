@@ -4,7 +4,7 @@
 {% block subtitle %}{% endblock %}
 {% block boxTitle %}Список олимпиад{% endblock %}
 {% block boxButtons %}
-    <a href="{{ path('admin_olymp_new') }}" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i></a>
+    <a href="{{ path('admin_olympic_new') }}" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i></a>
 {% endblock %}
 {% block boxBody %}
 
@@ -19,19 +19,19 @@
         </tr>
         </thead>
         <tbody>
-        {% for olymp in olymps %}
+        {% for olympic in olympics %}
             <tr>
-                <td>{{ olymp.id }}</td>
-                <td>{{ olymp.name }}</td>
+                <td>{{ olympic.id }}</td>
+                <td>{{ olympic.name }}</td>
                 <td>
-                    {% for language in olymp.languages %}
+                    {% for language in olympic.languages %}
                         <span>{{ language.name }}</span>
                     {% endfor %}
                 </td>
-                <td>{{ olymp.type }}</td>
+                <td>{{ olympic.type }}</td>
                 <td class="btn-group">
-                    {# <a href="{{ path('admin_olymp_show', {'id': olymp.id}) }}">show</a> #}
-                    <a class="btn btn-sm btn-primary" href="{{ path('admin_olymp_edit', {'id': olymp.id}) }}">
+                    {# <a href="{{ path('admin_olympic_show', {'id': olympic.id}) }}">show</a> #}
+                    <a class="btn btn-sm btn-primary" href="{{ path('admin_olympic_edit', {'id': olympic.id}) }}">
                         <i class="fa fa-edit"></i>
                     </a>
                 </td>

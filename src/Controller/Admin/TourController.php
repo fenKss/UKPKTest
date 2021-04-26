@@ -2,15 +2,13 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Olymp;
+use App\Entity\Olympic;
 use App\Entity\Tour;
-use App\Entity\UserTest;
 use App\Form\TourType;
-use App\Repository\OlympRepository;
+use App\Repository\OlympicRepository;
 use App\Repository\UserTestRepository;
 use App\Service\PaginationService;
 use Carbon\Carbon;
-use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -26,29 +24,23 @@ class TourController extends AbstractController
 {
     /**
      * @Route("/", name="index", methods={"GET"})
-     * @param OlympRepository   $olympRepository
-     * @param PaginationService $pagination
-     *
-     * @return Response
      */
-    public function index(OlympRepository $olympRepository, PaginationService $pagination): Response
-    {
-        $olympsQuery = $olympRepository->getWithAllQuery();
-        $olymps = $pagination->paginate($olympsQuery, 5);
+    public function index(
+        OlympicRepository $olympicRepository,
+        PaginationService $pagination
+    ): Response {
+        $olympicsQuery = $olympicRepository->getWithAllQuery();
+        $olympics = $pagination->paginate($olympicsQuery, 5);
         return $this->render('admin/tour/index.html.twig', [
-            'olymps' => $olymps,
-            'lastPage' => $pagination->lastPage($olymps)
+            'olympics' => $olympics,
+            'lastPage' => $pagination->lastPage($olympics)
         ]);
     }
 
     /**
-     * @Route("/new/{olymp}", name="new", methods={"GET","POST"})
-     * @param Olymp   $olymp
-     * @param Request $request
-     *
-     * @return Response
+     * @Route("/new/{olympic}", name="new", methods={"GET","POST"})
      */
-    public function new(Olymp $olymp, Request $request): Response
+    public function new(Olympic $olympic, Request $request): Response
     {
         $tour = new Tour();
         $form = $this->createForm(TourType::class, $tour);
@@ -57,15 +49,16 @@ class TourController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             if ($tour->getStartedAt() >= $tour->getExpiredAt()) {
-                $this->addFlash('error', 'Тур не может закончиться раньше, чем начался');
+                $this->addFlash('error',
+                    'Тур не может закончиться раньше, чем начался');
                 return $this->render('admin/tour/new.html.twig', [
-                    'tour' => $tour,
-                    'form' => $form->createView(),
-                    'olymp' => $olymp
+                    'tour'    => $tour,
+                    'form'    => $form->createView(),
+                    'olympic' => $olympic
                 ]);
             }
-            $tour->setOlymp($olymp);
-            $index = $olymp->getTours()->count() + 1;
+            $tour->setOlympic($olympic);
+            $index = $olympic->getTours()->count() + 1;
             $tour->setTourIndex($index);
 
             $entityManager = $this->getDoctrine()->getManager();
@@ -76,17 +69,14 @@ class TourController extends AbstractController
         }
 
         return $this->render('admin/tour/new.html.twig', [
-            'tour' => $tour,
-            'form' => $form->createView(),
-            'olymp' => $olymp
+            'tour'    => $tour,
+            'form'    => $form->createView(),
+            'olympic' => $olympic
         ]);
     }
 
     /**
      * @Route("/{id}", name="show", methods={"GET"})
-     * @param Tour $tour
-     *
-     * @return Response
      */
     public function show(Tour $tour): Response
     {
@@ -97,10 +87,6 @@ class TourController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="edit", methods={"GET","POST"})
-     * @param Request $request
-     * @param Tour    $tour
-     *
-     * @return Response
      */
     public function edit(Request $request, Tour $tour): Response
     {
@@ -108,13 +94,15 @@ class TourController extends AbstractController
         $form->handleRequest($request);
 
         if ($tour->getPublishedAt()) {
-            $this->addFlash('error', 'Тур опубликован. Нужно сначала сделать его неопубликованным');
+            $this->addFlash('error',
+                'Тур опубликован. Нужно сначала сделать его неопубликованным');
             return $this->redirectToRoute('admin_tour_index');
         }
 
         if ($form->isSubmitted() && $form->isValid()) {
             if ($tour->getStartedAt() >= $tour->getExpiredAt()) {
-                $this->addFlash('error', 'Тур не может закончиться раньше, чем начался');
+                $this->addFlash('error',
+                    'Тур не может закончиться раньше, чем начался');
                 return $this->render('admin/tour/edit.html.twig', [
                     'tour' => $tour,
                     'form' => $form->createView(),
@@ -134,14 +122,12 @@ class TourController extends AbstractController
 
     /**
      * @Route("/{id}", name="delete", methods={"DELETE"})
-     * @param Request $request
-     * @param Tour    $tour
-     *
-     * @return Response
      */
     public function delete(Request $request, Tour $tour): Response
     {
-        if ($this->isCsrfTokenValid('delete' . $tour->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $tour->getId(),
+            $request->request->get('_token'))
+        ) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($tour);
             $entityManager->flush();
@@ -153,15 +139,11 @@ class TourController extends AbstractController
     /**
      * @Route("/{id}/publish", name="publish")
      * @IsGranted("ROLE_ADMIN")
-     * @param Tour    $tour
-     * @param Request $request
-     *
-     * @return RedirectResponse
      */
     public function publish(Tour $tour, Request $request): RedirectResponse
     {
         $page = $request->get('p');
-        $olympLanguages = $tour->getOlymp()->getLanguages();
+        $olympicLanguages = $tour->getOlympic()->getLanguages();
         $tests = $tour->getTests();
         if (!$tour->getTests()->count()) {
             return $this->addErrorOnPublishAndRedirect(
@@ -175,7 +157,7 @@ class TourController extends AbstractController
         foreach ($tests as $test) {
             $tourLanguages[] = $test->getLanguage();
         }
-        if ($olympLanguages->toArray() != $tourLanguages) {
+        if ($olympicLanguages->toArray() != $tourLanguages) {
             return $this->addErrorOnPublishAndRedirect(
                 'Языки олимпиады не совпадают с языками тестов внутри тура',
                 $page);
@@ -238,12 +220,6 @@ class TourController extends AbstractController
 
     /**
      * @Route("/{id}/publish/revert", name="publish_revert")
-     * @param Tour                   $tour
-     * @param EntityManagerInterface $em
-     * @param UserTestRepository     $userTestRepository
-     * @param Request                $request
-     *
-     * @return RedirectResponse
      */
     public function publishRevert(
         Tour $tour,
@@ -254,7 +230,8 @@ class TourController extends AbstractController
         $page = $request->get('p');
         $userTests = $userTestRepository->getByTour($tour);
         if (count($userTests)) {
-            return $this->addErrorOnPublishAndRedirect('На данный тур уже записаны люди', $page);
+            return $this->addErrorOnPublishAndRedirect('На данный тур уже записаны люди',
+                $page);
         }
         $tour->setPublishedAt(null);
         $em->persist($tour);
@@ -263,14 +240,10 @@ class TourController extends AbstractController
         return $this->addErrorOnPublishAndRedirect(null, $page);
     }
 
-    /**
-     * @param string|null $error
-     * @param int|null    $page
-     *
-     * @return RedirectResponse
-     */
-    private function addErrorOnPublishAndRedirect(?string $error, ?int $page): RedirectResponse
-    {
+    private function addErrorOnPublishAndRedirect(
+        ?string $error,
+        ?int $page
+    ): RedirectResponse {
         if ($error) {
             $this->addFlash('error', $error);
         }
@@ -278,6 +251,4 @@ class TourController extends AbstractController
             'p' => $page
         ]);
     }
-
-
 }
