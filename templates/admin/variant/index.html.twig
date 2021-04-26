@@ -2,7 +2,7 @@
 
 {% block title %}Варианты{% endblock %}
 {% block subtitle %}Список{% endblock %}
-{% block boxTitle %}Список вариантов {{ tour.tourIndex }} тура "{{ tour.olymp.name}}"{% endblock %}
+{% block boxTitle %}Список вариантов {{ tour.tourIndex }} тура "{{ tour.olympic.name}}"{% endblock %}
 {% block boxButtons %}
     <a href="{{ path('admin_variant_new', {tour:tour.id, test:test.id}) }}" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i></a>
 {% endblock %}

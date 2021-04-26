@@ -6,6 +6,7 @@ use App\Entity\Olympic;
 use App\Entity\Tour;
 use App\Entity\User;
 use App\Entity\UserTest;
+use App\ENum\EOlympicType;
 use App\ENum\EUserTestStatus;
 use App\Form\UserTestForm;
 use App\Repository\OlympicRepository;
@@ -19,7 +20,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Class OlympicController
  *
- * @Route("/Olympic", name="olymp_")
+ * @Route("/olympic", name="olymp_")
  * @package App\Controller
  */
 class OlympicController extends AbstractController
@@ -27,22 +28,27 @@ class OlympicController extends AbstractController
     /**
      * @Route("/", name="index")
      */
-    public function index(OlympicRepository $olympicRepository, PaginationService $pagination): Response
-    {
+    public function index(
+        OlympicRepository $olympicRepository,
+        PaginationService $pagination
+    ): Response {
         $queryOlympics = $olympicRepository->getWithPublishedToursQuery();
         $olympics = $pagination->paginate($queryOlympics, 3);
 
-        return $this->render('Olympic/index.html.twig', [
+        return $this->render('olympic/index.html.twig', [
             'olympics' => $olympics,
-            'lastPage' => $pagination->lastPage($olympics),
+            'lastPage' => $pagination->lastPage($olympics)
         ]);
     }
 
     /**
      * @Route("/{olympic}/tour/{tour}/signup/", name="tour_signup")
      */
-    public function signUpToTour(Olympic $olympic, Tour $tour, Request $request): Response
-    {
+    public function signUpToTour(
+        Olympic $olympic,
+        Tour $tour,
+        Request $request
+    ): Response {
         if (!$this->getUser()) {
             /**
              * @todo Переделать на доступ из security
@@ -80,22 +86,28 @@ class OlympicController extends AbstractController
                 }
             }
             if (is_null($chosenTest)) {
-                return $this->returnSignup($form, $tour,'Не найден тест с выбранным языком');
+                return $this->returnSignup($form, $tour,
+                    'Не найден тест с выбранным языком');
             }
             $userTests = $user->getUserTests();
-            foreach ($userTests as $userTest){
-                if ($userTest->getVariant()->getTest()->getTour() === $chosenTest->getTour()){
-                    return $this->returnSignup($form, $tour,'Вы уже записаны на данный тур');
+            foreach ($userTests as $userTest) {
+                if ($userTest->getVariant()->getTest()->getTour()
+                    === $chosenTest->getTour()
+                ) {
+                    return $this->returnSignup($form, $tour,
+                        'Вы уже записаны на данный тур');
                 }
             }
 
             $variants = $chosenTest->getVariants();
             if (!$variants->count()) {
-                return $this->returnSignup($form, $tour,'Неверное количество вариантов');
+                return $this->returnSignup($form, $tour,
+                    'Неверное количество вариантов');
             }
 
-            if (!$chosenTest->getTour()->getPublishedAt()){
-                return $this->returnSignup($form, $tour,'Тур еще не опубликован');
+            if (!$chosenTest->getTour()->getPublishedAt()) {
+                return $this->returnSignup($form, $tour,
+                    'Тур еще не опубликован');
             }
 
             //Выбираем случайно 1 из вариантов
@@ -110,12 +122,12 @@ class OlympicController extends AbstractController
         return $this->returnSignup($form, $tour);
     }
 
-    private function returnSignup($form, $tour,?string $error = null): Response
+    private function returnSignup($form, $tour, ?string $error = null): Response
     {
-        if (!is_null($error)){
+        if (!is_null($error)) {
             $form->addError(new FormError($error));
         }
-        return $this->render('Olympic/signup.html.twig', [
+        return $this->render('olympic/signup.html.twig', [
             'form' => $form->createView(),
             'tour' => $tour
         ]);

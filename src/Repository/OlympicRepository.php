@@ -42,12 +42,12 @@ class OlympicRepository extends ServiceEntityRepository
             ->getQuery();
     }
 
-    public function getWithPublishedTours(?int $limit)
+    public function getWithPublishedTours(?int $limit = null)
     {
         return $this->getWithPublishedToursQuery($limit)->getResult();
     }
 
-    public function getWithPublishedToursQuery(?int $limit): Query
+    public function getWithPublishedToursQuery(?int $limit = null): Query
     {
         $query = $this->createQueryBuilder('o')
             ->select('o,t,l')

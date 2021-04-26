@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 {% block main_class %}signup-form wrapper{% endblock %}
 {% block content %}
-    <div class="tour-title">Регистрация на {{ tour.tourIndex }} тур "{{ tour.olymp.name}}"</div>
+    <div class="tour-title">Регистрация на {{ tour.tourIndex }} тур "{{ tour.olympic.name}}"</div>
     {{ form_start(form) }}
     {{ form_widget(form) }}
         <button class="btn" type="submit">{{ button_label|default('Записаться') }}</button>

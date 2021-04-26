@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Olympic;
+use App\ENum\EOlympicType;
 use App\Form\OlympicType;
 use App\Repository\OlympicRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -11,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/admin/olymp", name="admin_olympic_")
+ * @Route("/admin/olympic", name="admin_olympic_")
  */
 class OlympicController extends AbstractController
 {
@@ -23,8 +24,33 @@ class OlympicController extends AbstractController
      */
     public function index(OlympicRepository $olympicRepository): Response
     {
+        $typesRaw = EOlympicType::toArray();
+        $types = [];
+        foreach ($typesRaw as $type) {
+            switch ($type) {
+                case EOlympicType::COLLEGE_TYPE:
+                    $typeLoc = "Внутриколледжная";
+                    break;
+                case EOlympicType::CITY_TYPE:
+                    $typeLoc = "Городская";
+                    break;
+                case EOlympicType::COUNTRY_TYPE:
+                    $typeLoc = "Республиканская";
+                    break;
+                case EOlympicType::REGION_TYPE:
+                    $typeLoc = "Региональная";
+                    break;
+                case EOlympicType::WORLD_TYPE:
+                    $typeLoc = "Международная";
+                    break;
+                default:
+                    $typeLoc = null;
+            }
+            $types[$type] = $typeLoc;
+        }
         return $this->render('admin/olympic/index.html.twig', [
             'olympics' => $olympicRepository->getWithAll(),
+            'types'    => $types
         ]);
     }
 

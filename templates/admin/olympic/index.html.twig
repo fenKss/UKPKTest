@@ -28,9 +28,8 @@
                         <span>{{ language.name }}</span>
                     {% endfor %}
                 </td>
-                <td>{{ olympic.type }}</td>
+                <td>{{ types[olympic.type] }}</td>
                 <td class="btn-group">
-                    {# <a href="{{ path('admin_olympic_show', {'id': olympic.id}) }}">show</a> #}
                     <a class="btn btn-sm btn-primary" href="{{ path('admin_olympic_edit', {'id': olympic.id}) }}">
                         <i class="fa fa-edit"></i>
                     </a>

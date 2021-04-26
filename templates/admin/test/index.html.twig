@@ -2,7 +2,7 @@
 
 {% block title %}Тесты{% endblock %}
 {% block subtitle %}Список{% endblock %}
-{% block boxTitle %}Список Тестов {{ tour.tourIndex }} тура "{{ tour.olymp.name }}"{% endblock %}
+{% block boxTitle %}Список Тестов {{ tour.tourIndex }} тура "{{ tour.olympic.name }}"{% endblock %}
 {% block boxButtons %}
     <a href="{{ path('admin_test_new', {'tour':tour.id}) }}" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i></a>
 {% endblock %}
