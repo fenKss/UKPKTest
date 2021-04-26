@@ -24,7 +24,7 @@ class QuestionRepository extends ServiceEntityRepository
     {
         $qb = $this->createQueryBuilder('q')
             ->select('v, q, qo')
-            ->leftJoin('q.possibleAnswers', 'qo')
+            ->leftJoin('q.options', 'qo')
             ->leftJoin('q.variant', 'v')
             ->where('v.id = :variant')
             ->setParameters([
