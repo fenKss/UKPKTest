@@ -56,7 +56,7 @@ class TestEditorApiController extends AbstractApiController
             'variantId' => $question->getVariant()->getId(),
             'options'   => [],
         ];
-        foreach ($question->getPossibleAnswers() as $option) {
+        foreach ($question->getOptions() as $option) {
             $response['options'][]['id'] = $option->getId();
         }
         return $response;

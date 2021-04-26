@@ -94,12 +94,12 @@ class Question
     /**
      * @return Collection|QuestionOption[]
      */
-    public function getPossibleAnswers(): Collection
+    public function getOptions(): Collection
     {
         return $this->options;
     }
 
-    public function addPossibleAnswer(QuestionOption $questionOption): self
+    public function addOption(QuestionOption $questionOption): self
     {
         if (!$this->options->contains($questionOption)) {
             $this->options[] = $questionOption;
@@ -109,7 +109,7 @@ class Question
         return $this;
     }
 
-    public function removePossibleAnswer(QuestionOption $questionOption): self
+    public function removeOption(QuestionOption $questionOption): self
     {
         if ($this->options->removeElement($questionOption)) {
             // set the owning side to null (unless already changed)
