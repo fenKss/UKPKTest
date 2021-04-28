@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use App\ENum\EQuestionTextType;
+use App\ENum\EQuestionType;
 use App\Repository\QuestionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -67,13 +69,14 @@ class Question
         return $this;
     }
 
-    public function getType(): ?string
+    public function getType(): ?int
     {
         return $this->type;
     }
 
-    public function setType(string $type): self
+    public function setType($type): self
     {
+        EQuestionType::assertValidValue($type);
         $this->type = $type;
 
         return $this;
@@ -121,13 +124,14 @@ class Question
         return $this;
     }
 
-    public function getTitleType(): ?string
+    public function getTitleType(): ?int
     {
         return $this->titleType;
     }
 
-    public function setTitleType(string $titleType): self
+    public function setTitleType($titleType): self
     {
+        EQuestionTextType::assertValidValue($titleType);
         $this->titleType = $titleType;
 
         return $this;

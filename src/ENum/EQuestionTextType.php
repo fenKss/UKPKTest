@@ -3,6 +3,8 @@
 
 namespace App\ENum;
 
+use MyCLabs\Enum\Enum;
+
 /**
  * Class EImageType
  *
@@ -10,7 +12,7 @@ namespace App\ENum;
  * @method static EQuestionTextType IMAGE_TYPE
  * @package App\ENum
  */
-class EQuestionTextType
+class EQuestionTextType extends Enum
 {
     public const TEXT_TYPE = 0;
     public const IMAGE_TYPE = 1;
