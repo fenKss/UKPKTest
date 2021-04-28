@@ -12,7 +12,7 @@ use MyCLabs\Enum\Enum;
  * @method static EOptionType IMAGE_TYPE
  * @package App\ENum
  */
-class EQuestionTextType extends Enum
+class EOptionType extends Enum
 {
     public const TEXT_TYPE = 0;
     public const IMAGE_TYPE = 1;

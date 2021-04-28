@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\ENum\EOptionType;
 use App\Repository\OptionRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -83,8 +84,9 @@ class QuestionOption
         return $this->type;
     }
 
-    public function setType(int $type): self
+    public function setType($type): self
     {
+        EOptionType::assertValidValue($type);
         $this->type = $type;
 
         return $this;

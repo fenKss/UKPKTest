@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use App\ENum\EQuestionTextType;
+use App\ENum\EOptionType;
 use App\ENum\EQuestionType;
 use App\Repository\QuestionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -131,7 +131,7 @@ class Question
 
     public function setTitleType($titleType): self
     {
-        EQuestionTextType::assertValidValue($titleType);
+        EOptionType::assertValidValue($titleType);
         $this->titleType = $titleType;
 
         return $this;

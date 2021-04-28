@@ -6,7 +6,7 @@ namespace App\Controller\Api;
 use App\Entity\QuestionOption;
 use App\Entity\Variant;
 use App\Entity\Question;
-use App\ENum\EQuestionTextType;
+use App\ENum\EOptionType;
 use App\ENum\EQuestionType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -35,13 +35,7 @@ class TestEditorApiController extends AbstractApiController
 
 
 
-    /**
-     * @Route("option/{option}", name="option_get", methods={"GET"})
-     */
-    public function getOption(QuestionOption $option): Response
-    {
-        return $this->success($this->__optionToArray($option));
-    }
+
 
 
 
@@ -62,16 +56,7 @@ class TestEditorApiController extends AbstractApiController
         return $response;
     }
 
-    private function __optionToArray(QuestionOption $option): array
-    {
-        return [
-            'id'         => $option->getId(),
-            'questionId' => $option->getQuestion()->getId(),
-            'isCorrect'  => $option->getIsCorrect(),
-            'text'       => $option->getText(),
-            'type'       => $option->getType()
-        ];
-    }
+
 
 
 }

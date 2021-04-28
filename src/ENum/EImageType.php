@@ -6,7 +6,7 @@ namespace App\ENum;
 /**
  * Class EImageType
  *
- * @method static EQuestionTextType AVATAR_TYPE
+ * @method static EOptionType AVATAR_TYPE
  * @package App\ENum
  */
 class EImageType

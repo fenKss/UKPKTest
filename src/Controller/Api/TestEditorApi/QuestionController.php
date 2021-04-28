@@ -7,7 +7,7 @@ namespace App\Controller\Api\TestEditorApi;
 use App\Controller\Api\AbstractApiController;
 use App\Entity\Question;
 use App\Entity\Variant;
-use App\ENum\EQuestionTextType;
+use App\ENum\EOptionType;
 use App\ENum\EQuestionType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -38,7 +38,7 @@ class QuestionController extends AbstractApiController
     {
         $question = new Question();
         $questionsCount = $variant->getQuestions()->count();
-        $question->setTitleType(EQuestionTextType::TEXT_TYPE);
+        $question->setTitleType(EOptionType::TEXT_TYPE);
         $question->setType(EQuestionType::RADIO_TYPE);
         $question->setVariant($variant);
         $question->setTitle("Вопрос " . ++$questionsCount);
