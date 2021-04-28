@@ -2,15 +2,15 @@
 
 namespace App\EventListener;
 
-use App\Controller\Api\TestEditorApiController;
+use App\Controller\Api\AbstractApiController;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ExceptionListener
 {
-    private TestEditorApiController $apiController;
+    private AbstractApiController $apiController;
 
-    public function __construct(TestEditorApiController $apiController)
+    public function __construct(AbstractApiController $apiController)
     {
         $this->apiController = $apiController;
     }

@@ -14,7 +14,7 @@ use Symfony\Component\Translation\Exception\NotFoundResourceException;
  *
  * @package App\Controller\Api
  */
-abstract class AbstractApiController extends AbstractController
+class AbstractApiController extends AbstractController
 {
 
     protected EntityManagerInterface $em;
