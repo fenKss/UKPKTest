@@ -20,7 +20,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class TestApiController extends AbstractApiController
 {
     /**
-     * @Route("/answer", name="_answer")
+     * @Route("/answer", name="answer")
      * @param UserTest $test
      * @param Request  $request
      *
@@ -60,7 +60,7 @@ class TestApiController extends AbstractApiController
     }
 
     /**
-     * @Route("/answer/all", name="_answer_all")
+     * @Route("/answer/all", name="answer_all")
      * @param UserTest $test
      * @param Request  $request
      *

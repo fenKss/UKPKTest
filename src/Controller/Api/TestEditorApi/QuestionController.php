@@ -6,10 +6,10 @@ namespace App\Controller\Api\TestEditorApi;
 
 use App\Controller\Api\AbstractApiController;
 use App\Entity\Question;
+use App\Entity\QuestionOption;
 use App\Entity\Variant;
 use App\ENum\EOptionType;
 use App\ENum\EQuestionType;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Translation\Exception\NotFoundResourceException;
@@ -17,14 +17,14 @@ use Symfony\Component\Translation\Exception\NotFoundResourceException;
 /**
  * Class QuestionController
  *
- * @Route("api/editor/")
+ * @Route("api/editor/question", name="api_editor_question_")
  * @package App\Controller\Api\TestEditorApi
  */
 class QuestionController extends AbstractApiController
 {
 
     /**
-     * @Route("question/{question}", name="question_get", methods={"GET"})
+     * @Route("/{question}", name="get", methods={"GET"})
      */
     public function getQuestion(Question $question): Response
     {
@@ -32,26 +32,26 @@ class QuestionController extends AbstractApiController
     }
 
     /**
-     * @Route("variant/{variant}/question", name="question_add", methods={"POST"})
+     * @Route("/{question}/option", name="option_add", methods={"POST"})
      */
-    public function addQuestion(Variant $variant): Response
+    public function addOption(Question $question): Response
     {
-        $question = new Question();
-        $questionsCount = $variant->getQuestions()->count();
-        $question->setTitleType(EOptionType::TEXT_TYPE);
-        $question->setType(EQuestionType::RADIO_TYPE);
-        $question->setVariant($variant);
-        $question->setTitle("Вопрос " . ++$questionsCount);
+        $option = new QuestionOption();
+        $optionsCount = $question->getOptions()->count();
+        $option->setType(EOptionType::TEXT_TYPE);
+        $option->setIsCorrect(false);
+        $option->setQuestion($question);
+        $option->setText("Вариант " . ++$optionsCount);
 
-        $this->em->persist($question);
+        $this->em->persist($option);
         $this->em->flush();
         return $this->success([
-            'id' => $question->getId()
+            'id' => $option->getId()
         ], 201);
     }
 
     /**
-     * @Route("question/{question}", name="question_edit", methods={"PUT"})
+     * @Route("/{question}", name="edit", methods={"PUT"})
      */
     public function editQuestion(Question $question): Response
     {
@@ -68,7 +68,7 @@ class QuestionController extends AbstractApiController
     }
 
     /**
-     * @Route("question/{question}", name="question_delete", methods={"DELETE"})
+     * @Route("/{question}", name="delete", methods={"DELETE"})
      */
     public function deleteQuestion(Question $question): Response
     {
