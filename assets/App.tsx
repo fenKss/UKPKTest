@@ -5,7 +5,7 @@ const App = () => {
     return (
         <Router>
             <Route path="/admin/variant/:variantId">
-                123
+                1asd
             </Route>
         </Router>
     )

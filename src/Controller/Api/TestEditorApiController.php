@@ -19,9 +19,6 @@ use Symfony\Component\Serializer\SerializerInterface;
 class TestEditorApiController extends AbstractApiController
 {
 
-    public function __construct(SerializerInterface $serializer)
-    {
-    }
 
     /**
      * @Route("variant/{variant}", name="variant", methods={"GET"})

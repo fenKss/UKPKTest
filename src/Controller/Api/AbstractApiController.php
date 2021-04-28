@@ -19,7 +19,7 @@ abstract class AbstractApiController extends AbstractController
      *
      * @return JsonResponse
      */
-    protected function success($data): JsonResponse
+    public function success($data): JsonResponse
     {
         return $this->json([
             'error' => false,
@@ -33,7 +33,7 @@ abstract class AbstractApiController extends AbstractController
      *
      * @return JsonResponse
      */
-    protected function error(string $error_msg): JsonResponse
+    public function error(string $error_msg): JsonResponse
     {
         return $this->json([
             'error' => true,
