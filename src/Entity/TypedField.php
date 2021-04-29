@@ -33,7 +33,7 @@ class TypedField
     /**
      * @ORM\ManyToOne(targetEntity=Image::class)
      */
-    private $image;
+    private ?Image $image;
 
     public function getId(): ?int
     {

@@ -1,33 +1,31 @@
-namespace Api {
-    interface IImage {
+export namespace Api {
+    export interface IImage {
         filename: string
         fullPath: string
     }
 
-    enum ETypedFieldType {
+    export enum ETypedFieldType {
         TEXT_TYPE = 0,
         IMAGE_TYPE = 1
     }
 
-    enum EQuestionType {
+    export enum EQuestionType {
         RADIO_TYPE = 0,
         SELECT_TYPE = 1
     }
 
-    type TypedField = {
-        id: number;
-        type: ETypedFieldType;
-        text: string | null;
-        image: IImage | null;
+    export type TypedField = {
+        body: IImage | string,
+        type: ETypedFieldType,
     }
 
-    type Option = {
+    export type Option = {
         id: number
         questionId: number
         isCorrect: boolean
         body: TypedField
     }
-    type Question = {
+    export type Question = {
         id: number
         title: TypedField
         type: EQuestionType
@@ -35,14 +33,14 @@ namespace Api {
         options: Option[]
     }
 
-    type Variant = {
+    export type Variant = {
         id: number
         testId: number
         userTests: []
         questions: Question[]
     }
 
-    type Response<T> = {
+    export type Response<T> = {
         error: boolean,
         data: T,
         error_msg: string

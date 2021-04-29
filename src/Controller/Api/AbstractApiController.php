@@ -134,8 +134,10 @@ class AbstractApiController extends AbstractController
     protected function __variantToArray(Variant $variant): array
     {
         $response = [
-            'id'     => $variant->getId(),
-            'testId' => $variant->getTest()->getId(),
+            'id'        => $variant->getId(),
+            'testId'    => $variant->getTest()->getId(),
+            'userTests' => [],
+            'questions' => [],
         ];
         $userTests = $variant->getUserTests();
         foreach ($userTests as $userTest) {
