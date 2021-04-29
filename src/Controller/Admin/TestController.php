@@ -19,9 +19,6 @@ class TestController extends AbstractController
 
     /**
      * @Route("/", name="index", methods={"GET"})
-     * @param Tour $tour
-     *
-     * @return Response
      */
     public function tests(Tour $tour): Response
     {
@@ -85,11 +82,6 @@ class TestController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="edit", methods={"GET","POST"})
-     * @param Tour    $tour
-     * @param Request $request
-     * @param Test    $test
-     *
-     * @return Response
      */
     public function edit(Tour $tour, Request $request, Test $test): Response
     {
@@ -124,11 +116,6 @@ class TestController extends AbstractController
 
     /**
      * @Route("/{id}", name="delete", methods={"DELETE"})
-     * @param Tour    $tour
-     * @param Request $request
-     * @param Test    $test
-     *
-     * @return Response
      */
     public function delete(Tour $tour, Request $request, Test $test): Response
     {
@@ -152,12 +139,7 @@ class TestController extends AbstractController
         ]);
     }
 
-    /**
-     * @param Test $test
-     *
-     * @return bool
-     */
-    private function validateExistsLanguageInTest(Test $test): bool
+     private function validateExistsLanguageInTest(Test $test): bool
     {
         $tour = $test->getTour();
 
@@ -173,11 +155,6 @@ class TestController extends AbstractController
         return true;
     }
 
-    /**
-     * @param Test $test
-     *
-     * @return bool
-     */
     private function validateExistsLanguageInOlympic(Test $test): bool
     {
         $olympic = $test->getTour()->getOlympic();

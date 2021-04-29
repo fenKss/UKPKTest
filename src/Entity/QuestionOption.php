@@ -29,14 +29,10 @@ class QuestionOption
     private ?bool $isCorrect;
 
     /**
-     * @ORM\Column(type="text", nullable=true)
+     * @ORM\ManyToOne(targetEntity=TypedField::class)
+     * @ORM\JoinColumn(nullable=false)
      */
-    private ?string $text;
-
-    /**
-     * @ORM\Column(type="smallint")
-     */
-    private ?string $type;
+    private ?TypedField $body;
 
     public function getId(): ?int
     {
@@ -67,28 +63,16 @@ class QuestionOption
         return $this;
     }
 
-    public function getText(): ?string
+    public function getBody(): ?TypedField
     {
-        return $this->text;
+        return $this->body;
     }
 
-    public function setText(?string $text): self
+    public function setBody(?TypedField $body): self
     {
-        $this->text = $text;
+        $this->body = $body;
 
         return $this;
     }
 
-    public function getType(): ?int
-    {
-        return $this->type;
-    }
-
-    public function setType($type): self
-    {
-        EOptionType::assertValidValue($type);
-        $this->type = $type;
-
-        return $this;
-    }
 }

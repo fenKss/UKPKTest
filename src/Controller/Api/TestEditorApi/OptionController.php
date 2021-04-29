@@ -5,7 +5,10 @@ namespace App\Controller\Api\TestEditorApi;
 
 
 use App\Controller\Api\AbstractApiController;
+use App\Entity\Image;
 use App\Entity\QuestionOption;
+use App\Entity\TypedField;
+use App\lib\FS\IFile;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Translation\Exception\NotFoundResourceException;
@@ -60,8 +63,9 @@ class OptionController extends AbstractApiController
             'id'         => $option->getId(),
             'questionId' => $option->getQuestion()->getId(),
             'isCorrect'  => $option->getIsCorrect(),
-            'text'       => $option->getText(),
-            'type'       => $option->getType()
+            'body' => $this->__typedFieldToArray($option->getBody())
         ];
     }
+
+
 }

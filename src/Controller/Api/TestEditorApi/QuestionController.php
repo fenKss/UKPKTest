@@ -7,9 +7,11 @@ namespace App\Controller\Api\TestEditorApi;
 use App\Controller\Api\AbstractApiController;
 use App\Entity\Question;
 use App\Entity\QuestionOption;
+use App\Entity\TypedField;
 use App\Entity\Variant;
 use App\ENum\EOptionType;
 use App\ENum\EQuestionType;
+use App\ENum\ETypedFieldType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Translation\Exception\NotFoundResourceException;
@@ -38,13 +40,18 @@ class QuestionController extends AbstractApiController
     {
         $option = new QuestionOption();
         $optionsCount = $question->getOptions()->count();
-        $option->setType(EOptionType::TEXT_TYPE);
         $option->setIsCorrect(false);
         $option->setQuestion($question);
-        $option->setText("Вариант " . ++$optionsCount);
+
+        $value = new TypedField();
+        $value->setType(ETypedFieldType::TEXT_TYPE);
+        $value->setText("Вариант " . ++$optionsCount);
+        $option->setBody($value);
 
         $this->em->persist($option);
+        $this->em->persist($value);
         $this->em->flush();
+
         return $this->success([
             'id' => $option->getId()
         ], 201);

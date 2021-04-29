@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use App\ENum\EOptionType;
 use App\ENum\EQuestionType;
 use App\Repository\QuestionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -32,10 +31,6 @@ class Question
      */
     private ?string $type;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private ?string $title;
 
     /**
      * @ORM\OneToMany(targetEntity=QuestionOption::class, mappedBy="question")
@@ -43,9 +38,10 @@ class Question
     private Collection $options;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\ManyToOne(targetEntity=TypedField::class)
+     * @ORM\JoinColumn(nullable=false)
      */
-    private ?string $titleType;
+    private ?TypedField $title;
 
     public function __construct()
     {
@@ -82,18 +78,6 @@ class Question
         return $this;
     }
 
-    public function getTitle(): ?string
-    {
-        return $this->title;
-    }
-
-    public function setTitle(?string $title): self
-    {
-        $this->title = $title;
-
-        return $this;
-    }
-
     /**
      * @return Collection|QuestionOption[]
      */
@@ -124,16 +108,16 @@ class Question
         return $this;
     }
 
-    public function getTitleType(): ?int
+    public function getTitle(): ?TypedField
     {
-        return $this->titleType;
+        return $this->title;
     }
 
-    public function setTitleType($titleType): self
+    public function setTitle(?TypedField $title): self
     {
-        EOptionType::assertValidValue($titleType);
-        $this->titleType = $titleType;
+        $this->title = $title;
 
         return $this;
     }
+
 }

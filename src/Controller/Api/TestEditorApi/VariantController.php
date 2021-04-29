@@ -6,9 +6,11 @@ namespace App\Controller\Api\TestEditorApi;
 
 use App\Controller\Api\AbstractApiController;
 use App\Entity\Question;
+use App\Entity\TypedField;
 use App\Entity\Variant;
 use App\ENum\EOptionType;
 use App\ENum\EQuestionType;
+use App\ENum\ETypedFieldType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -27,12 +29,16 @@ class VariantController extends AbstractApiController
     {
         $question = new Question();
         $questionsCount = $variant->getQuestions()->count();
-        $question->setTitleType(EOptionType::TEXT_TYPE);
         $question->setType(EQuestionType::RADIO_TYPE);
         $question->setVariant($variant);
-        $question->setTitle("Вопрос " . ++$questionsCount);
+
+        $value = new TypedField();
+        $value->setType(ETypedFieldType::TEXT_TYPE);
+        $value->setText("Вопрос " . ++$questionsCount);
+        $question->setTitle($value);
 
         $this->em->persist($question);
+        $this->em->persist($value);
         $this->em->flush();
         return $this->success([
             'id' => $question->getId()

@@ -4,6 +4,9 @@
 namespace App\Controller\Api;
 
 
+use App\Entity\Image;
+use App\Entity\TypedField;
+use App\ENum\ETypedFieldType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -75,5 +78,26 @@ class AbstractApiController extends AbstractController
             throw new NotFoundResourceException("$field not found in request");
         }
         return $resource;
+    }
+
+    protected  function __typedFieldToArray(?TypedField $field): array
+    {
+        $array  = [
+            'type' => $field->getType(),
+        ];
+        switch ($field->getType()){
+            case ETypedFieldType::TEXT_TYPE:
+                $array['body'] = $field->getValue();
+                break;
+            case ETypedFieldType::IMAGE_TYPE:
+                /**@var Image $image */
+                $image = $field->getImage();
+                $array['body'] = [
+                    'filename' => $image->getFilename(),
+                    'fullPath' => $image->getFullPath(),
+                ];
+                break;
+        }
+        return $array;
     }
 }
