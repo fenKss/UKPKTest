@@ -17,9 +17,6 @@ class LanguageController extends AbstractController
 {
     /**
      * @Route("/", name="language_index", methods={"GET"})
-     * @param LanguageRepository $languageRepository
-     *
-     * @return Response
      */
     public function index(LanguageRepository $languageRepository): Response
     {
@@ -30,9 +27,6 @@ class LanguageController extends AbstractController
 
     /**
      * @Route("/new", name="language_new", methods={"GET","POST"})
-     * @param Request $request
-     *
-     * @return Response
      */
     public function new(Request $request): Response
     {
@@ -56,9 +50,6 @@ class LanguageController extends AbstractController
 
     /**
      * @Route("/{id}", name="language_show", methods={"GET"})
-     * @param Language $language
-     *
-     * @return Response
      */
     public function show(Language $language): Response
     {
@@ -69,10 +60,6 @@ class LanguageController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="language_edit", methods={"GET","POST"})
-     * @param Request  $request
-     * @param Language $language
-     *
-     * @return Response
      */
     public function edit(Request $request, Language $language): Response
     {
@@ -93,10 +80,6 @@ class LanguageController extends AbstractController
 
     /**
      * @Route("/{id}", name="language_delete", methods={"DELETE"})
-     * @param Request  $request
-     * @param Language $language
-     *
-     * @return Response
      */
     public function delete(Request $request, Language $language): Response
     {

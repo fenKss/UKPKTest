@@ -21,10 +21,6 @@ class TestApiController extends AbstractApiController
 {
     /**
      * @Route("/answer", name="answer")
-     * @param UserTest $test
-     * @param Request  $request
-     *
-     * @return JsonResponse
      */
     public function index(UserTest $test, Request $request): JsonResponse
     {
@@ -61,10 +57,6 @@ class TestApiController extends AbstractApiController
 
     /**
      * @Route("/answer/all", name="answer_all")
-     * @param UserTest $test
-     * @param Request  $request
-     *
-     * @return JsonResponse
      */
     public function answerAll(UserTest $test, Request $request): JsonResponse
     {

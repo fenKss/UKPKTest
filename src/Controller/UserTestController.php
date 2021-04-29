@@ -21,9 +21,6 @@ class UserTestController extends AbstractController
 {
     /**
      * @Route("/{test}", name="index")
-     * @param UserTest $test
-     *
-     * @return Response
      */
     public function index(UserTest $test): Response
     {

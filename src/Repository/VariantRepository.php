@@ -21,8 +21,6 @@ class VariantRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param Test $test
-     *
      * @return int|mixed|string
      */
     public function getByTestWithQuestions(Test $test)

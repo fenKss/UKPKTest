@@ -18,11 +18,6 @@ class VariantController extends AbstractController
 {
     /**
      * @Route("/", name="index", methods={"GET"})
-     * @param Tour              $tour
-     * @param Test              $test
-     * @param VariantRepository $variantRepository
-     *
-     * @return Response
      */
     public function index(Tour $tour, Test $test, VariantRepository $variantRepository): Response
     {
@@ -41,10 +36,6 @@ class VariantController extends AbstractController
 
     /**
      * @Route("/new", name="new", methods={"GET","POST"})
-     * @param Tour $tour
-     * @param Test $test
-     *
-     * @return Response
      */
     public function new(Tour $tour, Test $test): Response
     {
@@ -71,12 +62,6 @@ class VariantController extends AbstractController
 
     /**
      * @Route("/{id}", name="delete", methods={"DELETE"})
-     * @param Tour    $tour
-     * @param Test    $test
-     * @param Request $request
-     * @param Variant $variant
-     *
-     * @return Response
      */
     public function delete(Tour $tour, Test $test, Request $request, Variant $variant): Response
     {

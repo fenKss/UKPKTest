@@ -18,9 +18,6 @@ class OlympicController extends AbstractController
 {
     /**
      * @Route("/", name="index", methods={"GET"})
-     * @param OlympicRepository $olympicRepository
-     *
-     * @return Response
      */
     public function index(OlympicRepository $olympicRepository): Response
     {
@@ -56,9 +53,6 @@ class OlympicController extends AbstractController
 
     /**
      * @Route("/new", name="new", methods={"GET","POST"})
-     * @param Request $request
-     *
-     * @return Response
      */
     public function new(Request $request): Response
     {

@@ -64,8 +64,6 @@ class OlympicRepository extends ServiceEntityRepository
     }
 
     /**
-     * @param UserInterface|null $user
-     *
      * @return int|mixed|string
      */
     public function getByUser(?UserInterface $user)
