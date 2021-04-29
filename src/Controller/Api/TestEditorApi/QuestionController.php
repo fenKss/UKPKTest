@@ -8,9 +8,6 @@ use App\Controller\Api\AbstractApiController;
 use App\Entity\Question;
 use App\Entity\QuestionOption;
 use App\Entity\TypedField;
-use App\Entity\Variant;
-use App\ENum\EOptionType;
-use App\ENum\EQuestionType;
 use App\ENum\ETypedFieldType;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -84,12 +81,11 @@ class QuestionController extends AbstractApiController
         return $this->success(null, Response::HTTP_NO_CONTENT);
     }
 
-    public static function __questionToArray(Question $question): array
+    public function __questionToArray(Question $question): array
     {
         $response = [
             'id'        => $question->getId(),
-            'title'     => $question->getTitle(),
-            'titleType' => $question->getTitleType(),
+            'title'     => $this->__typedFieldToArray($question->getTitle()),
             'type'      => $question->getType(),
             'variantId' => $question->getVariant()->getId(),
             'options'   => [],

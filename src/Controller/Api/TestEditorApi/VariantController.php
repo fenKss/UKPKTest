@@ -8,7 +8,6 @@ use App\Controller\Api\AbstractApiController;
 use App\Entity\Question;
 use App\Entity\TypedField;
 use App\Entity\Variant;
-use App\ENum\EOptionType;
 use App\ENum\EQuestionType;
 use App\ENum\ETypedFieldType;
 use Symfony\Component\HttpFoundation\Response;

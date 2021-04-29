@@ -22,7 +22,8 @@ class AbstractApiController extends AbstractController
 
     protected EntityManagerInterface $em;
 
-    public function __construct(EntityManagerInterface $em){
+    public function __construct(EntityManagerInterface $em)
+    {
 
         $this->em = $em;
     }
@@ -80,12 +81,12 @@ class AbstractApiController extends AbstractController
         return $resource;
     }
 
-    protected  function __typedFieldToArray(?TypedField $field): array
+    protected function __typedFieldToArray(?TypedField $field): array
     {
-        $array  = [
+        $array = [
             'type' => $field->getType(),
         ];
-        switch ($field->getType()){
+        switch ($field->getType()) {
             case ETypedFieldType::TEXT_TYPE:
                 $array['body'] = $field->getValue();
                 break;
