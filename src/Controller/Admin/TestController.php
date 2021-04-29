@@ -48,10 +48,7 @@ class TestController extends AbstractController
         foreach ($tour->getTests() as $test) {
             $languages[] = $test->getLanguage();
         }
-        if ($tour->getOlympic()->getLanguages()->count()
-            >=
-            $languages->count()
-        ) {
+        if ($tour->getOlympic()->getLanguages()->count() <= $languages->count()) {
             $this->addFlash('error',
                 'Нельзя добавить больше тестов в данный тур');
             return $this->redirectToRoute('admin_test_index', [
