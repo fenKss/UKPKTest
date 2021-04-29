@@ -57,15 +57,4 @@ class OptionController extends AbstractApiController
         return $this->success(null, Response::HTTP_NO_CONTENT);
     }
 
-    private function __optionToArray(QuestionOption $option): array
-    {
-        return [
-            'id'         => $option->getId(),
-            'questionId' => $option->getQuestion()->getId(),
-            'isCorrect'  => $option->getIsCorrect(),
-            'body' => $this->__typedFieldToArray($option->getBody())
-        ];
-    }
-
-
 }

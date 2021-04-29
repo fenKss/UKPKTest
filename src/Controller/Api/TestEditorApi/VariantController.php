@@ -10,8 +10,10 @@ use App\Entity\TypedField;
 use App\Entity\Variant;
 use App\ENum\EQuestionType;
 use App\ENum\ETypedFieldType;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * Class VariantController
@@ -21,6 +23,14 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class VariantController extends AbstractApiController
 {
+    private UrlGeneratorInterface $generator;
+
+    public function __construct(EntityManagerInterface $em, UrlGeneratorInterface $generator)
+    {
+        parent::__construct($em);
+        $this->generator = $generator;
+    }
+
     /**
      * @Route("/{variant}/question", name="question_add", methods={"POST"})
      */
@@ -52,20 +62,5 @@ class VariantController extends AbstractApiController
         return $this->success($this->__variantToArray($variant));
     }
 
-    private function __variantToArray(Variant $variant): array
-    {
-        $response = [
-            'id'     => $variant->getId(),
-            'testId' => $variant->getTest()->getId(),
-        ];
-        $userTests = $variant->getUserTests();
-        foreach ($userTests as $userTest) {
-            $response['userTests'][]['id'] = $userTest->getId();
-        }
-        $questions = $variant->getQuestions();
-        foreach ($questions as $question) {
-            $response['questions'][]['id'] = $question->getId();
-        }
-        return $response;
-    }
+
 }

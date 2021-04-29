@@ -5,7 +5,10 @@ namespace App\Controller\Api;
 
 
 use App\Entity\Image;
+use App\Entity\Question;
+use App\Entity\QuestionOption;
 use App\Entity\TypedField;
+use App\Entity\Variant;
 use App\ENum\ETypedFieldType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -100,5 +103,48 @@ class AbstractApiController extends AbstractController
                 break;
         }
         return $array;
+    }
+
+    protected function __optionToArray(QuestionOption $option): array
+    {
+        return [
+            'id'         => $option->getId(),
+            'questionId' => $option->getQuestion()->getId(),
+            'isCorrect'  => $option->getIsCorrect(),
+            'body'       => $this->__typedFieldToArray($option->getBody())
+        ];
+    }
+
+    protected function __questionToArray(Question $question): array
+    {
+        $response = [
+            'id'        => $question->getId(),
+            'title'     => $this->__typedFieldToArray($question->getTitle()),
+            'type'      => $question->getType(),
+            'variantId' => $question->getVariant()->getId(),
+            'options'   => [],
+        ];
+        foreach ($question->getOptions() as $option) {
+            $response['options'][] = $this->__optionToArray($option);
+        }
+        return $response;
+
+    }
+
+    protected function __variantToArray(Variant $variant): array
+    {
+        $response = [
+            'id'     => $variant->getId(),
+            'testId' => $variant->getTest()->getId(),
+        ];
+        $userTests = $variant->getUserTests();
+        foreach ($userTests as $userTest) {
+            $response['userTests'][]['id'] = $userTest->getId();
+        }
+        $questions = $variant->getQuestions();
+        foreach ($questions as $question) {
+            $response['questions'][] = $this->__questionToArray($question);
+        }
+        return $response;
     }
 }

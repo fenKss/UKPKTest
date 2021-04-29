@@ -80,20 +80,4 @@ class QuestionController extends AbstractApiController
         $this->em->flush();
         return $this->success(null, Response::HTTP_NO_CONTENT);
     }
-
-    public function __questionToArray(Question $question): array
-    {
-        $response = [
-            'id'        => $question->getId(),
-            'title'     => $this->__typedFieldToArray($question->getTitle()),
-            'type'      => $question->getType(),
-            'variantId' => $question->getVariant()->getId(),
-            'options'   => [],
-        ];
-        foreach ($question->getOptions() as $option) {
-            $response['options'][]['id'] = $option->getId();
-        }
-        return $response;
-
-    }
 }
