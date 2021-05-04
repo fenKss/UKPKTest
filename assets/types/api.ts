@@ -1,7 +1,7 @@
 export namespace Api {
     export interface IImage {
         filename: string
-        fullPath: string
+        fullPath: string,
     }
 
     export enum ETypedFieldType {
@@ -17,6 +17,7 @@ export namespace Api {
     export type TypedField = {
         body: IImage | string,
         type: ETypedFieldType,
+        file ?: File
     }
 
     export type Option = {

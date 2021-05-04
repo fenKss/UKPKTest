@@ -68,8 +68,13 @@ export const createQuestion = (variantId: number) => async (dispatch) => {
 
 export const editQuestionOnServer = (question: Question) => async (dispatch) => {
     const api = editorApi;
-    await api.question.edit(question);
-    dispatch(editQuestion(question));
+    const newQuestion = await api.question.edit(question);
+    dispatch(editQuestion(newQuestion));
+}
+export const editQuestionTitleOnServer = (question: Question) => async (dispatch) => {
+    const api = editorApi;
+    const newQuestion = await api.question.editTitle(question);
+    dispatch(editQuestion(newQuestion));
 }
 
 export default editorReducer;

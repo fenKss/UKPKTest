@@ -7,8 +7,6 @@ interface QuestionTypeProps {
     onChangeType: () => void
 }
 
-
-
 const QuestionType: React.FC<QuestionTypeProps> = (props) => {
     const {question, onChangeType} = props;
     return (

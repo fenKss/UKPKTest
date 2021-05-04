@@ -12,4 +12,5 @@ namespace App\ENum;
 class EImageType
 {
     public const AVATAR_TYPE = 0;
+    public const TITLE_TYPE = 1;
 }

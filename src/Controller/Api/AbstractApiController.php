@@ -97,7 +97,7 @@ class AbstractApiController extends AbstractController
                 $image = $field->getImage();
                 $array['body'] = [
                     'filename' => $image->getFilename(),
-                    'fullPath' => $image->getFullPath(),
+                    'fullPath' => $image->getPath(),
                 ];
                 break;
         }

@@ -1,0 +1,24 @@
+.editQuestionTitleModal {
+  width: 400px;
+  font-size: 15px;
+  button.btn.btn-success{
+    margin: 5px 0 0;
+  }
+  input[type='file']{
+    font-size: 12px;
+  }
+  input{
+    outline: none;
+  }
+  .question-title-type {
+    display: flex;
+    margin-bottom: 10px;
+
+    div {
+      margin-left: 10px;
+      margin-right: 10px;
+    }
+
+
+  }
+}

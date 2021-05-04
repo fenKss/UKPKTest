@@ -1,9 +1,9 @@
-import axios from 'axios';
+import axios, {AxiosError, AxiosInstance, AxiosResponse} from 'axios';
 import * as qs from 'qs'
-import {AxiosError, AxiosResponse, AxiosInstance} from 'axios';
 import {Api} from "../types/api";
 import Question = Api.Question;
 import Option = Api.Option;
+import ETypedFieldType = Api.ETypedFieldType;
 
 type ApiResponse<T> = AxiosResponse<Api.Response<T>>;
 type ApiError = AxiosError<Api.Response<null>>;
@@ -45,6 +45,28 @@ class editorApi {
             return await this.put(`/question/${question.id}`, question, 'question')
                 .then((response: ApiResponse<null>): null => response.data.data)
                 .catch(this.catch)
+        },
+        editTitle: async (question: Question): Promise<Question> => {
+            if (question.title.type == ETypedFieldType.TEXT_TYPE && typeof question.title.body == 'string') {
+                return this.question.__editTitleString(question);
+            }
+            return this.question.__editTitleFile(question);
+        },
+        __editTitleString: async (question: Question): Promise<Question> => {
+            return await this.put(`/question/${question.id}/title`, question, 'question')
+                .then((response: ApiResponse<Question>): Question => response.data.data)
+                .catch(this.catch)
+        },
+        __editTitleFile: async (question: Question): Promise<Question> => {
+            const formData = new FormData();
+            formData.append("title", question.title.file,question.title.file.name);
+            return await this.axios.post(`/question/${question.id}/title`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            })
+                .then((response: ApiResponse<Question>): Question => response.data.data)
+                .catch(this.catch)
         }
     }
     option = {
@@ -73,7 +95,7 @@ class editorApi {
         toastr.error(e.response.data.error_msg);
         return null;
     }
-    put = (url, data, field) => {
+    put = (url, data, field: string) => {
         const a = [];
         a[field] = data;
         return this.axios.put(url, qs.stringify(a), {

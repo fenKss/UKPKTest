@@ -14,7 +14,8 @@ const QuestionListItem: React.FC<QuestionListItemProps> = (props): JSX.Element =
         onClick(question.id);
     }
     let QuestionItem;
-    if (typeof body !== "string" && question.title.type == Api.ETypedFieldType.IMAGE_TYPE) {
+    if (question.title.type == Api.ETypedFieldType.IMAGE_TYPE) {
+        //@ts-ignore
         QuestionItem = <img src={body.fullPath} alt={body.filename}/>;
     } else {
         QuestionItem = <span >{body}</span>;

@@ -3,15 +3,18 @@ import {connect, ConnectedProps} from "react-redux";
 import {RootState} from "../../../store/store";
 import Question from "./Question";
 import {Api} from "../../../types/api";
-import {editQuestionOnServer} from "../../../store/editorReducer/editorReducer";
+import {editQuestionOnServer, editQuestionTitleOnServer} from "../../../store/editorReducer/editorReducer";
 
 const QuestionContainer: React.FC<QuestionContainerProps> = (props) => {
-    const {question, editQuestionOnServer} = props;
+    const {question, editQuestionOnServer,editQuestionTitleOnServer} = props;
     const onEditQuestion = (question: Api.Question) => {
         editQuestionOnServer(question);
     }
+    const onEditQuestionTitle = (question:Api.Question) => {
+        editQuestionTitleOnServer(question);
+    }
     return (
-        question ? <Question question={question} onEditQuestion={onEditQuestion}/> : <></>
+        question ? <Question question={question} onEditQuestion={onEditQuestion} onEditQuestionTitle={onEditQuestionTitle}/> : <></>
     )
 }
 const mapStateToProps = (state: RootState) => {
@@ -26,7 +29,8 @@ const mapStateToProps = (state: RootState) => {
     }
 }
 const mapDispatchToProps = ({
-    editQuestionOnServer
+    editQuestionOnServer,
+    editQuestionTitleOnServer,
 });
 const connector = connect(mapStateToProps, mapDispatchToProps);
 export type QuestionContainerProps = ConnectedProps<typeof connector>
