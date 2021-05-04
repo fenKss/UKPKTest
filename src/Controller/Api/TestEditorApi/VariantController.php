@@ -10,29 +10,21 @@ use App\Entity\TypedField;
 use App\Entity\Variant;
 use App\ENum\EQuestionType;
 use App\ENum\ETypedFieldType;
-use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * Class VariantController
- * @Route("api/editor/variant", name="api_editor_variant_")
+ * @Route("api/editor/variant/{variant}", name="api_editor_variant_")
  *
  * @package App\Controller\Api\TestEditorApi
  */
 class VariantController extends AbstractApiController
 {
-    private UrlGeneratorInterface $generator;
-
-    public function __construct(EntityManagerInterface $em, UrlGeneratorInterface $generator)
-    {
-        parent::__construct($em);
-        $this->generator = $generator;
-    }
 
     /**
-     * @Route("/{variant}/question", name="question_add", methods={"POST"})
+     * @Route("/question", name="question_add", methods={"POST"})
      */
     public function addQuestion(Variant $variant): Response
     {
@@ -49,18 +41,29 @@ class VariantController extends AbstractApiController
         $this->em->persist($question);
         $this->em->persist($value);
         $this->em->flush();
-        return $this->success([
-            'id' => $question->getId()
-        ], 201);
+        return $this->success($this->__questionToArray($question), 201);
     }
 
     /**
-     * @Route("/{variant}", name="get", methods={"GET"})
+     * @Route("/questions", name="all", methods={"GET"})
+     */
+    public function getQuestions(Variant $variant): JsonResponse
+    {
+        $questions = $variant->getQuestions();
+
+        $responseQuestions = [];
+        foreach ($questions as $question) {
+            $responseQuestions[] = $this->__questionToArray($question);
+        }
+        return $this->success($responseQuestions);
+
+    }
+
+    /**
+     * @Route("", name="get", methods={"GET"})
      */
     public function getVariant(Variant $variant): Response
     {
         return $this->success($this->__variantToArray($variant));
     }
-
-
 }
