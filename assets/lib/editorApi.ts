@@ -1,5 +1,6 @@
 import axios from 'axios';
-import {AxiosError, AxiosResponse} from 'axios';
+import * as qs from 'qs'
+import {AxiosError, AxiosResponse, AxiosInstance} from 'axios';
 import {Api} from "../types/api";
 import Question = Api.Question;
 import Option = Api.Option;
@@ -8,7 +9,7 @@ type ApiResponse<T> = AxiosResponse<Api.Response<T>>;
 type ApiError = AxiosError<Api.Response<null>>;
 
 class editorApi {
-    private readonly axios;
+    private readonly axios: AxiosInstance;
 
     constructor() {
         this.axios = axios.create({
@@ -39,6 +40,11 @@ class editorApi {
             return await this.axios.delete(`/question/${questionId}`)
                 .then((response: ApiResponse<null>): null => response.data.data)
                 .catch(this.catch)
+        },
+        edit: async (question: Question): Promise<null> => {
+            return await this.put(`/question/${question.id}`, question, 'question')
+                .then((response: ApiResponse<null>): null => response.data.data)
+                .catch(this.catch)
         }
     }
     option = {
@@ -62,9 +68,19 @@ class editorApi {
         }
     }
 
-    catch = (e: ApiError) => {
+    catch = (e: ApiError): undefined => {
         //@ts-ignore
         toastr.error(e.response.data.error_msg);
+        return null;
+    }
+    put = (url, data, field) => {
+        const a = [];
+        a[field] = data;
+        return this.axios.put(url, qs.stringify(a), {
+            headers: {
+                'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
+            }
+        })
     }
 }
 

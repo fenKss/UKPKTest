@@ -55,21 +55,20 @@ class AbstractApiController extends AbstractController
         string $class
     ): void {
         foreach ($object as $property => $value) {
-            if (!property_exists($class, $property)) {
-                throw new NotFoundResourceException("Property $property does not exist in $class");
+                if (!property_exists($class, $property) && !strpos($property, 'Id')) {
+                    throw new NotFoundResourceException("Property $property does not exist in $class");
             }
         }
     }
 
     protected function __updateRequestEntity($entity, array $requestObject)
     {
-        $class = get_class($entity);
         foreach ($requestObject as $property => $value) {
             $setter = 'set' . ucfirst($property);
-            if (!method_exists($entity, $setter)) {
-                throw new NotFoundResourceException("Property $setter does not exist in $class");
+            if (method_exists($entity, $setter) && !is_array($value) ) {
+                 $entity->$setter($value);
             }
-            $entity->$setter($value);
+
         }
 
     }

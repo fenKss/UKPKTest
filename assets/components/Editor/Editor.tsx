@@ -1,16 +1,17 @@
 import * as React from "react";
-import {Api} from "../../types/api";
-import Question = Api.Question;
 import AddQuestionButtonContainer from "./AddQuestionButton/AddQuestionButtonContainer";
 import QuestionListContainer from "./QuestionList/QuestionListContainer";
-
+import QuestionContainer from "./Question/QuestionContainer";
 
 
 const Editor: React.FC<{}> = (props): JSX.Element => {
     return (
         <>
             <AddQuestionButtonContainer/>
-            <QuestionListContainer />
+            <div id="editor">
+                <QuestionListContainer/>
+                <QuestionContainer/>
+            </div>
         </>
     )
 }

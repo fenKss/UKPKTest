@@ -72,7 +72,7 @@ class Question
 
     public function setType($type): self
     {
-        EQuestionType::assertValidValue($type);
+        EQuestionType::assertValidValue((int)$type);
         $this->type = $type;
 
         return $this;

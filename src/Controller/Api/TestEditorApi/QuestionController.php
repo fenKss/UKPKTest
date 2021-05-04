@@ -49,9 +49,7 @@ class QuestionController extends AbstractApiController
         $this->em->persist($value);
         $this->em->flush();
 
-        return $this->success([
-            'id' => $option->getId()
-        ], 201);
+       return $this->success($this->__optionToArray($option), Response::HTTP_CREATED);
     }
 
     /**

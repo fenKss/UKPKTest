@@ -7,11 +7,14 @@ ul.list{
     list-style: none;
     box-sizing: border-box;
     padding: 5px;
-    border-top: 1px solid black;
+
     border-bottom: 1px solid black;
     cursor: pointer;
     &:hover, &.selected{
       color:#005ea8 ;
+    }
+    &:first-child{
+      border-top: 1px solid black;
     }
   }
 }
