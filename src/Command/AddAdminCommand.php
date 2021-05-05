@@ -3,10 +3,8 @@
 namespace App\Command;
 
 use App\Repository\UserRepository;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -16,13 +14,8 @@ class AddAdminCommand extends Command
 {
     protected static        $defaultName        = 'app:add-admin';
     protected static string $defaultDescription = 'Make user admin by email';
-    /**
-     * @var UserRepository
-     */
+
     private UserRepository $userRepository;
-    /**
-     * @var EntityManagerInterface
-     */
     private EntityManagerInterface $em;
 
     public function __construct(

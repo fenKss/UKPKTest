@@ -8,7 +8,6 @@ use App\Entity\User;
 use App\Form\AdminUserType;
 use App\Repository\UserRepository;
 use App\Service\PaginationService;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

@@ -3,8 +3,6 @@
 
 namespace App\Service;
 
-use Doctrine\ORM\Query;
-use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Exception;
 use Symfony\Component\HttpFoundation\Request;

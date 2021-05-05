@@ -27,9 +27,9 @@ class Test {
       }
     })
 
-    setInterval(() => {
+    setInterval(async () => {
       if(JSON.stringify(this.lastSavedResults) !== JSON.stringify(this.answers)){
-        this.api.answer();
+        await this.api.answer();
       }
     }, 20000)
   }

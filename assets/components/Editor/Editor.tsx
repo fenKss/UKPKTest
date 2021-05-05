@@ -4,7 +4,7 @@ import QuestionListContainer from "./QuestionList/QuestionListContainer";
 import QuestionContainer from "./Question/QuestionContainer";
 
 
-const Editor: React.FC<{}> = (props): JSX.Element => {
+const Editor: React.FC = (): JSX.Element => {
     return (
         <>
             <AddQuestionButtonContainer/>

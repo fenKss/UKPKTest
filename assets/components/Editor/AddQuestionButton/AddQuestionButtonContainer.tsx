@@ -3,7 +3,7 @@ import "./addQuestionButton.scss"
 import AddQuestionButton from "./AddQuestionButton";
 import {createQuestion} from "../../../store/editorReducer/editorReducer";
 import {connect, ConnectedProps} from "react-redux";
-import {RouteComponentProps, useParams, withRouter} from "react-router-dom";
+import {useParams} from "react-router-dom";
 import {ParamTypes} from "../../../types";
 
 const AddQuestionButtonContainer: React.FC<AddQuestionButtonContainerProps> = (props) => {

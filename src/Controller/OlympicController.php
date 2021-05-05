@@ -6,7 +6,6 @@ use App\Entity\Olympic;
 use App\Entity\Tour;
 use App\Entity\User;
 use App\Entity\UserTest;
-use App\ENum\EOlympicType;
 use App\ENum\EUserTestStatus;
 use App\Form\UserTestForm;
 use App\Repository\OlympicRepository;
@@ -45,7 +44,6 @@ class OlympicController extends AbstractController
      * @Route("/{olympic}/tour/{tour}/signup/", name="tour_signup")
      */
     public function signUpToTour(
-        Olympic $olympic,
         Tour $tour,
         Request $request
     ): Response {

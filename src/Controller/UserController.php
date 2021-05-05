@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\Image;
 use App\Entity\User;
 use App\ENum\EImageType;
-use App\ENum\EOptionType;
 use App\ENum\EUserTestStatus;
 use App\Form\UserFormType;
 use App\lib\FS\Exceptions\FileNotExistException;

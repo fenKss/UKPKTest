@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use App\ENum\EOptionType;
 use App\Repository\OptionRepository;
 use Doctrine\ORM\Mapping as ORM;
 

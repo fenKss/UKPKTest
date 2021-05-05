@@ -5,10 +5,7 @@ namespace App\Controller\Api\TestEditorApi;
 
 
 use App\Controller\Api\AbstractApiController;
-use App\Entity\Image;
 use App\Entity\QuestionOption;
-use App\Entity\TypedField;
-use App\lib\FS\IFile;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Translation\Exception\NotFoundResourceException;

@@ -24,6 +24,6 @@ class ExceptionListener
                  $response->setStatusCode(404);
              }
              $event->setResponse($response);
-        };
+        }
     }
 }

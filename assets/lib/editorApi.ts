@@ -37,13 +37,15 @@ class editorApi {
                 .catch(this.catch)
         },
         delete: async (questionId: number): Promise<null> => {
-            return await this.axios.delete(`/question/${questionId}`)
+            return await this.axios
+                .delete(`/question/${questionId}`)
                 .then((response: ApiResponse<null>): null => response.data.data)
                 .catch(this.catch)
         },
-        edit: async (question: Question): Promise<null> => {
-            return await this.put(`/question/${question.id}`, question, 'question')
-                .then((response: ApiResponse<null>): null => response.data.data)
+        edit: async (question: Question): Promise<Question> => {
+            return await this
+                .put(`/question/${question.id}`, question, 'question')
+                .then((response: ApiResponse<Question>): Question => response.data.data)
                 .catch(this.catch)
         },
         editTitle: async (question: Question): Promise<Question> => {
@@ -53,18 +55,20 @@ class editorApi {
             return this.question.__editTitleFile(question);
         },
         __editTitleString: async (question: Question): Promise<Question> => {
-            return await this.put(`/question/${question.id}/title`, question, 'question')
+            return await this
+                .put(`/question/${question.id}/title`, question, 'question')
                 .then((response: ApiResponse<Question>): Question => response.data.data)
                 .catch(this.catch)
         },
         __editTitleFile: async (question: Question): Promise<Question> => {
             const formData = new FormData();
-            formData.append("title", question.title.file,question.title.file.name);
-            return await this.axios.post(`/question/${question.id}/title`, formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                }
-            })
+            formData.append("title", question.title.file, question.title.file.name);
+            return await this.axios
+                .post(`/question/${question.id}/title`, formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                })
                 .then((response: ApiResponse<Question>): Question => response.data.data)
                 .catch(this.catch)
         }
@@ -87,7 +91,13 @@ class editorApi {
                 .delete(`option/${optionId}`)
                 .then((response: ApiResponse<null>): null => response.data.data)
                 .catch(this.catch)
-        }
+        },
+        edit: async (option: Option): Promise<Option> => {
+            return await this
+                .put(`/option/${option.id}`, option, 'option')
+                .then((response: ApiResponse<Option>): Option => response.data.data)
+                .catch(this.catch)
+        },
     }
 
     catch = (e: ApiError): undefined => {
@@ -95,7 +105,7 @@ class editorApi {
         toastr.error(e.response.data.error_msg);
         return null;
     }
-    put = (url, data, field: string) => {
+    put = (url: string, data, field: string): Promise<any> => {
         const a = [];
         a[field] = data;
         return this.axios.put(url, qs.stringify(a), {
