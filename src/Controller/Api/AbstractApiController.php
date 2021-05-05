@@ -75,6 +75,9 @@ class AbstractApiController extends AbstractController
     {
         foreach ($requestObject as $property => $value) {
             $setter = 'set' . ucfirst($property);
+            if ($value == 'false') {
+                $value = false;
+            }
             if (method_exists($entity, $setter) && !is_array($value)) {
                 $entity->$setter($value);
             }
@@ -219,11 +222,12 @@ class AbstractApiController extends AbstractController
         string $field
     ): bool {
         $titleRaw = $this->__getResourceFromPut($field);
-        if (!isset($titleRaw['title']['body'])) {
+        $text = $titleRaw['title']['body'] ?? $titleRaw['body']['body'] ?? null;
+        if (!$text) {
             throw new RuntimeException("Invalid title text");
         }
         $title->setType(ETypedFieldType::TEXT_TYPE);
-        $title->setText($titleRaw['title']['body']);
+        $title->setText($text);
         $this->__deleteOldTypedFieldImage($title);
         $title->setImage(null);
         $this->em->persist($title);

@@ -76,7 +76,28 @@ class OptionController extends AbstractApiController
         return $this->success(null, Response::HTTP_NO_CONTENT);
     }
 
-
+    /**
+     * @Route("/title", name="edit_title", methods={"POST", "PUT"})
+     */
+    public function editQuestionTitle(
+        QuestionOption $option,
+        Request $request
+    ): Response {
+        try {
+            $imageTitle = $request->files->get('title');
+            if ($imageTitle) {
+                $this->__updateTypedTitleImage($option->getBody(), $imageTitle);
+            } else {
+                $this->__updateTypedTitleText($option->getBody(), $request, 'option');
+            }
+            $this->em->persist($option);
+            $this->em->flush();
+        } catch (\Throwable $e) {
+            return $this->error($e->getMessage(), Response::HTTP_BAD_REQUEST);
+        }
+        return $this->success($this->__optionToArray($option),
+            Response::HTTP_OK);
+    }
 
     /**
      * @return false|JsonResponse

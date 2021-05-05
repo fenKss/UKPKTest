@@ -7,8 +7,8 @@ import {
     createOption, editOptionOnServer, editOptionTitleOnServer,
     editQuestionOnServer,
     editQuestionTitleOnServer,
-    getQuestionFromEditorState
-} from "../../../store/editorReducer/editorReducer";
+} from "../../../store/editorReducer/serverActions";
+import {getQuestionFromEditorState} from "../../../store/editorReducer/editorReducer";
 
 const QuestionContainer: React.FC<QuestionContainerProps> = (props) => {
 
