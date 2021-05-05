@@ -71,34 +71,15 @@ class QuestionController extends AbstractApiController
         try {
             $questionRaw = $this->__getResourceFromPut('question');
             $this->__checkRequestFieldsInClass($questionRaw, Question::class);
-            if ($questionRaw['type'] == EQuestionType::RADIO_TYPE && $question->getType() == EQuestionType::SELECT_TYPE){
-
-                $firstCorrect = $question->getOptions()->filter(function ($option){
-                    /** @var QuestionOption $option */
-                   return $option->getIsCorrect();
-                })->first();
-                //При смене на радио тип выствляем корректным только первый который мы найдем
-                if ($firstCorrect instanceof QuestionOption){
-                    foreach ($question->getOptions() as $option){
-                        $option->setIsCorrect(false);
-                        $this->em->persist($option);
-                    }
-                    $firstCorrect->setIsCorrect(true);
-                    $this->em->persist($firstCorrect);
-                }else{
-                    //Мы не нашли корректный и ставим первый попавшийся
-                    $first = $question->getOptions()->first();
-                    if ($first instanceof QuestionOption){
-                        $first->setIsCorrect(true);
-                        $this->em->persist($first);
-                    }
-                }
+            if ($questionRaw['type'] == EQuestionType::RADIO_TYPE
+                && $question->getType() == EQuestionType::SELECT_TYPE
+            ) {
+                $this->__setFirstOptionCorrect($question);
             }
             $this->__updateRequestEntity($question, $questionRaw);
-
             $this->em->persist($question);
             $this->em->flush();
-        } catch (NotFoundResourceException $e) {
+        } catch (\Throwable $e) {
             return $this->error($e->getMessage(), Response::HTTP_BAD_REQUEST);
         }
         return $this->success($this->__questionToArray($question),
@@ -115,9 +96,11 @@ class QuestionController extends AbstractApiController
         try {
             $imageTitle = $request->files->get('title');
             if ($imageTitle) {
-                $this->__updateTypedTitleImage($question->getTitle(), $imageTitle);
+                $this->__updateTypedTitleImage($question->getTitle(),
+                    $imageTitle);
             } else {
-                $this->__updateTypedTitleText($question->getTitle(), $request, 'question');
+                $this->__updateTypedTitleText($question->getTitle(), $request,
+                    'question');
             }
             $this->em->persist($question);
             $this->em->flush();
@@ -138,6 +121,31 @@ class QuestionController extends AbstractApiController
         return $this->success(null, Response::HTTP_NO_CONTENT);
     }
 
-
+    /**
+     * При смене типа с Select на Radio выставляем правильную опцию первую попавшуюся
+     */
+    private function __setFirstOptionCorrect(Question $question)
+    {
+        $firstCorrect = $question->getOptions()->filter(function ($option) {
+            /** @var QuestionOption $option */
+            return $option->getIsCorrect();
+        })->first();
+        //При смене на радио тип выствляем корректным только первый корректный option который мы найдем
+        if ($firstCorrect instanceof QuestionOption) {
+            foreach ($question->getOptions() as $option) {
+                $option->setIsCorrect(false);
+                $this->em->persist($option);
+            }
+            $firstCorrect->setIsCorrect(true);
+            $this->em->persist($firstCorrect);
+        } else {
+            //Мы не нашли корректный и ставим первый попавшийся
+            $first = $question->getOptions()->first();
+            if ($first instanceof QuestionOption) {
+                $first->setIsCorrect(true);
+                $this->em->persist($first);
+            }
+        }
+    }
 
 }
