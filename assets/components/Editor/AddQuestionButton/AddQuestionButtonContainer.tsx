@@ -1,10 +1,10 @@
 import * as React from 'react';
 import "./addQuestionButton.scss"
-import AddQuestionButton from "./AddQuestionButton";
-import {createQuestion} from "../../../store/editorReducer/editorReducer";
 import {connect, ConnectedProps} from "react-redux";
 import {useParams} from "react-router-dom";
 import {ParamTypes} from "../../../types";
+import {createQuestion} from "../../../store/editorReducer/editorReducer";
+import AddButton from "../AddButton";
 
 const AddQuestionButtonContainer: React.FC<AddQuestionButtonContainerProps> = (props) => {
     const {createQuestion} = props;
@@ -13,7 +13,7 @@ const AddQuestionButtonContainer: React.FC<AddQuestionButtonContainerProps> = (p
         createQuestion(+variantId);
     }
     return (
-        <AddQuestionButton onClick={onClick}/>
+        <AddButton onClick={onClick} id="addQuestion" class="btn-sm btn-primary"/>
     )
 }
 const mapDispatchToProps = {

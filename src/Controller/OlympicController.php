@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Entity\Olympic;
 use App\Entity\Tour;
 use App\Entity\User;
 use App\Entity\UserTest;

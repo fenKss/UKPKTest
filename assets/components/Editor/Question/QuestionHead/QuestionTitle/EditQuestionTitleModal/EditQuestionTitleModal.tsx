@@ -1,6 +1,6 @@
 import * as React from 'react';
-import Modal from "../../../Modal/Modal";
-import {Api} from "../../../../../types/api";
+import Modal from "../../../../Modal/Modal";
+import {Api} from "../../../../../../types/api";
 import "./editQuestionTitleModal.scss";
 import ETypedFieldType = Api.ETypedFieldType;
 
@@ -29,7 +29,7 @@ const EditQuestionTitleModal: React.FC<EditQuestionTitleModal> = (props) => {
         const title = localQuestion.title;
 
         if (title.type === ETypedFieldType.TEXT_TYPE) {
-            if (typeof title.body != "string"){
+            if (typeof title.body != "string") {
                 title.body = '';
             }
             return (

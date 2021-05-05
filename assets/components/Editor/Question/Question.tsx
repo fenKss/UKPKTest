@@ -1,36 +1,27 @@
 import * as React from "react";
 import {Api} from "../../../types/api";
-import "./question.scss";
 import Question = Api.Question;
-import EQuestionType = Api.EQuestionType;
-import QuestionTitle from "./QuestionTitle/QuestionTitle";
-import QuestionType from "./QuestionType/QuestionType";
+import QuestionHead from "./QuestionHead/QuestionHead";
+import QuestionBody from "./QuestionBody/QuestionBody";
+import "./question.scss";
 
 interface QuestionProps {
-    question: Question,
+    question: Question
     onEditQuestion: (question: Question) => void
     onEditQuestionTitle: (question: Question) => void
+
+    onEditOption: (option: Api.Option) => void
+    onAddOption: () => void
 }
 
 
 const Question: React.FC<QuestionProps> = (props): JSX.Element => {
-    const {question, onEditQuestion,onEditQuestionTitle} = props;
+    const {question, onEditQuestion, onEditQuestionTitle, onEditOption, onAddOption} = props;
 
-    const onEditTitle = (question: Question) => {
-         onEditQuestionTitle(question);
-    }
-    const onChangeType = () => {
-        question.type = question.type === EQuestionType.RADIO_TYPE ?
-            EQuestionType.SELECT_TYPE
-            : EQuestionType.RADIO_TYPE;
-        onEditQuestion(question);
-    }
     return (
         <div className='question'>
-            <div className="question-head">
-                <QuestionTitle question={question} onEditQuestionTitle={onEditTitle}/>
-                <QuestionType question={question} onChangeType={onChangeType}/>
-            </div>
+            <QuestionHead onEditQuestion={onEditQuestion} onEditQuestionTitle={onEditQuestionTitle} question={question}/>
+            <QuestionBody question={question} onAddOption={onAddOption} onEditOption={onEditOption}/>
         </div>
     )
 }

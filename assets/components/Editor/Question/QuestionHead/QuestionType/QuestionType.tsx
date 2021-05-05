@@ -1,5 +1,5 @@
 import * as React from 'react'
-import {Api} from "../../../../types/api";
+import {Api} from "../../../../../types/api";
 import EQuestionType = Api.EQuestionType;
 
 interface QuestionTypeProps {
