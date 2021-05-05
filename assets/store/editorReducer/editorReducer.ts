@@ -7,6 +7,8 @@ import selectQuestion = Reducer.Editor.ActionCreator.selectQuestion;
 import editQuestion = Reducer.Editor.ActionCreator.editQuestion;
 import editorApi from "../../lib/editorApi";
 import addOption = Reducer.Editor.ActionCreator.addOption;
+import Option = Api.Option;
+import editOption = Reducer.Editor.ActionCreator.editOption;
 
 interface EditorState {
     questions: Question[],
@@ -47,7 +49,7 @@ const editorReducer = (state = initState, action: Action.Actions) => {
                 ...state,
                 questions: updateQuestion(state.questions, action.question)
             }
-        case Action.ADD_OPTION:
+        case Action.ADD_OPTION: {
             const question = state.questions.find(element => {
                 if (element.id == action.question.id) {
                     return element
@@ -59,7 +61,26 @@ const editorReducer = (state = initState, action: Action.Actions) => {
                 ...state,
                 questions: updateQuestion(state.questions, {...question})
             }
-
+        }
+        case Action.EDIT_OPTION: {
+            let question;
+            state.questions.forEach(q => {
+                q.options.forEach((option, i) => {
+                    if (option.id == action.option.id) {
+                        question = {...q}
+                        question.options[i] = {...action.option};
+                        // question.options = [...question.options];
+                    }
+                })
+            })
+            if (question) {
+                return {
+                    ...state,
+                    questions: updateQuestion(state.questions, {...question})
+                }
+            }
+            return state;
+        }
         default:
             return state;
     }
@@ -81,6 +102,13 @@ export const createQuestion = (variantId: number) => async (dispatch) => {
     dispatch(addQuestion(question));
     dispatch(selectQuestion(question.id));
 }
+
+export const getQuestion = (questionId: number) => async (dispatch) => {
+    const api = editorApi;
+    const question = await api.question.get(questionId);
+
+    dispatch(editQuestion(question));
+}
 export const createOption = (question: Question) => async (dispatch) => {
     const api = editorApi;
     const option = await api.option.add(question.id);
@@ -97,6 +125,23 @@ export const editQuestionTitleOnServer = (question: Question) => async (dispatch
     const api = editorApi;
     const newQuestion = await api.question.editTitle(question);
     dispatch(editQuestion(newQuestion));
+}
+
+export const editOptionOnServer = (option: Option, question: Question | null = null) => async (dispatch) => {
+
+    const api = editorApi;
+    const newOption = await api.option.edit(option);
+
+    if (question){
+         dispatch(getQuestion(question.id));
+    }else{
+        dispatch(editOption(newOption));
+    }
+}
+export const editOptionTitleOnServer = (option: Option) => async (dispatch) => {
+    const api = editorApi;
+    const newOption = await api.option.editTitle(option);
+    dispatch(editOption(newOption));
 }
 
 

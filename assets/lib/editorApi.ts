@@ -98,6 +98,30 @@ class editorApi {
                 .then((response: ApiResponse<Option>): Option => response.data.data)
                 .catch(this.catch)
         },
+        editTitle: async (option: Option): Promise<Option> => {
+            if (option.body.type == ETypedFieldType.TEXT_TYPE && typeof option.body.body == 'string') {
+                return this.option.__editTitleString(option);
+            }
+            return this.option.__editTitleFile(option);
+        },
+        __editTitleString: async (option: Option): Promise<Option> => {
+            return await this
+                .put(`/option/${option.id}/title`, option, 'option')
+                .then((response: ApiResponse<Option>): Option => response.data.data)
+                .catch(this.catch)
+        },
+        __editTitleFile: async (option: Option): Promise<Option> => {
+            const formData = new FormData();
+            formData.append("title", option.body.file, option.body.file.name);
+            return await this.axios
+                .post(`/option/${option.id}/title`, formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                })
+                .then((response: ApiResponse<Option>): Option => response.data.data)
+                .catch(this.catch)
+        }
     }
 
     catch = (e: ApiError): undefined => {

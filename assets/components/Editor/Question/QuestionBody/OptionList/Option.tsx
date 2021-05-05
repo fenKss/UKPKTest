@@ -7,13 +7,18 @@ interface OptionProps {
     option: Api.Option,
     type: EQuestionType,
     onEditOption: (option: Api.Option) => void
+    onEditOptionTitle: (option: Api.Option) => void
 }
 
 const Option: React.FC<OptionProps> = (props) => {
     const {option, onEditOption, type} = props;
     const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        console.log(e);
-        // onEditOption(option);
+        option.isCorrect = !option.isCorrect;
+        onEditOption({...option});
+    }
+    const onChangeTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
+        option.isCorrect = !option.isCorrect;
+        onEditOption({...option});
     }
 
     return (

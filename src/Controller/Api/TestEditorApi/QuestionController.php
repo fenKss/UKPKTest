@@ -24,23 +24,15 @@ use Symfony\Component\Translation\Exception\NotFoundResourceException;
 /**
  * Class QuestionController
  *
- * @Route("api/editor/question", name="api_editor_question_")
+ * @Route("api/editor/question/{question}", name="api_editor_question_")
  * @package App\Controller\Api\TestEditorApi
  */
 class QuestionController extends AbstractApiController
 {
-    private const IMAGES_DIR = '/images/questions/title/';
-    private string $projectPublicDir;
-
-    public function __construct(EntityManagerInterface $em, string $projectDir)
-    {
-        parent::__construct($em);
-        $this->projectPublicDir = $projectDir . "/public";
-    }
-
+    protected const IMAGES_DIR = '/images/questions/title/';
 
     /**
-     * @Route("/{question}", name="get", methods={"GET"})
+     * @Route("", name="get", methods={"GET"})
      */
     public function getQuestion(Question $question): Response
     {
@@ -48,7 +40,7 @@ class QuestionController extends AbstractApiController
     }
 
     /**
-     * @Route("/{question}/option", name="option_add", methods={"POST"})
+     * @Route("/option", name="option_add", methods={"POST"})
      */
     public function addOption(Question $question): Response
     {
@@ -71,7 +63,7 @@ class QuestionController extends AbstractApiController
     }
 
     /**
-     * @Route("/{question}", name="edit", methods={"PUT"})
+     * @Route("", name="edit", methods={"PUT"})
      */
     public function editQuestion(Question $question): Response
     {
@@ -84,11 +76,12 @@ class QuestionController extends AbstractApiController
         } catch (NotFoundResourceException $e) {
             return $this->error($e->getMessage(), Response::HTTP_BAD_REQUEST);
         }
-        return $this->success($this->__questionToArray($question), Response::HTTP_OK);
+        return $this->success($this->__questionToArray($question),
+            Response::HTTP_OK);
     }
 
     /**
-     * @Route("/{question}/title", name="edit_title", methods={"POST", "PUT"})
+     * @Route("/title", name="edit_title", methods={"POST", "PUT"})
      */
     public function editQuestionTitle(
         Question $question,
@@ -97,24 +90,21 @@ class QuestionController extends AbstractApiController
         try {
             $imageTitle = $request->files->get('title');
             if ($imageTitle) {
-                $error = $this->__updateQuestionTitleImage($question,
-                    $imageTitle);
+                $this->__updateTypedTitleImage($question->getTitle(), $imageTitle);
             } else {
-                $error = $this->__updateQuestionTitleText($question, $request);
-            }
-            if ($error instanceof JsonResponse) {
-                return $error;
+                $this->__updateTypedTitleText($question->getTitle(), $request, 'question');
             }
             $this->em->persist($question);
             $this->em->flush();
-        } catch (NotFoundResourceException  | FileNotExistException $e) {
+        } catch (\Throwable $e) {
             return $this->error($e->getMessage(), Response::HTTP_BAD_REQUEST);
         }
-        return $this->success($this->__questionToArray($question), Response::HTTP_OK);
+        return $this->success($this->__questionToArray($question),
+            Response::HTTP_OK);
     }
 
     /**
-     * @Route("/{question}", name="delete", methods={"DELETE"})
+     * @Route("", name="delete", methods={"DELETE"})
      */
     public function deleteQuestion(Question $question): Response
     {
@@ -123,89 +113,6 @@ class QuestionController extends AbstractApiController
         return $this->success(null, Response::HTTP_NO_CONTENT);
     }
 
-    /**
-     * @return false|JsonResponse
-     * @throws FileNotExistException
-     */
-    private function __updateQuestionTitleImage(
-        Question $question,
-        File $imageTitle
-    ) {
-        $image = new Image();
 
-        $filename = FS::generateRandomString(15);
-        $extension = explode(".", $imageTitle->getClientOriginalName());
-        $extension = end($extension);
-        $path = (self::IMAGES_DIR . $filename . "." . $extension);
-
-        $fullPathDir = $this->projectPublicDir . self::IMAGES_DIR;
-        $fullPath = $this->projectPublicDir . $path;
-
-        if (!FS::isDir($fullPathDir)) {
-            FS::mkdir($fullPathDir);
-        }
-        $image->setSize($imageTitle->getFileInfo()->getSize());
-        $image->setFilename($filename);
-        $image->setPath($path);
-        $image->setFullPath($this->projectPublicDir . $path);
-        $image->setType(EImageType::TITLE_TYPE);
-        $image->setExtension($extension);
-
-        if (move_uploaded_file($imageTitle->getRealPath(), $fullPath)) {
-            $questionTitle = $question->getTitle();
-
-            if ($questionTitle->getType() == ETypedFieldType::IMAGE_TYPE) {
-                $this->__deleteOldQuestionImageTitle($questionTitle);
-
-            }
-            $questionTitle->setImage($image);
-            $questionTitle->setType(ETypedFieldType::IMAGE_TYPE);
-            $this->em->persist($image);
-            $this->em->persist($questionTitle);
-
-        } else {
-            return $this->error('Cant load file');
-        }
-        return false;
-    }
-
-    /**
-     * @throws FileNotExistException
-     */
-    private function __updateQuestionTitleText(
-        Question $question,
-        Request $request
-    ) {
-        $questionRaw = $this->__getResourceFromPut('question');
-        if (!isset($questionRaw['title']['body'])) {
-            return $this->error("Invalid question title text",
-                Response::HTTP_BAD_REQUEST);
-        }
-        $questionTitle = $question->getTitle();
-        $questionTitle->setType(ETypedFieldType::TEXT_TYPE);
-        $questionTitle->setText($questionRaw['title']['body']);
-        $this->__deleteOldQuestionImageTitle($questionTitle);
-        $questionTitle->setImage(null);
-        $this->em->persist($questionTitle);
-        return false;
-    }
-
-    /**
-     * @throws FileNotExistException
-     */
-    private function __deleteOldQuestionImageTitle(TypedField $questionTitle)
-    {
-        if ($questionTitle->getType() == ETypedFieldType::IMAGE_TYPE
-            || $questionTitle->getImage()
-        ) {
-            $oldImage = $questionTitle->getImage();
-            if (Fs::isFileExist($oldImage->getFullPath())) {
-                FS::rm($oldImage->getFullPath());
-            }
-            $questionTitle->setImage(null);
-            $this->em->persist($questionTitle);
-            $this->em->remove($oldImage);
-        }
-    }
 
 }

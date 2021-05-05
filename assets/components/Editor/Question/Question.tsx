@@ -10,18 +10,19 @@ interface QuestionProps {
     onEditQuestion: (question: Question) => void
     onEditQuestionTitle: (question: Question) => void
 
-    onEditOption: (option: Api.Option) => void
     onAddOption: () => void
+    onEditOption: (option: Api.Option) => void
+    onEditOptionTitle: (option: Api.Option) => void
 }
 
 
 const Question: React.FC<QuestionProps> = (props): JSX.Element => {
-    const {question, onEditQuestion, onEditQuestionTitle, onEditOption, onAddOption} = props;
+    const {question, onEditQuestion, onEditQuestionTitle, onEditOption, onAddOption, onEditOptionTitle} = props;
 
     return (
         <div className='question'>
             <QuestionHead onEditQuestion={onEditQuestion} onEditQuestionTitle={onEditQuestionTitle} question={question}/>
-            <QuestionBody question={question} onAddOption={onAddOption} onEditOption={onEditOption}/>
+            <QuestionBody question={question} onAddOption={onAddOption} onEditOption={onEditOption} onEditOptionTitle={onEditOptionTitle}/>
         </div>
     )
 }
