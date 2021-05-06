@@ -14,40 +14,38 @@ class TestType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $choices = [];
+        /** @var Tour $tour */
+        $tour = $options['tour'];
+        $possibleChoices = $tour->getOlympic()->getLanguages();
+        $existsChoices = [];
+        foreach ($tour->getTests() as $test) {
+            $existsChoices[] = $test->getLanguage();
+        }
+        foreach ($possibleChoices as $choice) {
+            if (!in_array($choice, $existsChoices)) {
+                $choices[] = $choice;
+            }
+        }
+        $languageParams = [
+            "label"        => "Язык",
+            'class'        => Language::class,
+            'choice_label' => function ($choice) {
+                return $choice->getName();
+            },
+            'choices'=>$choices,
+            'required'     => true,
+        ];
         $builder
-            ->add("language", EntityType::class, [
-                "label" => "Язык",
-                'class' => Language::class,
-                'choice_label' => function ($choice) {
-                    return $choice->getName();
-                },
-                'required' => true,
-            ]);
-//        $tour = $options['tour'];
-//        $tourSettings = [
-//            "label" => "Тур",
-//            'class' => Tour::class,
-//            'choice_label' => function ($choice) {
-//                /** @var Tour $choice */
-//                return $choice->getOlymp()->getTours()->indexOf($choice) + 1;
-//            },
-//            'group_by' => function ($choice) {
-//                return $choice->getOlymp()->getName();
-//            },
-//            'required' => true
-//        ];
-//        if ($tour) {
-//            $tourSettings['data'] = $tour;
-//        }
-//        $builder->add("tour", EntityType::class, $tourSettings);
+            ->add("language", EntityType::class, $languageParams);
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Test::class,
-            'allow_extra_fields'=>true,
-            'tour'=>null
+            'data_class'         => Test::class,
+            'allow_extra_fields' => true,
+            'tour'               => null,
         ]);
     }
 }

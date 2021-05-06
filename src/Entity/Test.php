@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpPropertyOnlyWrittenInspection */
 
 namespace App\Entity;
 
@@ -17,24 +17,24 @@ class Test
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id;
 
     /**
      * @ORM\ManyToOne(targetEntity=Language::class, inversedBy="tests")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $language;
+    private ?Language $language;
 
     /**
      * @ORM\OneToMany(targetEntity=Variant::class, mappedBy="test")
      */
-    private $variants;
+    private Collection $variants;
 
     /**
      * @ORM\ManyToOne(targetEntity=Tour::class, inversedBy="tests")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $tour;
+    private ?Tour $tour;
 
 
     public function __construct()

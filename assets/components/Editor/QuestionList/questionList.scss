@@ -1,0 +1,28 @@
+ul.list {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+
+  li {
+    list-style: none;
+    box-sizing: border-box;
+    padding: 5px;
+
+    border-bottom: 1px solid black;
+    cursor: pointer;
+
+    &:hover, &.selected {
+      background: #0000000f;
+    }
+
+    &:first-child {
+      border-top: 1px solid black;
+    }
+
+    img {
+      max-width: 200px;
+      max-height: 100px;
+    }
+  }
+}

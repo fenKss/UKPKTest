@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\Test;
 use App\Entity\Tour;
 use App\Form\TestType;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,36 +19,43 @@ class TestController extends AbstractController
 
     /**
      * @Route("/", name="index", methods={"GET"})
-     * @param Tour $tour
-     *
-     * @return Response
      */
     public function tests(Tour $tour): Response
     {
         $tests = $tour->getTests();
         return $this->render('admin/test/index.html.twig', [
             'tests' => $tests,
-            'tour' => $tour
+            'tour'  => $tour
         ]);
     }
 
     /**
      * @Route("/new", name="new", methods={"GET","POST"})
-     * @param Tour    $tour
-     * @param Request $request
-     *
-     * @return Response
      */
     public function new(Tour $tour, Request $request): Response
     {
         if ($tour->getPublishedAt()) {
-            $this->addFlash('error','Тур опубликован. Нужно сначала сделать его неопубликованным');
+            $this->addFlash('error',
+                'Тур опубликован. Нужно сначала сделать его неопубликованным');
+            return $this->redirectToRoute('admin_test_index', [
+                "tour" => $tour->getId()
+            ]);
+        }
+        $languages = new ArrayCollection();
+        foreach ($tour->getTests() as $test) {
+            $languages[] = $test->getLanguage();
+        }
+        if ($tour->getOlympic()->getLanguages()->count() <= $languages->count()) {
+            $this->addFlash('error',
+                'Нельзя добавить больше тестов в данный тур');
             return $this->redirectToRoute('admin_test_index', [
                 "tour" => $tour->getId()
             ]);
         }
         $test = new Test();
-        $form = $this->createForm(TestType::class, $test);
+        $form = $this->createForm(TestType::class, $test, [
+            'tour' => $tour
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -74,16 +82,12 @@ class TestController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="edit", methods={"GET","POST"})
-     * @param Tour    $tour
-     * @param Request $request
-     * @param Test    $test
-     *
-     * @return Response
      */
     public function edit(Tour $tour, Request $request, Test $test): Response
     {
         if ($tour->getPublishedAt()) {
-            $this->addFlash('error','Тур опубликован. Нужно сначала сделать его неопубликованным');
+            $this->addFlash('error',
+                'Тур опубликован. Нужно сначала сделать его неопубликованным');
             return $this->redirectToRoute('admin_test_index', [
                 "tour" => $test->getTour()->getId()
             ]);
@@ -112,21 +116,19 @@ class TestController extends AbstractController
 
     /**
      * @Route("/{id}", name="delete", methods={"DELETE"})
-     * @param Tour    $tour
-     * @param Request $request
-     * @param Test    $test
-     *
-     * @return Response
      */
     public function delete(Tour $tour, Request $request, Test $test): Response
     {
         if ($tour->getPublishedAt()) {
-            $this->addFlash('error','Тур опубликован. Нужно сначала сделать его неопубликованным');
+            $this->addFlash('error',
+                'Тур опубликован. Нужно сначала сделать его неопубликованным');
             return $this->redirectToRoute('admin_test_index', [
                 "tour" => $tour->getId()
             ]);
         }
-        if ($this->isCsrfTokenValid('delete' . $test->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $test->getId(),
+            $request->request->get('_token'))
+        ) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($test);
             $entityManager->flush();
@@ -137,35 +139,27 @@ class TestController extends AbstractController
         ]);
     }
 
-    /**
-     * @param Test $test
-     *
-     * @return bool
-     */
-    private function validateExistsLanguageInTest(Test $test): bool
+     private function validateExistsLanguageInTest(Test $test): bool
     {
         $tour = $test->getTour();
 
         $tests = $tour->getTests();
         foreach ($tests as $tourTest) {
-            if ($tourTest->getLanguage()->getId() == $test->getLanguage()->getId()
-                && $test->getId() != $tourTest->getId()) {
+            if ($tourTest->getLanguage()->getId() == $test->getLanguage()
+                    ->getId()
+                && $test->getId() != $tourTest->getId()
+            ) {
                 return false;
             }
         }
         return true;
     }
 
-    /**
-     * @param Test $test
-     *
-     * @return bool
-     */
-    private function validateExistsLanguageInOlymp(Test $test): bool
+    private function validateExistsLanguageInOlympic(Test $test): bool
     {
-        $olymp = $test->getTour()->getOlymp();
+        $olympic = $test->getTour()->getOlympic();
         $language = $test->getLanguage();
-        return $olymp->getLanguages()->contains($language);
+        return $olympic->getLanguages()->contains($language);
 
     }
 
@@ -175,7 +169,7 @@ class TestController extends AbstractController
             $this->addFlash('error', 'Данный язык уже добавлен');
             return false;
         }
-        if (!$this->validateExistsLanguageInOlymp($test)) {
+        if (!$this->validateExistsLanguageInOlympic($test)) {
             $this->addFlash('error', 'Данный язык не разрешен у олимпиады');
             return false;
         }

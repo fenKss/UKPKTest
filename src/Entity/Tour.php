@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpPropertyOnlyWrittenInspection */
 
 namespace App\Entity;
 
@@ -18,43 +18,43 @@ class Tour
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Olymp::class, inversedBy="tours")
+     * @ORM\ManyToOne(targetEntity=Olympic::class, inversedBy="tours")
      */
-    private $olymp;
+    private ?Olympic $olympic;
 
     /**
      * @ORM\Column(type="float")
      */
-    private $price;
+    private ?float $price;
 
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
-    private $startedAt;
+    private ?DateTimeInterface $startedAt;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
-    private $expiredAt;
+    private ?DateTimeInterface $expiredAt;
 
     /**
      * @ORM\OneToMany(targetEntity=Test::class, mappedBy="tour")
      */
-    private $tests;
+    private Collection $tests;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
      */
-    private $publishedAt;
+    private ?DateTimeInterface $publishedAt;
 
     /**
      * @ORM\Column(type="smallint")
      */
-    private $tourIndex;
+    private ?int $tourIndex;
 
     public function __construct()
     {
@@ -66,14 +66,14 @@ class Tour
         return $this->id;
     }
 
-    public function getOlymp(): ?Olymp
+    public function getOlympic(): ?Olympic
     {
-        return $this->olymp;
+        return $this->olympic;
     }
 
-    public function setOlymp(?Olymp $olymp): self
+    public function setOlympic(?Olympic $olympic): self
     {
-        $this->olymp = $olymp;
+        $this->olympic = $olympic;
 
         return $this;
     }

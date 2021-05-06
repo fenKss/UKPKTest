@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/pages/testEditor.min.css') }}">{% endblock %}
 {% block title %}Редактор тестов{% endblock %}
 
-{% block boxTitle %}Вопросы {{ variant.test.variants.indexOf(variant)+1 }} варианта {{ variant.test.tour.tourIndex }} тура "{{ variant.test.tour.olymp.name }}"
+{% block boxTitle %}Вопросы {{ variant.index }} варианта {{ variant.test.tour.tourIndex }} тура "{{ variant.test.tour.olympic.name }}". Язык: {{ variant.test.language.name }}
     {% if not variant.test.tour.publishedAt %}
         <button id="add-question-btn" class="btn btn-success"><i class="fa fa-plus"></i></button>
     {% else %}

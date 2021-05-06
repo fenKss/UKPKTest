@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Repository\OlympRepository;
+use App\Repository\OlympicRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -11,18 +11,15 @@ class DefaultController extends AbstractController
 {
     /**
      * @Route("/", name="default")
-     * @param OlympRepository $olympRepository
-     *
-     * @return Response
      */
-    public function index(OlympRepository $olympRepository): Response
+    public function index(OlympicRepository $olympicRepository): Response
     {
-        $count = 2;
+        $limit = 2;
 
-        $olymps = $olympRepository->getWithPublishedTours();
+        $olympics = $olympicRepository->getWithPublishedTours($limit);
         return $this->render('title.html.twig', [
-            'count' => count($olymps),
-            'olymps' => array_slice($olymps, 0, $count),
+            'count'    => count($olympics),
+            'olympics' => $olympics
         ]);
     }
 
@@ -31,9 +28,6 @@ class DefaultController extends AbstractController
      */
     public function admin(): Response
     {
-        $this->addFlash('error', '123');
         return $this->render('admin/base.html.twig');
     }
-
-
 }

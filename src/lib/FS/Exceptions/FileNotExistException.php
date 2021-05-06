@@ -2,6 +2,8 @@
 
 namespace App\lib\FS\Exceptions;
 
-class FileNotExistException extends \Exception{
+use Exception;
+
+class FileNotExistException extends Exception{
 
 }

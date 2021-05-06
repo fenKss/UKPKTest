@@ -6,13 +6,13 @@
 {% block boxButtons %}
 {% endblock %}
 {% block boxBody %}
-    {% for olymp in olymps %}
+    {% for olympic in olympics %}
         <div class="box">
             <div class="box-header with-border">
-                <h3 class="box-title">{{ olymp.name }}</h3>
+                <h3 class="box-title">{{ olympic.name }}</h3>
 
                 <div class="box-tools pull-right">
-                    <a href="{{ path('admin_tour_new', {olymp:olymp.id}) }}" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i></a>
+                    <a href="{{ path('admin_tour_new', {olympic:olympic.id}) }}" class="btn btn-sm btn-primary"><i class="fa fa-plus"></i></a>
                     <button type="button" class="btn btn-box-tool" data-widget="collapse" data-toggle="tooltip"
                             title="Collapse">
                         <i class="fa fa-minus"></i></button>
@@ -35,7 +35,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {% for i,tour in olymp.tours %}
+                    {% for i,tour in olympic.tours %}
                         <tr>
                             <td>{{ tour.tourIndex }}</td>
                             <td>{{ tour.price }}</td>

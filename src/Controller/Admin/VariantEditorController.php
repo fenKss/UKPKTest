@@ -32,10 +32,6 @@ class VariantEditorController extends AbstractController
 
     /**
      * @Route("/", name="index")
-     * @param Variant            $variant
-     * @param QuestionRepository $questionRepository
-     *
-     * @return Response
      */
     public function index(Variant $variant, QuestionRepository $questionRepository): Response
     {
@@ -48,11 +44,6 @@ class VariantEditorController extends AbstractController
 
     /**
      * @Route("/question/{question}", name="index_question")
-     * @param Variant                   $variant
-     * @param int                       $question
-     * @param QuestionRepository $questionRepository
-     *
-     * @return Response
      */
     public function questionIndex(Variant $variant, int $question, QuestionRepository $questionRepository): Response
     {

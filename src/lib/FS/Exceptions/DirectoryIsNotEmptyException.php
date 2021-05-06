@@ -2,6 +2,8 @@
 
 namespace App\lib\FS\Exceptions;
 
-class DirectoryIsNotEmptyException extends \Exception{
+use Exception;
+
+class DirectoryIsNotEmptyException extends Exception{
 
 }

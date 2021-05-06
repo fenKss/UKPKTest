@@ -2,20 +2,20 @@
 
 {% block styles %}
     {{ encore_entry_link_tags('app') }}
-    <link rel="stylesheet" href="{{ asset('assets/css/pages/testEditor.min.css') }}">
+{#    <link rel="stylesheet" href="{{ asset('assets/css/pages/testEditor.min.css') }}">#}
 {% endblock %}
 {% block javascript %}
-  {{ encore_entry_script_tags('app') }}
+{{ encore_entry_script_tags('app') }}
 {% endblock %}
 
 {% block title %}Редактор тестов{% endblock %}
 
-{% block boxTitle %}Вопросы {{ variant.test.variants.indexOf(variant)+1 }} варианта {{ variant.test.tour.tourIndex }} тура "{{ variant.test.tour.olymp.name }}"
-    {% if variant.test.tour.publishedAt %}
-        <div class="badge bg-red">Тур Опубликован</div>
-    {% endif %}
-{% endblock %}
-
-{% block boxBody %}
+{% block content %}
+    <div class="box-title">
+       Вопросы {{ variant.index }} варианта {{ variant.test.tour.tourIndex }} тура "{{ variant.test.tour.olympic.name }}". Язык: {{ variant.test.language.name }}
+        {% if variant.test.tour.publishedAt %}
+            <div class="badge bg-red">Тур Опубликован</div>
+        {% endif %}
+    </div>
     <div id="root"></div>
 {% endblock %}

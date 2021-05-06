@@ -35,13 +35,13 @@
             <div class="statistics">
 
             </div>
-            <div class="olymps">
+            <div class="olympics">
                 <div class="title">
                     Список олимпиад
                 </div>
-                {% for olymp in olymps %}
-                    <div class="olymp">
-                        <div class="olymp-title">{{ olymp.name }}</div>
+                {% for olympic in olympics %}
+                    <div class="olympic">
+                        <div class="olympic-title">{{ olympic.name }}</div>
                         <div class="tours">
                             <table>
                                 <tr>
@@ -49,7 +49,7 @@
                                     <th>Статус</th>
                                     <th></th>
                                 </tr>
-                                {% for tour in olymp.tours %}
+                                {% for tour in olympic.tours %}
                                     {% set userTest = null %}
                                     {% for ut in user.userTests %}
                                         {% if ut.variant.test.tour.id == tour.id %}

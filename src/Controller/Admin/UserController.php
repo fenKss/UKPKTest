@@ -8,9 +8,9 @@ use App\Entity\User;
 use App\Form\AdminUserType;
 use App\Repository\UserRepository;
 use App\Service\PaginationService;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -24,7 +24,7 @@ class UserController extends AbstractController
     /**
      * @Route("/", name="index")
      */
-    public function index(UserRepository $userRepository, PaginationService $paginator)
+    public function index(UserRepository $userRepository, PaginationService $paginator): Response
     {
         $usersQuery = $userRepository->getAllQuery();
         $users = $paginator->paginate($usersQuery, 15);

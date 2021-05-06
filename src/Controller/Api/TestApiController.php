@@ -20,11 +20,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class TestApiController extends AbstractApiController
 {
     /**
-     * @Route("/answer", name="_answer")
-     * @param UserTest $test
-     * @param Request  $request
-     *
-     * @return JsonResponse
+     * @Route("/answer", name="answer")
      */
     public function index(UserTest $test, Request $request): JsonResponse
     {
@@ -60,11 +56,7 @@ class TestApiController extends AbstractApiController
     }
 
     /**
-     * @Route("/answer/all", name="_answer_all")
-     * @param UserTest $test
-     * @param Request  $request
-     *
-     * @return JsonResponse
+     * @Route("/answer/all", name="answer_all")
      */
     public function answerAll(UserTest $test, Request $request): JsonResponse
     {

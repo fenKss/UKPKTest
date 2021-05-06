@@ -1,7 +1,8 @@
-<?php
+<?php /** @noinspection PhpPropertyOnlyWrittenInspection */
 
 namespace App\Entity;
 
+use App\ENum\EQuestionType;
 use App\Repository\QuestionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -17,37 +18,34 @@ class Question
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id;
 
     /**
      * @ORM\ManyToOne(targetEntity=Variant::class, inversedBy="questions")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $variant;
+    private ?Variant $variant;
 
     /**
      * @ORM\Column(type="string", length=100)
      */
-    private $type;
+    private ?string $type;
+
 
     /**
-     * @ORM\Column(type="text", nullable=true)
+     * @ORM\OneToMany(targetEntity=QuestionOption::class, mappedBy="question", cascade="remove")
      */
-    private $title;
+    private Collection $options;
 
     /**
-     * @ORM\OneToMany(targetEntity=PossibleAnswer::class, mappedBy="question")
+     * @ORM\ManyToOne(targetEntity=TypedField::class, cascade="remove")
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $possibleAnswers;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $titleType;
+    private ?TypedField $title;
 
     public function __construct()
     {
-        $this->possibleAnswers = new ArrayCollection();
+        $this->options = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -67,51 +65,40 @@ class Question
         return $this;
     }
 
-    public function getType(): ?string
+    public function getType(): ?int
     {
         return $this->type;
     }
 
-    public function setType(string $type): self
+    public function setType($type): self
     {
+        EQuestionType::assertValidValue((int)$type);
         $this->type = $type;
 
         return $this;
     }
 
-    public function getTitle(): ?string
-    {
-        return $this->title;
-    }
-
-    public function setTitle(?string $title): self
-    {
-        $this->title = $title;
-
-        return $this;
-    }
-
     /**
-     * @return Collection|PossibleAnswer[]
+     * @return Collection|QuestionOption[]
      */
-    public function getPossibleAnswers(): Collection
+    public function getOptions(): Collection
     {
-        return $this->possibleAnswers;
+        return $this->options;
     }
 
-    public function addPossibleAnswer(PossibleAnswer $questionOption): self
+    public function addOption(QuestionOption $questionOption): self
     {
-        if (!$this->possibleAnswers->contains($questionOption)) {
-            $this->possibleAnswers[] = $questionOption;
+        if (!$this->options->contains($questionOption)) {
+            $this->options[] = $questionOption;
             $questionOption->setQuestion($this);
         }
 
         return $this;
     }
 
-    public function removePossibleAnswer(PossibleAnswer $questionOption): self
+    public function removeOption(QuestionOption $questionOption): self
     {
-        if ($this->possibleAnswers->removeElement($questionOption)) {
+        if ($this->options->removeElement($questionOption)) {
             // set the owning side to null (unless already changed)
             if ($questionOption->getQuestion() === $this) {
                 $questionOption->setQuestion(null);
@@ -121,15 +108,16 @@ class Question
         return $this;
     }
 
-    public function getTitleType(): ?string
+    public function getTitle(): ?TypedField
     {
-        return $this->titleType;
+        return $this->title;
     }
 
-    public function setTitleType(string $titleType): self
+    public function setTitle(?TypedField $title): self
     {
-        $this->titleType = $titleType;
+        $this->title = $title;
 
         return $this;
     }
+
 }

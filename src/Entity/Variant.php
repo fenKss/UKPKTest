@@ -1,4 +1,4 @@
-<?php
+<?php /** @noinspection PhpPropertyOnlyWrittenInspection */
 
 namespace App\Entity;
 
@@ -17,23 +17,23 @@ class Variant
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id;
 
     /**
      * @ORM\ManyToOne(targetEntity=Test::class, inversedBy="variants")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $test;
+    private ?Test $test;
 
     /**
      * @ORM\OneToMany(targetEntity=Question::class, mappedBy="variant")
      */
-    private $questions;
+    private Collection $questions;
 
     /**
      * @ORM\OneToMany(targetEntity=UserTest::class, mappedBy="variant")
      */
-    private $userTests;
+    private Collection $userTests;
 
     public function __construct()
     {
@@ -117,5 +117,10 @@ class Variant
         }
 
         return $this;
+    }
+
+    public function getIndex(): int
+    {
+        return $this->getTest()->getVariants()->indexOf($this) + 1;
     }
 }

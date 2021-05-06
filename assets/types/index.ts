@@ -1,2 +1,3 @@
-declare module "*.svg";
-declare module "*.jpg";
+export type ParamTypes =  {
+    variantId: string;
+}
