@@ -21,7 +21,8 @@
                     </td>{% set canSignUp = false %}
                     <td>{% if date() > tour.expiredAt %}
                             Завершен
-                        {% elseif tour.expiredAt < date() and tour.startedAt > date() %}
+                        {% elseif tour.expiredAt > date() and tour.startedAt < date() %}
+
                         {% else %}
                             {% set canSignUp = true %}
                             Ожидает начала
