@@ -2,7 +2,6 @@ import {Api} from "../../types/api";
 import {Reducer} from "./actions";
 import Question = Api.Question;
 import Action = Reducer.Editor.Action;
-import selectQuestion = Reducer.Editor.ActionCreator.selectQuestion;
 
 interface EditorState {
     questions: Question[],
@@ -126,7 +125,6 @@ const editorReducer = (state = initState, action: Action.Actions) => {
             return state;
 
     }
-    return state;
 };
 
 

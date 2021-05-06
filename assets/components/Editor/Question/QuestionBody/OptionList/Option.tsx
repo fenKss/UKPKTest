@@ -16,7 +16,7 @@ interface OptionProps {
 
 const Option: React.FC<OptionProps> = (props) => {
     const {option, onEditOption, type, onEditOptionTitle, onDeleteOption, isPublished} = props;
-    const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const onChange = () => {
         if (isPublished) return;
         option.isCorrect = !option.isCorrect;
         onEditOption({...option});

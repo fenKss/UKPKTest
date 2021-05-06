@@ -5,11 +5,10 @@ export interface QuestionListItemProps {
     question: Api.Question,
     isSelected: boolean,
     onClick: (id:number) => void
-    onDeleteQuestion(question: Api.Question)
 }
 
 const QuestionListItem: React.FC<QuestionListItemProps> = (props): JSX.Element => {
-    const {question, isSelected, onClick, onDeleteQuestion} = props;
+    const {question, isSelected, onClick} = props;
     const body = question.title.body;
     const click = () => {
         onClick(question.id);
