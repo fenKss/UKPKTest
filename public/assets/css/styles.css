@@ -567,25 +567,25 @@ main.user-cabinet .cabinet .user-info .edit a {
   color: #22b8f0;
   text-decoration: underline;
 }
-main.user-cabinet .cabinet .user-stat .olymps .title {
+main.user-cabinet .cabinet .user-stat .olympics .title {
   margin-bottom: 10px;
   font-size: 18px;
 }
-main.user-cabinet .cabinet .user-stat .olymps .olymp .olymp-title {
+main.user-cabinet .cabinet .user-stat .olympics .olympic .olympic-title {
   text-align: center;
   margin-bottom: 5px;
   font-style: italic;
 }
-main.user-cabinet .cabinet .user-stat .olymps .olymp .tours table {
+main.user-cabinet .cabinet .user-stat .olympics .olympic .tours table {
   width: 100%;
 }
-main.user-cabinet .cabinet .user-stat .olymps .olymp .tours table th, main.user-cabinet .cabinet .user-stat .olymps .olymp .tours table td {
+main.user-cabinet .cabinet .user-stat .olympics .olympic .tours table th, main.user-cabinet .cabinet .user-stat .olympics .olympic .tours table td {
   padding: 5px;
 }
-main.user-cabinet .cabinet .user-stat .olymps .olymp .tours table th {
+main.user-cabinet .cabinet .user-stat .olympics .olympic .tours table th {
   font-weight: 600;
 }
-main.user-cabinet .cabinet .user-stat .olymps .olymp .tours table td {
+main.user-cabinet .cabinet .user-stat .olympics .olympic .tours table td {
   text-align: center;
 }
 
