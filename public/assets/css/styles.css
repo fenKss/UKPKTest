@@ -103,30 +103,30 @@ body footer .copyright {
   font-size: 14px;
   color: #fff;
 }
-body .olymp-list .olympic {
+body .olympic-list .olympic {
   padding: 10px 0;
   list-style: none;
 }
-body .olymp-list .olymp-title {
+body .olympic-list .olympic-title {
   font-size: 18px;
   font-weight: 600;
   text-align: center;
   margin-bottom: 20px;
 }
-body .olymp-list .olympic .tours {
+body .olympic-list .olympic .tours {
   margin: 10px 0;
 }
-body .olymp-list .olympic .tours table {
+body .olympic-list .olympic .tours table {
   width: 100%;
 }
-body .olymp-list .olympic .tours table td, body .olymp-list .olymp .tours table th {
+body .olympic-list .olympic .tours table td, body .olympic-list .olympic .tours table th {
   padding: 5px;
   text-align: center;
 }
-body .olymp-list .olymp .tours table th {
+body .olympic-list .olympic .tours table th {
   font-weight: 600;
 }
-body .olymp-list .olymp a.signup {
+body .olympic-list .olympic a.signup {
   background: #efeeee;
   padding: 10px;
   box-sizing: border-box;
@@ -135,10 +135,10 @@ body .olymp-list .olymp a.signup {
   margin: auto;
   color: black;
 }
-body .olymp-list .olymp a.signup.lock {
+body .olympic-list .olympic a.signup.lock {
   visibility: hidden;
 }
-body .olymp-list .olymp a.signup:hover {
+body .olympic-list .olympic a.signup:hover {
   background: #dcdcdc;
 }
 body main.wrapper {
@@ -582,7 +582,7 @@ main.user-cabinet .cabinet .user-stat .olymps .olymp .tours table {
 main.user-cabinet .cabinet .user-stat .olymps .olymp .tours table th, main.user-cabinet .cabinet .user-stat .olymps .olymp .tours table td {
   padding: 5px;
 }
-main.user-cabinet .cabinet .user-stat .olymps .olympic .tours table th {
+main.user-cabinet .cabinet .user-stat .olymps .olymp .tours table th {
   font-weight: 600;
 }
 main.user-cabinet .cabinet .user-stat .olymps .olymp .tours table td {
