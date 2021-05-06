@@ -32,21 +32,22 @@
     </div>
     <div id="test">
         <ul class="questions">
-            {% for i,question in userTest.variant.variantQuestions %}
+            {% for i,question in userTest.variant.questions %}
                 <li class="{% if i==0 %}active{% endif %}" data-question-id="{{ question.id }}" data-target="question-{{ i }}">
                     <span>{{ i+1 }}</span>
                 </li>
             {% endfor %}
         </ul>
         <div class="tab-content">
-            {% for i,question in userTest.variant.variantQuestions %}
+            {% for i,question in userTest.variant.questions %}
                 <div class="tab tab-pane {% if i==0 %}active{% endif %}" id="question_{{ question.id }}"
                      data-question-id="{{ question.id }}"
                      data-content="question-{{ i }}"
                 >
                     <div class="question-head">
                         <div class="question-title">
-                            <span>{{ question.text|raw }}</span>
+{#                            <span>{{ question.text|raw }}</span>#}
+                            {% include "typedField.html.twig" with {field: question.title} %}
                         </div>
                     </div>
                     <div class="question-options">
@@ -57,7 +58,7 @@
                         <div class="options">
                             <form action="" name="answer">
                                 <input type="hidden" name="question_id" value="{{ question.id }}">
-                                {% for option in question.questionOptions %}
+                                {% for option in question.options %}
                                     <div>
                                         <label for="option_{{ option.id }}">
                                             <input type="{% if question.type == 'radio' %}radio{% else %}checkbox{% endif %}"
@@ -65,7 +66,8 @@
                                                    id="option_{{ option.id }}"
                                                    {% if answers[question.id] is defined and  option.id in answers[question.id] %}checked{% endif %}
                                             >
-                                            <span>{{ option.text|raw }}</span>
+                                            {% include "typedField.html.twig" with {field: option.body} %}
+{#                                            <span>{{ option.text|raw }}</span>#}
                                         </label>
                                     </div>
                                 {% endfor %}

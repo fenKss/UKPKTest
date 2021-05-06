@@ -60,20 +60,20 @@
                                         <tr>
                                             <td>{{ tour.tourIndex }}</td>
                                             <td>
-                                                {% if userTest.status == 'waiting_pay' %}
+                                                {% if userTest.status == 0 %}
                                                     Ожидает оплаты
-                                                {% elseif userTest.status == 'paid' %}
+                                                {% elseif userTest.status == 1 %}
                                                     Оплачен
-                                                {% elseif userTest.status == 'started' %}
+                                                {% elseif userTest.status == 2 %}
                                                     Запущен
-                                                {% elseif userTest.status == 'waiting_end' %}
+                                                {% elseif userTest.status == 3 %}
                                                     Ожидает конца тура
-                                                {% elseif userTest.status == 'finished' %}
+                                                {% elseif userTest.status == 4 %}
                                                     Завершен
                                                 {% endif %}
                                             </td>
                                             <td>
-                                                {% if  userTest.status == 'started' %}
+                                                {% if userTest.status == 2 %}
                                                     <a href="{{ path('test_index', {test:userTest.id}) }}">Войти в редактор</a>
                                                 {% endif %}
                                             </td>

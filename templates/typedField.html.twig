@@ -1,0 +1,6 @@
+{% if field.type == 0 %}
+    <span>{{ field.text }}</span>
+
+{% elseif field.type == 1 and field.image %}
+    <img src="{{ field.image.path }}" alt="{{ field.image.filename }}">
+{% endif %}
