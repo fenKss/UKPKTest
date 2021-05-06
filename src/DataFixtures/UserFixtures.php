@@ -26,6 +26,10 @@ class UserFixtures extends Fixture
         ));
         $user->setRoles(['ROLE_ADMIN']);
         $user->setEmail('test@ukpktest.test');
+        $user->setBornAt(new \DateTime());
+        $user->setAddress('test');
+        $user->setName('test');
+        $user->setSurname('test');
 
         $manager->persist($user);
         $manager->flush();
