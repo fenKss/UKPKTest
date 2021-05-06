@@ -187,6 +187,13 @@ class TourController extends AbstractController
                      * Проверяем количество ответов в варианте
                      */
                     $options = $question->getOptions();
+                    if ($options->count() == 0) {
+                        $olympicName = $test->getTour()->getOlympic()->getName();
+                        $languageName = $test->getLanguage()->getName();
+                        return $this->addErrorOnPublishAndRedirect(
+                            "У одного из вопросов {$variant->getIndex()} варианта {$tour->getTourIndex()} тура '$olympicName' олимпиады нет вариантов ответа. Язык теста: $languageName",
+                            $page);
+                    }
                     if (!isset($optionsCount[$variant->getId()])) {
                         $optionsCount[$variant->getId()] = 0;
                     }

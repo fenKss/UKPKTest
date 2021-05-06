@@ -9,11 +9,12 @@ interface QuestionHeadProps {
     question: Api.Question,
     onEditQuestion: (question: Api.Question) => void
     onEditQuestionTitle: (question: Api.Question) => void
+    isPublished: boolean
 }
 
 const QuestionHead: React.FC<QuestionHeadProps> = (props) => {
 
-    const {question, onEditQuestion, onEditQuestionTitle} = props;
+    const {question, onEditQuestion, onEditQuestionTitle,isPublished} = props;
 
     const onEditTitle = (question: Api.Question) => {
         onEditQuestionTitle(question);
@@ -26,8 +27,16 @@ const QuestionHead: React.FC<QuestionHeadProps> = (props) => {
     }
     return (
         <div className="question-head">
-            <QuestionTitle question={question} onEditQuestionTitle={onEditTitle}/>
-            <QuestionType question={question} onChangeType={onChangeType}/>
+            <QuestionTitle
+                question={question}
+                onEditQuestionTitle={onEditTitle}
+                isPublished={isPublished}
+            />
+            <QuestionType
+                question={question}
+                onChangeType={onChangeType}
+                isPublished={isPublished}
+            />
         </div>
     )
 }

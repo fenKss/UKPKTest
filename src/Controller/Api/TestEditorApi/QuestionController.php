@@ -45,6 +45,9 @@ class QuestionController extends AbstractApiController
      */
     public function addOption(Question $question): Response
     {
+        if ($question->getVariant()->getTest()->getTour()->getPublishedAt()){
+            return $this->error(self::TOUR_PUBLISHED);
+        }
         $option = new QuestionOption();
         $optionsCount = $question->getOptions()->count();
         $option->setIsCorrect(false);
@@ -68,6 +71,9 @@ class QuestionController extends AbstractApiController
      */
     public function editQuestion(Question $question): Response
     {
+        if ($question->getVariant()->getTest()->getTour()->getPublishedAt()){
+            return $this->error(self::TOUR_PUBLISHED);
+        }
         try {
             $questionRaw = $this->__getResourceFromPut('question');
             $this->__checkRequestFieldsInClass($questionRaw, Question::class);
@@ -93,6 +99,9 @@ class QuestionController extends AbstractApiController
         Question $question,
         Request $request
     ): Response {
+        if ($question->getVariant()->getTest()->getTour()->getPublishedAt()){
+            return $this->error(self::TOUR_PUBLISHED);
+        }
         try {
             $imageTitle = $request->files->get('title');
             if ($imageTitle) {
@@ -116,6 +125,9 @@ class QuestionController extends AbstractApiController
      */
     public function deleteQuestion(Question $question): Response
     {
+        if ($question->getVariant()->getTest()->getTour()->getPublishedAt()){
+            return $this->error(self::TOUR_PUBLISHED);
+        }
         $this->em->remove($question);
         $this->em->flush();
         return $this->success(null, Response::HTTP_NO_CONTENT);

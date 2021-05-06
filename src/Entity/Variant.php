@@ -118,4 +118,9 @@ class Variant
 
         return $this;
     }
+
+    public function getIndex(): int
+    {
+        return $this->getTest()->getVariants()->indexOf($this) + 1;
+    }
 }

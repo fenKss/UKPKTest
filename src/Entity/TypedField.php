@@ -31,7 +31,7 @@ class TypedField
     private ?string $text;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Image::class)
+     * @ORM\ManyToOne(targetEntity=Image::class, cascade="remove")
      */
     private ?Image $image;
 

@@ -8,15 +8,25 @@ import addQuestion = Reducer.Editor.ActionCreator.addQuestion;
 import selectQuestion = Reducer.Editor.ActionCreator.selectQuestion;
 import addOption = Reducer.Editor.ActionCreator.addOption;
 import editOption = Reducer.Editor.ActionCreator.editOption;
+import deleteOption = Reducer.Editor.ActionCreator.deleteOption;
+import deleteQuestion = Reducer.Editor.ActionCreator.deleteQuestion;
+import setIsPublished = Reducer.Editor.ActionCreator.setIsPublished;
 
 export const setQuestionsFromServer = (variantId: number, toggleSelected = false) => async (dispatch) => {
     const api = editorApi;
-    const questions = await api.question.all(variantId);
-    questions.forEach(question => dispatch(addQuestion(question)));
-    if (questions[0] && toggleSelected) {
-        dispatch(selectQuestion(questions[0].id));
+    const variant = await api.variant.get(variantId);
+    const questions = variant?.questions;
+    if (variant) {
+        dispatch(setIsPublished(variant.isPublished));
+        if (questions) {
+            questions.forEach(question => dispatch(addQuestion(question)));
+            if (questions[0] && toggleSelected) {
+                dispatch(selectQuestion(questions[0].id));
+            }
+        }
     }
 }
+
 export const createQuestion = (variantId: number) => async (dispatch) => {
     const api = editorApi;
     const question = await api.question.add(variantId);
@@ -46,6 +56,14 @@ export const editQuestionTitleOnServer = (question: Question) => async (dispatch
         dispatch(editQuestion(newQuestion));
     }
 }
+export const deleteQuestionOnServer = (question: Question) => async (dispatch) => {
+   const api = editorApi;
+    const response = await api.question.delete(question.id);
+    if (response) {
+        dispatch(deleteQuestion(question));
+    }
+}
+
 
 export const createOption = (question: Question) => async (dispatch) => {
     const api = editorApi;
@@ -54,6 +72,13 @@ export const createOption = (question: Question) => async (dispatch) => {
             dispatch(addOption(option, question));
             dispatch(selectQuestion(question.id));
         }
+}
+export const deleteOptionOnServer = (option: Api.Option) => async (dispatch) => {
+    const api = editorApi;
+    const response = await api.option.delete(option.id);
+    if (response) {
+        dispatch(deleteOption(option));
+    }
 }
 export const editOptionOnServer = (option: Option, question: Question | null = null) => async (dispatch) => {
 

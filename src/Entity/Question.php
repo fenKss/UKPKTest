@@ -33,12 +33,12 @@ class Question
 
 
     /**
-     * @ORM\OneToMany(targetEntity=QuestionOption::class, mappedBy="question")
+     * @ORM\OneToMany(targetEntity=QuestionOption::class, mappedBy="question", cascade="remove")
      */
     private Collection $options;
 
     /**
-     * @ORM\ManyToOne(targetEntity=TypedField::class)
+     * @ORM\ManyToOne(targetEntity=TypedField::class, cascade="remove")
      * @ORM\JoinColumn(nullable=false)
      */
     private ?TypedField $title;

@@ -44,7 +44,11 @@ class OptionController extends AbstractApiController
      */
     public function editOption(QuestionOption $option): Response
     {
+        if ($option->getQuestion()->getVariant()->getTest()->getTour()->getPublishedAt()){
+            return $this->error(self::TOUR_PUBLISHED);
+        }
         try {
+
             $optionRaw = $this->__getResourceFromPut('option');
             $this->__checkRequestFieldsInClass($optionRaw, QuestionOption::class);
             $this->__updateRequestEntity($option, $optionRaw);
@@ -60,7 +64,7 @@ class OptionController extends AbstractApiController
             }
             $this->em->persist($option);
             $this->em->flush();
-        } catch (NotFoundResourceException $e) {
+        } catch (\Throwable $e) {
             return $this->error($e->getMessage(), Response::HTTP_BAD_REQUEST);
         }
         return $this->success($this->__optionToArray($option), Response::HTTP_OK);
@@ -71,6 +75,9 @@ class OptionController extends AbstractApiController
      */
     public function deleteOption(QuestionOption $option): Response
     {
+        if ($option->getQuestion()->getVariant()->getTest()->getTour()->getPublishedAt()){
+            return $this->error(self::TOUR_PUBLISHED);
+        }
         $this->em->remove($option);
         $this->em->flush();
         return $this->success(null, Response::HTTP_NO_CONTENT);
@@ -79,10 +86,13 @@ class OptionController extends AbstractApiController
     /**
      * @Route("/title", name="edit_title", methods={"POST", "PUT"})
      */
-    public function editQuestionTitle(
+    public function editOptionTitle(
         QuestionOption $option,
         Request $request
     ): Response {
+        if ($option->getQuestion()->getVariant()->getTest()->getTour()->getPublishedAt()){
+               return $this->error(self::TOUR_PUBLISHED);
+        }
         try {
             $imageTitle = $request->files->get('title');
             if ($imageTitle) {
@@ -93,40 +103,9 @@ class OptionController extends AbstractApiController
             $this->em->persist($option);
             $this->em->flush();
         } catch (\Throwable $e) {
-            return $this->error($e->getMessage(), Response::HTTP_BAD_REQUEST);
+            return $this->error($e->getMessage());
         }
         return $this->success($this->__optionToArray($option),
             Response::HTTP_OK);
     }
-
-    /**
-     * @return false|JsonResponse
-     */
-    private function __updateOptionTitleImage(
-        QuestionOption $option,
-        File $imageTitle
-    )
-    {
-        try {
-            $image = $this->__generateImageFromFile($imageTitle);
-
-            $body = $option->getBody();
-            if ($body->getType() == ETypedFieldType::IMAGE_TYPE) {
-                $this->__deleteOldTypedFieldImage($body);
-            }
-
-            $body->setImage($image);
-            $body->setType(ETypedFieldType::IMAGE_TYPE);
-            $this->em->persist($image);
-            $this->em->persist($body);
-
-        } catch (\Throwable $e) {
-            return $this->error('Cant load file' . $e->getMessage());
-        }
-        return false;
-    }
-
-
-
-
 }

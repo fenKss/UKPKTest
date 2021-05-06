@@ -5,10 +5,16 @@ import EQuestionType = Api.EQuestionType;
 interface QuestionTypeProps {
     question: Api.Question,
     onChangeType: () => void
+    isPublished: boolean
 }
 
 const QuestionType: React.FC<QuestionTypeProps> = (props) => {
-    const {question, onChangeType} = props;
+    const {question, onChangeType, isPublished} = props;
+    const onChange = () => {
+        if (!isPublished) {
+            onChangeType();
+        }
+    }
     return (
         <div className="question-type">
             <span>CheckBox</span>
@@ -18,7 +24,7 @@ const QuestionType: React.FC<QuestionTypeProps> = (props) => {
                        name={`questionType_${question.id}`}
                        type="checkbox"
                        checked={question.type === EQuestionType.RADIO_TYPE}
-                       onChange={onChangeType}
+                       onChange={onChange}
                 />
                 <label htmlFor={`questionType_${question.id}`} className="label-default"/>
             </div>

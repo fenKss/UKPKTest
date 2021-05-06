@@ -28,7 +28,7 @@ class QuestionOption
     private ?bool $isCorrect;
 
     /**
-     * @ORM\ManyToOne(targetEntity=TypedField::class)
+     * @ORM\ManyToOne(targetEntity=TypedField::class, cascade="remove")
      * @ORM\JoinColumn(nullable=false)
      */
     private ?TypedField $body;

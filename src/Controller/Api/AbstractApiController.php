@@ -19,6 +19,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Translation\Exception\NotFoundResourceException;
 
 /**
@@ -31,6 +32,7 @@ class AbstractApiController extends AbstractController
     protected const IMAGES_DIR = '/images/title/';
     protected EntityManagerInterface $em;
     protected string                 $projectPublicDir;
+    protected const TOUR_PUBLISHED = 'Тур опубликован';
 
     public function __construct(EntityManagerInterface $em, string $projectDir)
     {
@@ -49,7 +51,7 @@ class AbstractApiController extends AbstractController
     }
 
 
-    public function error(string $error_msg, $statusCode = 500): JsonResponse
+    public function error(string $error_msg, $statusCode = Response::HTTP_BAD_REQUEST): JsonResponse
     {
         return $this->json([
             'error'     => true,
@@ -150,6 +152,7 @@ class AbstractApiController extends AbstractController
             'testId'    => $variant->getTest()->getId(),
             'userTests' => [],
             'questions' => [],
+            'isPublished' => (bool)$variant->getTest()->getTour()->getPublishedAt()
         ];
         $userTests = $variant->getUserTests();
         foreach ($userTests as $userTest) {
@@ -252,5 +255,7 @@ class AbstractApiController extends AbstractController
         $this->em->persist($title);
 
     }
+
+
 
 }

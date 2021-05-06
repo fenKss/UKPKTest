@@ -39,6 +39,7 @@ export namespace Api {
         testId: number
         userTests: []
         questions: Question[]
+        isPublished: boolean
     }
 
     export type Response<T> = {

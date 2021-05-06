@@ -28,6 +28,9 @@ class VariantController extends AbstractApiController
      */
     public function addQuestion(Variant $variant): Response
     {
+        if ($variant->getTest()->getTour()->getPublishedAt()) {
+            return $this->error(self::TOUR_PUBLISHED);
+        }
         $question = new Question();
         $questionsCount = $variant->getQuestions()->count();
         $question->setType(EQuestionType::RADIO_TYPE);

@@ -36,10 +36,10 @@ class editorApi {
                 .then((response: ApiResponse<Api.Question[]>): Question[] => response.data.data)
                 .catch(this.catch)
         },
-        delete: async (questionId: number): Promise<null> => {
+        delete: async (questionId: number): Promise<true> => {
             return await this.axios
                 .delete(`/question/${questionId}`)
-                .then((response: ApiResponse<null>): null => response.data.data)
+                .then((response: ApiResponse<true>): true => true)
                 .catch(this.catch)
         },
         edit: async (question: Question): Promise<Question> => {
@@ -73,6 +73,14 @@ class editorApi {
                 .catch(this.catch)
         }
     }
+    variant = {
+        get: async (variantId: number): Promise<Api.Variant> => {
+            return this.axios
+                .get(`/variant/${variantId}`)
+                .then((response: ApiResponse<Api.Variant>): Api.Variant => response.data.data)
+                .catch(this.catch)
+        },
+    }
     option = {
         add: async (questionId: number): Promise<Option> => {
             return await this.axios
@@ -86,10 +94,10 @@ class editorApi {
                 .then((response: ApiResponse<Api.Option>): Option => response.data.data)
                 .catch(this.catch)
         },
-        delete: async (optionId: number): Promise<null> => {
+        delete: async (optionId: number): Promise<true> => {
             return this.axios
                 .delete(`option/${optionId}`)
-                .then((response: ApiResponse<null>): null => response.data.data)
+                .then((response: ApiResponse<true>): true => true)
                 .catch(this.catch)
         },
         edit: async (option: Option): Promise<Option> => {
@@ -124,7 +132,7 @@ class editorApi {
         }
     }
 
-    catch = (e: ApiError): undefined => {
+    catch = (e: ApiError): null => {
         //@ts-ignore
         toastr.error(e.response.data.error_msg);
         return null;

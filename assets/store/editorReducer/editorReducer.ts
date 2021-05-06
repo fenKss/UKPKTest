@@ -2,14 +2,18 @@ import {Api} from "../../types/api";
 import {Reducer} from "./actions";
 import Question = Api.Question;
 import Action = Reducer.Editor.Action;
+import selectQuestion = Reducer.Editor.ActionCreator.selectQuestion;
+
 interface EditorState {
     questions: Question[],
     selectedQuestionId: number | null
+    isPublished: boolean
 }
 
 const initState: EditorState = {
     questions: [],
-    selectedQuestionId: null
+    selectedQuestionId: null,
+    isPublished: true
 }
 const updateQuestion = (questions: Question[], questionNew: Question): Question[] => {
     return questions.map(question => {
@@ -41,6 +45,30 @@ const editorReducer = (state = initState, action: Action.Actions) => {
                 ...state,
                 questions: updateQuestion(state.questions, action.question)
             }
+        case Action.DELETE_QUESTION:
+            let isChanged = false;
+            const questions = state.questions;
+            for (let i = 0; i < questions.length; i++) {
+                const question = questions[i];
+                if (question.id == action.question.id) {
+                    isChanged = true;
+                    questions.splice(i, 1);
+                    break;
+                }
+            }
+            let selectedQuestionId = null;
+            if (questions.length) {
+                selectedQuestionId = questions[0].id;
+            }
+            if (isChanged) {
+                return {
+                    ...state,
+                    questions: [...questions],
+                    selectedQuestionId
+                }
+            }
+            return state;
+
         case Action.ADD_OPTION: {
             const question = state.questions.find(element => {
                 if (element.id == action.question.id) {
@@ -72,9 +100,33 @@ const editorReducer = (state = initState, action: Action.Actions) => {
             }
             return state;
         }
+        case Action.DELETE_OPTION:
+            let question;
+            state.questions.forEach(q => {
+                q.options.forEach((option, i) => {
+                    if (option.id == action.option.id) {
+                        question = {...q};
+                        question.options.splice(i, 1);
+                    }
+                })
+            });
+            if (question) {
+                return {
+                    ...state,
+                    questions: updateQuestion(state.questions, {...question})
+                }
+            }
+            return state;
+        case Action.SET_IS_PUBLISHED:
+            return {
+                ...state,
+                isPublished: action.isPublished
+            }
         default:
             return state;
+
     }
+    return state;
 };
 
 

@@ -5,10 +5,13 @@ export namespace Reducer.Editor {
         export const ADD_QUESTION = 'ADD_QUESTION';
         export const SELECT_QUESTION = 'SELECT_QUESTION';
         export const EDIT_QUESTION = 'EDIT_QUESTION';
+        export const DELETE_QUESTION = 'DELETE_QUESTION';
 
         export const ADD_OPTION = 'ADD_OPTION';
         export const DELETE_OPTION = 'DELETE_OPTION';
         export const EDIT_OPTION = 'EDIT_OPTION';
+
+        export const SET_IS_PUBLISHED = 'SET_IS_PUBLISHED';
 
         export interface AddQuestionInterface {
             type: typeof ADD_QUESTION,
@@ -22,6 +25,11 @@ export namespace Reducer.Editor {
 
         export interface EditQuestionInterface {
             type: typeof EDIT_QUESTION,
+            question: Api.Question
+        }
+
+        export interface DeleteQuestionInterface {
+            type: typeof DELETE_QUESTION,
             question: Api.Question
         }
 
@@ -40,13 +48,19 @@ export namespace Reducer.Editor {
             type: typeof EDIT_OPTION,
             option: Api.Option
         }
+        export interface SetIsPublishedInterface {
+            type: typeof SET_IS_PUBLISHED,
+            isPublished: boolean
+        }
 
         export type Actions = AddQuestionInterface |
             SelectQuestionInterface |
             EditQuestionInterface |
+            DeleteQuestionInterface |
             AddOptionInterface |
             DeleteOptionInterface |
-            EditOptionInterface;
+            EditOptionInterface |
+            SetIsPublishedInterface;
     }
     export namespace ActionCreator {
         import Question = Api.Question;
@@ -63,6 +77,10 @@ export namespace Reducer.Editor {
             type: Action.EDIT_QUESTION,
             question
         });
+        export const deleteQuestion = (question: Question): Action.DeleteQuestionInterface => ({
+            type: Action.DELETE_QUESTION,
+            question
+        });
 
         export const addOption = (option: Option, question: Question): Action.AddOptionInterface => ({
             type: Action.ADD_OPTION,
@@ -76,6 +94,11 @@ export namespace Reducer.Editor {
         export const deleteOption = (option: Option): Action.DeleteOptionInterface => ({
             type: Action.DELETE_OPTION,
             option
+        });
+
+        export const setIsPublished = (isPublished: boolean): Action.SetIsPublishedInterface => ({
+           type: Action.SET_IS_PUBLISHED,
+           isPublished
         });
     }
 }

@@ -6,19 +6,27 @@ import {RootState} from "../../../store/store";
 import {useParams} from 'react-router-dom';
 import {useEffect} from "react";
 import QuestionList from "./QuestionList";
-import {setQuestionsFromServer} from "../../../store/editorReducer/serverActions";
+import {deleteQuestionOnServer, setQuestionsFromServer} from "../../../store/editorReducer/serverActions";
 import selectQuestion = Reducer.Editor.ActionCreator.selectQuestion;
+import {Api} from "../../../types/api";
 
 const QuestionListContainer = (props: EditorContainerProps) => {
 
-    const {questions, setQuestionsFromServer, selectedQuestionId, selectQuestion} = props;
+    const {questions, setQuestionsFromServer, selectedQuestionId, selectQuestion,deleteQuestionOnServer} = props;
     const {variantId} = useParams<ParamTypes>();
     useEffect(() => {
         setQuestionsFromServer(+variantId, true);
     }, []);
-
+    const onDeleteQuestion = (question: Api.Question) => {
+        deleteQuestionOnServer(question);
+    }
     return (
-        <QuestionList questions={questions} selectedQuestionId={selectedQuestionId} onSelectQuestion={selectQuestion}/>
+        <QuestionList
+            questions={questions}
+            selectedQuestionId={selectedQuestionId}
+            onSelectQuestion={selectQuestion}
+            onDeleteQuestion={onDeleteQuestion}
+        />
     )
 }
 
@@ -30,6 +38,7 @@ const mapStateToProps = (state: RootState) => ({
 const mapDispatchToProps = {
     setQuestionsFromServer,
     selectQuestion,
+    deleteQuestionOnServer,
 }
 
 const connector = connect(mapStateToProps, mapDispatchToProps);

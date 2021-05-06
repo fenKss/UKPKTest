@@ -7,10 +7,11 @@ import Title from "../../Title";
 interface QuestionTitleProps {
     question: Api.Question,
     onEditQuestionTitle: (question: Api.Question) => void
+    isPublished: boolean
 }
 
 const QuestionTitle: React.FC<QuestionTitleProps> = (props) => {
-    const {question, onEditQuestionTitle} = props;
+    const {question, onEditQuestionTitle, isPublished} = props;
 
     const [isModalVisible, changeModalVisibility] = useState(false);
 
@@ -28,8 +29,12 @@ const QuestionTitle: React.FC<QuestionTitleProps> = (props) => {
     return (
         <div className={'question-title'}>
             <Title field={question.title}/>
-            <button className={"btn btn-xs"} onClick={onButtonClick}><i className="fa fa-edit"/></button>
-            {isModalVisible && <EditQuestionTitleModal onClose={onClose} question={question} onSubmit={onChangeTitle}/>}
+            {!isPublished &&
+                <button className={"btn btn-xs"} onClick={onButtonClick}><i className="fa fa-edit"/></button>
+            }
+            {isModalVisible && !isPublished &&
+                <EditQuestionTitleModal onClose={onClose} question={question} onSubmit={onChangeTitle}/>
+            }
         </div>
     )
 };
