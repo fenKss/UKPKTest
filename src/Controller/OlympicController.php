@@ -18,7 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * Class OlympicController
  *
- * @Route("/olympic", name="olymp_")
+ * @Route("/olympic", name="olympic_")
  * @package App\Controller
  */
 class OlympicController extends AbstractController
