@@ -36,6 +36,6 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: ^/admin/user, roles: ROLE_ADMIN }
-#        - { path: ^/api/editor, roles: ROLE_ADMIN } /*todo open on prod */
+        - { path: ^/api/editor, roles: ROLE_ADMIN } #todo open on prod
         - { path: ^/admin, roles: [ROLE_ADMIN, ROLE_EDITOR] }
         - { path: ^/user, roles: ROLE_USER }

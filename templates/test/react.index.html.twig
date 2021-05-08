@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block main_class %}wrapper{% endblock %}
+{% block page_title %}Редактор тестов{% endblock %}
+{% block styles %}
+    {{ encore_entry_link_tags('app') }}
+{% endblock %}
+{% block javascript %}
+{{ encore_entry_script_tags('app') }}
+{% endblock %}
+
+{% block content %}
+    <div id="root"></div>
+{% endblock %}

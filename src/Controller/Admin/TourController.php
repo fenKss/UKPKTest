@@ -138,7 +138,6 @@ class TourController extends AbstractController
 
     /**
      * @Route("/{id}/publish", name="publish")
-     * @IsGranted("ROLE_ADMIN")
      */
     public function publish(Tour $tour, Request $request): RedirectResponse
     {
@@ -192,6 +191,23 @@ class TourController extends AbstractController
                         $languageName = $test->getLanguage()->getName();
                         return $this->addErrorOnPublishAndRedirect(
                             "У одного из вопросов {$variant->getIndex()} варианта {$tour->getTourIndex()} тура '$olympicName' олимпиады нет вариантов ответа. Язык теста: $languageName",
+                            $page);
+                    }
+                    /*
+                     * Проверяем есть ли в вопросе верный вариант ответа
+                     */
+                    $isCorrectAnswerExist = false;
+                    foreach ($options as $option){
+                        if ($option->getIsCorrect()){
+                            $isCorrectAnswerExist = true;
+                            break;
+                        }
+                    }
+                    if (!$isCorrectAnswerExist){
+                        $olympicName = $test->getTour()->getOlympic()->getName();
+                        $languageName = $test->getLanguage()->getName();
+                        return $this->addErrorOnPublishAndRedirect(
+                            "У одного из вопросов {$variant->getIndex()} варианта {$tour->getTourIndex()} тура '$olympicName' олимпиады нет правильного варианта ответа. Язык теста: $languageName",
                             $page);
                     }
                     if (!isset($optionsCount[$variant->getId()])) {

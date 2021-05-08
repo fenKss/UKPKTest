@@ -29,14 +29,14 @@ class TestApiController extends AbstractApiController
         }
         /** @var User $user */
         $user = $this->getUser();
-        if ($user->getId() != $test->getUser()->getId()){
+        if ($user->getId() != $test->getUser()->getId()) {
             return $this->error('auth error');
         }
-        if($test->getStatus() != EUserTestStatus::STARTED_TYPE){
+        if ($test->getStatus() != EUserTestStatus::STARTED_TYPE) {
             return $this->error('test not started');
         }
         $answers = $request->get('answers');
-        $answers = @json_decode($answers,true);
+        $answers = @json_decode($answers, true);
         if (json_last_error() != JSON_ERROR_NONE) {
             return $this->error('json error');
         }
@@ -65,7 +65,7 @@ class TestApiController extends AbstractApiController
         }
         /** @var User $user */
         $user = $this->getUser();
-        if ($user->getId() != $test->getUser()->getId()){
+        if ($user->getId() != $test->getUser()->getId()) {
             return $this->error('auth error');
         }
         $test->setStatus(EUserTestStatus::WAITING_END_TYPE);

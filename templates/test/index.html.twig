@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 {% block main_class %}wrapper{% endblock %}
-{% block title %}Редактор тестов{% endblock %}
+{% block page_title %}Редактор тестов{% endblock %}
 {% block javascript %}
 <script src="{{ asset('assets/js/test.js') }}"></script>
  <script>window.test = new Test({{ userTest.id }}, `{{ csrf_token('answer' ~ userTest.id) }}`);</script>

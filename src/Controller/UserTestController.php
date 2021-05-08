@@ -26,16 +26,33 @@ class UserTestController extends AbstractController
     {
         /** @var User $user */
         $user = $this->getUser();
-        if ($user->getId() != $test->getUser()->getId()){
+        if ($user->getId() != $test->getUser()->getId()) {
             return $this->redirectToRoute('user_index');
         }
-        if ( $test->getStatus() != EUserTestStatus::STARTED_TYPE){
+        if ($test->getStatus() != EUserTestStatus::STARTED_TYPE) {
             return $this->redirectToRoute('user_index');
         }
 
         return $this->render('test/index.html.twig', [
             'userTest' => $test,
-            'answers'=> json_decode($test->getResultJson(),true)['answers']
+            'answers'  => json_decode($test->getResultJson(), true)['answers']
         ]);
+    }
+
+    /**
+     * @Route("/{test}/react", name="react")
+     */
+    public function react(UserTest $test): Response
+    {
+        /** @var User $user */
+        $user = $this->getUser();
+        if ($user->getId() != $test->getUser()->getId()) {
+            return $this->redirectToRoute('user_index');
+        }
+        if ($test->getStatus() != EUserTestStatus::STARTED_TYPE) {
+            return $this->redirectToRoute('user_index');
+        }
+
+        return $this->render('test/react.index.html.twig');
     }
 }
