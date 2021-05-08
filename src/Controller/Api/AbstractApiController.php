@@ -37,7 +37,7 @@ class AbstractApiController extends AbstractController
     public function __construct(EntityManagerInterface $em, string $projectDir)
     {
 
-        $this->em = $em;
+        $this->em               = $em;
         $this->projectPublicDir = $projectDir . "/public";
     }
 
@@ -51,8 +51,10 @@ class AbstractApiController extends AbstractController
     }
 
 
-    public function error(string $error_msg, $statusCode = Response::HTTP_BAD_REQUEST): JsonResponse
-    {
+    public function error(
+        string $error_msg,
+        $statusCode = Response::HTTP_BAD_REQUEST
+    ): JsonResponse {
         return $this->json([
             'error'     => true,
             'data'      => null,
@@ -102,20 +104,18 @@ class AbstractApiController extends AbstractController
     {
         $array = [
             'type' => $field->getType(),
+            'text' => $field->getText()
         ];
-        switch ($field->getType()) {
-            case ETypedFieldType::TEXT_TYPE:
-                $array['body'] = $field->getValue();
-                break;
-            case ETypedFieldType::IMAGE_TYPE:
-                /**@var Image $image */
-                $image = $field->getImage();
-                $array['body'] = [
-                    'filename' => $image->getFilename(),
-                    'fullPath' => $image->getPath(),
-                ];
-                break;
+        $image = $field->getImage();
+        if ($image) {
+            $imageInfo = [
+                'filename' => $image->getFilename(),
+                'fullPath' => $image->getPath(),
+            ];
+        } else {
+            $imageInfo = null;
         }
+        $array['image'] = $imageInfo;
         return $array;
     }
 
@@ -147,12 +147,13 @@ class AbstractApiController extends AbstractController
 
     protected function __variantToArray(Variant $variant): array
     {
-        $response = [
-            'id'        => $variant->getId(),
-            'testId'    => $variant->getTest()->getId(),
-            'userTests' => [],
-            'questions' => [],
-            'isPublished' => (bool)$variant->getTest()->getTour()->getPublishedAt()
+        $response  = [
+            'id'          => $variant->getId(),
+            'testId'      => $variant->getTest()->getId(),
+            'userTests'   => [],
+            'questions'   => [],
+            'isPublished' => (bool)$variant->getTest()->getTour()
+                                           ->getPublishedAt()
         ];
         $userTests = $variant->getUserTests();
         foreach ($userTests as $userTest) {
@@ -188,13 +189,13 @@ class AbstractApiController extends AbstractController
     {
         $image = new Image();
 
-        $filename = FS::generateRandomString(15);
+        $filename  = FS::generateRandomString(15);
         $extension = explode(".", $file->getClientOriginalName());
         $extension = end($extension);
-        $path = (self::IMAGES_DIR . $filename . "." . $extension);
+        $path      = (self::IMAGES_DIR . $filename . "." . $extension);
 
         $fullPathDir = $this->projectPublicDir . self::IMAGES_DIR;
-        $fullPath = $this->projectPublicDir . $path;
+        $fullPath    = $this->projectPublicDir . $path;
 
         if (!FS::isDir($fullPathDir)) {
             FS::mkdir($fullPathDir);
@@ -225,7 +226,7 @@ class AbstractApiController extends AbstractController
         string $field
     ): bool {
         $titleRaw = $this->__getResourceFromPut($field);
-        $text = $titleRaw['title']['body'] ?? $titleRaw['body']['body'] ?? null;
+        $text     = $titleRaw['title']['text'] ?? $titleRaw['body']['text'] ?? null;
         if (!$text) {
             throw new RuntimeException("Invalid title text");
         }
@@ -255,7 +256,6 @@ class AbstractApiController extends AbstractController
         $this->em->persist($title);
 
     }
-
 
 
 }

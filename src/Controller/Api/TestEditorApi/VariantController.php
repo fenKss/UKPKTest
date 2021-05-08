@@ -39,6 +39,7 @@ class VariantController extends AbstractApiController
         $value = new TypedField();
         $value->setType(ETypedFieldType::TEXT_TYPE);
         $value->setText("Вопрос " . ++$questionsCount);
+        $value->setImage(null);
         $question->setTitle($value);
 
         $this->em->persist($question);

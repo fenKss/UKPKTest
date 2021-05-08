@@ -49,7 +49,7 @@ class editorApi {
                 .catch(this.catch)
         },
         editTitle: async (question: Question): Promise<Question> => {
-            if (question.title.type == ETypedFieldType.TEXT_TYPE && typeof question.title.body == 'string') {
+            if (question.title.type == ETypedFieldType.TEXT_TYPE) {
                 return this.question.__editTitleString(question);
             }
             return this.question.__editTitleFile(question);
@@ -107,7 +107,7 @@ class editorApi {
                 .catch(this.catch)
         },
         editTitle: async (option: Option): Promise<Option> => {
-            if (option.body.type == ETypedFieldType.TEXT_TYPE && typeof option.body.body == 'string') {
+            if (option.body.type == ETypedFieldType.TEXT_TYPE) {
                 return this.option.__editTitleString(option);
             }
             return this.option.__editTitleFile(option);

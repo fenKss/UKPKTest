@@ -28,12 +28,12 @@ class TypedField
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private ?string $text;
+    private ?string $text = null;
 
     /**
      * @ORM\ManyToOne(targetEntity=Image::class, cascade="remove")
      */
-    private ?Image $image;
+    private ?Image $image = null;
 
     public function getId(): ?int
     {

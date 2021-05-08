@@ -8,11 +8,11 @@ interface TitleProps {
 
 const Title: React.FC<TitleProps> = (props) => {
     const {field} = props;
-    if (field.type == Api.ETypedFieldType.TEXT_TYPE && typeof field.body == 'string') {
-        return <span>{field.body}</span>;
+    if (field.type == Api.ETypedFieldType.TEXT_TYPE) {
+        return <span>{field.text}</span>;
     }
     //@ts-ignore
-    return <img src={field.body?.fullPath} alt={field.body?.filename}/>
+    return <img src={field.image.fullPath} alt={field.image.filename}/>
 
 
 }

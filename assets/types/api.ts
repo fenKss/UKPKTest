@@ -15,9 +15,10 @@ export namespace Api {
     }
 
     export type TypedField = {
-        body: IImage | string,
+        text: string | null,
+        image: IImage | null,
         type: ETypedFieldType,
-        file ?: File
+        file?: File
     }
 
     export type Option = {

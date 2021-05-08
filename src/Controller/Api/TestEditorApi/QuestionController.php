@@ -48,14 +48,16 @@ class QuestionController extends AbstractApiController
         if ($question->getVariant()->getTest()->getTour()->getPublishedAt()){
             return $this->error(self::TOUR_PUBLISHED);
         }
-        $option = new QuestionOption();
         $optionsCount = $question->getOptions()->count();
+
+        $option = new QuestionOption();
         $option->setIsCorrect(false);
         $option->setQuestion($question);
 
         $value = new TypedField();
         $value->setType(ETypedFieldType::TEXT_TYPE);
         $value->setText("Вариант " . ++$optionsCount);
+        $value->setImage(null);
         $option->setBody($value);
 
         $this->em->persist($option);

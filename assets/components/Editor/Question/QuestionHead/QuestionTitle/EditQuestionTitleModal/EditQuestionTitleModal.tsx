@@ -22,18 +22,18 @@ const EditQuestionTitleModal: React.FC<EditQuestionTitleModal> = (props) => {
         setLocalQuestion({...localQuestion, title: {...localQuestion.title}});
     }
     const onChangeTextTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
-        localQuestion.title.body = e.target.value;
+        localQuestion.title.text = e.target.value;
         setLocalQuestion({...localQuestion});
     }
     const Body = () => {
         const title = localQuestion.title;
 
         if (title.type === ETypedFieldType.TEXT_TYPE) {
-            if (typeof title.body != "string") {
-                title.body = '';
-            }
+            // if (typeof title.body != "string") {
+            //     title.body = '';
+            // }
             return (
-                <input type="text" value={title.body} onChange={onChangeTextTitle} autoFocus={true}/>
+                <input type="text" value={title.text} onChange={onChangeTextTitle} autoFocus={true}/>
             )
         } else {
             const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
