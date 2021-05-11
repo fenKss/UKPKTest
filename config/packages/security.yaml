@@ -39,3 +39,4 @@ security:
         - { path: ^/api/editor, roles: ROLE_ADMIN } #todo open on prod
         - { path: ^/admin, roles: [ROLE_ADMIN, ROLE_EDITOR] }
         - { path: ^/user, roles: ROLE_USER }
+        - { path: ^/test, roles: ROLE_USER }

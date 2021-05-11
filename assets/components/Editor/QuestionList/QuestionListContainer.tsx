@@ -8,6 +8,7 @@ import {useEffect} from "react";
 import QuestionList from "./QuestionList";
 import {setQuestionsFromServer} from "../../../store/editorReducer/serverActions";
 import selectQuestion = Reducer.Editor.ActionCreator.selectQuestion;
+import  "./questionList.scss";
 
 const QuestionListContainer = (props: EditorContainerProps) => {
 

@@ -1,12 +1,10 @@
 import axios, {AxiosError, AxiosInstance, AxiosResponse} from 'axios';
 import * as qs from 'qs'
-import {Api} from "../types/api";
+import {Api, ApiError, ApiResponse} from "../types/api";
 import Question = Api.Question;
 import Option = Api.Option;
 import ETypedFieldType = Api.ETypedFieldType;
 
-type ApiResponse<T> = AxiosResponse<Api.Response<T>>;
-type ApiError = AxiosError<Api.Response<null>>;
 
 class editorApi {
     private readonly axios: AxiosInstance;

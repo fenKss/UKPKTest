@@ -74,4 +74,25 @@ class TestApiController extends AbstractApiController
         $em->flush();
         return $this->success([]);
     }
+
+    /**
+     * @Route("/", name="get")
+     */
+    public function getTest(UserTest $test): JsonResponse
+    {
+        if ($test->getUser() != $this->getUser()) {
+            return $this->error('User not allowed for this test');
+        }
+        $questions = [];
+        foreach ($test->getVariant()->getQuestions() as $question) {
+            $questions[] = $this->__questionToArray($question);
+        }
+        return $this->success([
+            'questions'    => $questions,
+            'expiredAt'    => $test->getVariant()->getTest()->getTour()->getExpiredAt()->getTimestamp(),
+            'tourIndex'    => $test->getVariant()->getTest()->getTour()->getTourIndex(),
+            'variantIndex' => $test->getVariant()->getIndex(),
+            'olympicName'  => $test->getVariant()->getTest()->getTour()->getOlympic()->getName()
+        ]);
+    }
 }

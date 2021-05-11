@@ -1,4 +1,10 @@
+import {AxiosError, AxiosResponse} from "axios";
+
+export type ApiResponse<T> = AxiosResponse<Api.Response<T>>;
+export type ApiError = AxiosError<Api.Response<null>>;
+
 export namespace Api {
+
     export interface IImage {
         filename: string
         fullPath: string,
@@ -33,6 +39,7 @@ export namespace Api {
         type: EQuestionType
         variantId: number
         options: Option[]
+        isAnswered?: boolean
     }
 
     export type Variant = {
@@ -47,5 +54,13 @@ export namespace Api {
         error: boolean,
         data: T,
         error_msg: string
+    }
+
+    export type Test = {
+        questions: Question[],
+        expiredAt: Date
+        tourIndex: number
+        variantIndex: number
+        olympicName: string
     }
 }

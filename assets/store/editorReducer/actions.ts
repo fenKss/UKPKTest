@@ -2,16 +2,16 @@ import {Api} from "../../types/api";
 
 export namespace Reducer.Editor {
     export namespace Action {
-        export const ADD_QUESTION = 'ADD_QUESTION';
-        export const SELECT_QUESTION = 'SELECT_QUESTION';
-        export const EDIT_QUESTION = 'EDIT_QUESTION';
-        export const DELETE_QUESTION = 'DELETE_QUESTION';
+        export const ADD_QUESTION = 'EDITOR_ADD_QUESTION';
+        export const SELECT_QUESTION = 'EDITOR_SELECT_QUESTION';
+        export const EDIT_QUESTION = 'EDITOR_EDIT_QUESTION';
+        export const DELETE_QUESTION = 'EDITOR_DELETE_QUESTION';
 
-        export const ADD_OPTION = 'ADD_OPTION';
-        export const DELETE_OPTION = 'DELETE_OPTION';
-        export const EDIT_OPTION = 'EDIT_OPTION';
+        export const ADD_OPTION = 'EDITOR_ADD_OPTION';
+        export const DELETE_OPTION = 'EDITOR_DELETE_OPTION';
+        export const EDIT_OPTION = 'EDITOR_EDIT_OPTION';
 
-        export const SET_IS_PUBLISHED = 'SET_IS_PUBLISHED';
+        export const SET_IS_PUBLISHED = 'EDITOR_SET_IS_PUBLISHED';
 
         export interface AddQuestionInterface {
             type: typeof ADD_QUESTION,
@@ -48,6 +48,7 @@ export namespace Reducer.Editor {
             type: typeof EDIT_OPTION,
             option: Api.Option
         }
+
         export interface SetIsPublishedInterface {
             type: typeof SET_IS_PUBLISHED,
             isPublished: boolean
@@ -97,8 +98,9 @@ export namespace Reducer.Editor {
         });
 
         export const setIsPublished = (isPublished: boolean): Action.SetIsPublishedInterface => ({
-           type: Action.SET_IS_PUBLISHED,
-           isPublished
+            type: Action.SET_IS_PUBLISHED,
+            isPublished
         });
     }
 }
+

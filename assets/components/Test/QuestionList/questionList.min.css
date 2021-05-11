@@ -1,0 +1,1 @@
+main.wrapper ul.list{display:grid;grid-template-columns:50px 50px 50px 50px;grid-auto-rows:50px;grid-gap:10px}main.wrapper ul.list li{background:#cacaca;cursor:pointer;align-items:center;justify-content:center;display:flex;border:0}main.wrapper ul.list li.selected{background:#ececec}
