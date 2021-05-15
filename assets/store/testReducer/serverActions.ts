@@ -20,7 +20,8 @@ export const setTestFromServer = (testId: number, toggleSelected = false) => asy
         }
         dispatch(setTourIndex(test.tourIndex));
         dispatch(setVariantIndex(test.variantIndex));
-        dispatch(setExpiredAt(new Date(test.expiredAt)));
+        //@ts-ignore
+        dispatch(setExpiredAt(new Date(test.expiredAt*1000)));
         dispatch(setOlympicName(test.olympicName));
     }
 }

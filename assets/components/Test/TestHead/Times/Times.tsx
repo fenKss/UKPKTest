@@ -11,19 +11,16 @@ const Times: React.FC<TimesProps> = (props) => {
 
     let [time, setTime] = useState('');
 
-    const pad = (n) => {
-        return (n < 10 ? '0' : '') + n;
-    }
+
 
 
     const getCountdown = () => {
-        console.log(expiredAt, (+expiredAt - +(new Date())))
-        if ((+expiredAt - +(new Date())) < 0) {
-            /**
-             * TODO Заменить на location.reload();
-             */
-            console.log('Время истекло');
-            clearInterval(interval);
+            const pad = (n) => {
+        return (n < 10 ? '0' : '') + n;
+    }
+        //@ts-ignore
+        console.log(props);
+        if (expiredAt == null) {
             return;
         }
         const current_date = new Date().getTime();
@@ -37,12 +34,18 @@ const Times: React.FC<TimesProps> = (props) => {
 
         const minutes = pad(seconds_left / 60);
         const seconds = pad(seconds_left % 60);
+        setTimeout(() => {
+            setTime(days + ' : ' + hours + ' : ' + minutes + ' : ' + seconds);
+        },1000);
 
-        setTime(days + ' : ' + hours + ' : ' + minutes + ' : ' + seconds);
     }
-    useEffect(getCountdown, []);
-    const interval = setInterval(getCountdown, 1000);
+    // useEffect(getCountdown, []);
+    // const interval = setInterval(getCountdown, 1000);
+    useEffect(() => {
+            const interval = setInterval(getCountdown, 1000);
+            return () => clearInterval(interval);
 
+    },[]);
     return (
         <div className="time">
             <div className="expired">

@@ -5,6 +5,7 @@ import TestHead from "./TestHead";
 
 const TestHeadContainer: React.FC<TestHeadContainerProps> = (props) => {
     const {olympicName, variantIndex, tourIndex, expiredAt, resultsSavedAt} = props;
+
     return <TestHead
         expiredAt={expiredAt}
         variantIndex={variantIndex}
