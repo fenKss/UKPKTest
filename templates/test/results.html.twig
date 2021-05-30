@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+
+{% block main_class %}wrapper results{% endblock %}
+{% block title %}Результаты теста{% endblock %}
+{% block javascript %}
+<script src="{{ asset('assets/js/results.js') }}"></script>
+{% endblock %}
+{% block content %}
+    <div class="test-head">
+        <div class="about">
+            {% set tour = userTest.variant.test.tour %}
+            <div class="olympic-name title">
+                Олимпиада: <span>{{ tour.olympic.name }}</span>
+            </div>
+            <div class="tour-name title">
+                Тур: <span>{{ tour.tourIndex }}</span>
+            </div>
+            <div class="variant-index title">
+                {% set variant_index = userTest.variant.test.variants.indexOf(userTest.variant)+1 %}
+                Вариант: <span>{{ variant_index }}</span>
+            </div>
+        </div>
+    </div>
+    <div id="test">
+        <ul class="questions">
+            {% for i,question in userTest.variant.questions %}
+                <li class="{% if i==0 %}active{% endif %} {% if  answers[question.id] is defined and question.correctOptionsIds == answers[question.id] %}success {% else %}danger {% endif %}" data-question-id="{{ question.id }}" data-target="question-{{ i }}">
+                    <span>{{ i+1 }}</span>
+                </li>
+            {% endfor %}
+        </ul>
+        <div class="tab-content">
+            {% for i,question in userTest.variant.questions %}
+                <div class="tab tab-pane {% if i==0 %}active{% endif %} " id="question_{{ question.id }}"
+                     data-question-id="{{ question.id }}"
+                     data-content="question-{{ i }}"
+                >
+                    <div class="question-head">
+                        <div class="question-title">
+                            {% include "typedField.html.twig" with {field: question.title } %}
+                        </div>
+                    </div>
+                    <div class="question-options">
+                        <div class="question-options-head">
+                            Варианты ответа
+                        </div>
+                        <div class="options">
+                            <form action="" name="answer">
+                                <input type="hidden" name="question_id" value="{{ question.id }}">
+                                {% for option in question.options %}
+                                    <div>
+                                        <label for="option_{{ option.id }}">
+                                            <input type="{% if question.type == 'radio' %}radio{% else %}checkbox{% endif %}"
+                                                   id="option_{{ option.id }}"
+                                                   disabled
+                                            >
+                                            {% include "typedField.html.twig" with {field: option.body} %}
+                                            {% set isAnswer = answers[question.id] is defined and  option.id in answers[question.id] %}
+                                            {% if isAnswer%}<span class="alert {% if option.isCorrect %}success{% else %}danger{% endif %}">Ваш ответ</span>{% endif %}
+                                            {% if option.isCorrect %}<span class="alert success">Правильный ответ</span>{% endif %}
+                                        </label>
+                                    </div>
+                                {% endfor %}
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

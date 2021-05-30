@@ -2,6 +2,7 @@
 
 {% block page_title %}Личный кабинет{% endblock %}
 {% block main_class %}user-cabinet main-center{% endblock %}
+
 {% block content %}
     <div class="cabinet">
         <div class="user-info">
@@ -9,7 +10,7 @@
                 {% if user.avatar %}
                     <img src="{{ user.avatar.path }}" alt="">
                 {% else %}
-                <img src="{{ asset('assets/img/no_img.jpg') }}" alt="">
+                    <img src="{{ asset('assets/img/no_img.jpg') }}" alt="">
                 {% endif %}
             </div>
             <div class="name">
@@ -74,7 +75,11 @@
                                             </td>
                                             <td>
                                                 {% if userTest.status == 2 %}
-                                                    <a href="{{ path('test_index', {test:userTest.id}) }}">Войти в редактор</a>
+                                                    <a href="{{ path('test_index', {test:userTest.id}) }}">Войти в
+                                                        редактор</a>
+                                                {% elseif userTest.status == 4 %}
+                                                    <a href="{{ path('user_results', {userTest:userTest.id}) }}">Посмотреть
+                                                        результаты</a>
                                                 {% endif %}
                                             </td>
                                         </tr>

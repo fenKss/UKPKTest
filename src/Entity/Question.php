@@ -119,5 +119,14 @@ class Question
 
         return $this;
     }
-
+    public function getCorrectOptionsIds(): array
+    {
+        $ids = [];
+        foreach ($this->getOptions() as $option){
+            if ($option->getIsCorrect()){
+                $ids[] = $option->getId();
+            }
+        }
+        return $ids;
+    }
 }

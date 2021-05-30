@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Image;
 use App\Entity\User;
+use App\Entity\UserTest;
 use App\ENum\EImageType;
 use App\ENum\EUserTestStatus;
 use App\Form\UserFormType;
@@ -48,8 +49,8 @@ class UserController extends AbstractController
         }
         $em = $this->getDoctrine()->getManager();
         foreach ($user->getUserTests() as $userTest) {
-            $tour = $userTest->getVariant()->getTest()->getTour();
-            $now = new Carbon();
+            $tour   = $userTest->getVariant()->getTest()->getTour();
+            $now    = new Carbon();
             $status = $userTest->getStatus();
             if ($now > $tour->getStartedAt() && $now < $tour->getExpiredAt()
                 && $status == EUserTestStatus::PAID_TYPE
@@ -75,6 +76,25 @@ class UserController extends AbstractController
     }
 
     /**
+     * @Route("/{userTest}/results", name="results")
+     */
+    public function results(UserTest $userTest): Response
+    {
+        /**
+         * @var User $user
+         */
+        $user = $this->getUser();
+//        dd($user, !$user || !($userTest->getUser()->getId() != $user->getId()) || !$userTest->getStatus() != EUserTestStatus::FINISHED_TYPE);
+        if (!$user || $userTest->getUser()->getId() !== $user->getId() || $userTest->getStatus() != EUserTestStatus::FINISHED_TYPE) {
+            return $this->redirectToRoute('user_index');
+        }
+        return $this->render('test/results.html.twig', [
+            'userTest' => $userTest,
+            'answers'  => json_decode($userTest->getResultJson(), true)['answers']
+        ]);
+    }
+
+    /**
      * @Route("/edit", name="edit")
      * @throws FileNotExistException
      */
@@ -85,7 +105,7 @@ class UserController extends AbstractController
          */
         $user = $this->getUser();
         if (!$user) {
-            return $this->redirectToRoute('default');
+            return $this->redirectToRoute('user_index');
         }
 
         $form = $this->createForm(UserFormType::class, $user, [
@@ -97,8 +117,8 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $user = $form->getData();
-            $em = $this->getDoctrine()->getManager();
+            $user       = $form->getData();
+            $em         = $this->getDoctrine()->getManager();
             $avatarFile = $form->get('avatarFile')->getData();
             //just 1 file in array
             if ($avatarFile && isset($avatarFile[0])) {
@@ -109,13 +129,13 @@ class UserController extends AbstractController
 
                 $image = new Image();
 
-                $filename = FS::generateRandomString(15);
+                $filename  = FS::generateRandomString(15);
                 $extension = explode(".", $avatarFile->getClientOriginalName());
                 $extension = end($extension);
-                $path = (self::AVATAR_DIR . $filename . "." . $extension);
+                $path      = (self::AVATAR_DIR . $filename . "." . $extension);
 
                 $fullPathDir = $this->projectPublicDir . self::AVATAR_DIR;
-                $fullPath = $this->projectPublicDir . $path;
+                $fullPath    = $this->projectPublicDir . $path;
 
                 if (!FS::isDir($fullPathDir)) {
                     FS::mkdir($fullPathDir);

@@ -589,6 +589,28 @@ main.user-cabinet .cabinet .user-stat .olympics .olympic .tours table td {
   text-align: center;
 }
 
+main.results form > div {
+  margin: 15px 0;
+}
+main.results .alert {
+  border-radius: 4px;
+  background: grey;
+  box-sizing: border-box;
+  padding: 4px;
+}
+main.results .alert.danger {
+  background: red;
+}
+main.results .alert.success {
+  background: #b6fdb6;
+}
+main.results .questions > li.success {
+  background: #6bd06b !important;
+}
+main.results .questions > li.danger {
+  background: red !important;
+}
+
 #test {
   display: grid;
   grid-template-columns: 280px 1fr;
