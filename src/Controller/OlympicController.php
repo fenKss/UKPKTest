@@ -54,6 +54,7 @@ class OlympicController extends AbstractController
         }
         $userTest = new UserTest();
         $form = $this->createForm(UserTestForm::class, $userTest, [
+            'tour' => $tour,
             'attr' => [
                 'class' => 'form'
             ]

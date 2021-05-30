@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Language;
+use App\Entity\Tour;
 use App\Entity\UserTest;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -18,15 +19,20 @@ class UserTestForm extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder
-            ->add("language", EntityType::class, [
+        $tour = $options['tour'];
+        $languageOptions = [
                 "label" => "Выбрать Язык",
                 'class' => Language::class,
                 'choice_label' => function ($choice) {
                     return $choice->getName();
                 },
                 'required' => true,
-            ]);
+            ];
+        if ($tour instanceof Tour){
+            $languageOptions['choices'] = $tour->getOlympic()->getLanguages();
+        }
+        $builder
+            ->add("language", EntityType::class,$languageOptions );
 
 
     }
@@ -35,7 +41,8 @@ class UserTestForm extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => UserTest::class,
-            'tours' => null
+            'tours' => null,
+            'tour' => Tour::class
         ]);
     }
 }

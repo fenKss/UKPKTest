@@ -50,16 +50,16 @@ class UserController extends AbstractController
         foreach ($user->getUserTests() as $userTest) {
             $tour = $userTest->getVariant()->getTest()->getTour();
             $now = new Carbon();
-
+            $status = $userTest->getStatus();
             if ($now > $tour->getStartedAt() && $now < $tour->getExpiredAt()
-                && $userTest->getStatus() != EUserTestStatus::WAITING_END_TYPE
+                && $status == EUserTestStatus::PAID_TYPE
             ) {
-                if ($userTest->getStatus() != EUserTestStatus::STARTED_TYPE) {
+                if ($status != EUserTestStatus::STARTED_TYPE) {
                     $userTest->setStatus(EUserTestStatus::STARTED_TYPE);
                     $em->persist($userTest);
                 }
             } elseif ($now >= $tour->getExpiredAt()) {
-                if ($userTest->getStatus() != EUserTestStatus::FINISHED_TYPE) {
+                if ($status != EUserTestStatus::FINISHED_TYPE) {
                     $userTest->setStatus(EUserTestStatus::FINISHED_TYPE);
                     $em->persist($userTest);
                 }
