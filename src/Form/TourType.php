@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\Olympic;
 use App\Entity\Tour;
 use DateTime;
 use Symfony\Component\Form\AbstractType;
@@ -26,25 +27,25 @@ class TourType extends AbstractType
                 'input' => 'number'
             ])
             ->add('startedAt', DateTimeType::class, [
-                'label' => 'Начало Тура',
-                'html5' => true,
+                'label'  => 'Начало Тура',
+                'html5'  => true,
                 'widget' => 'single_text',
-                'data' => new DateTime()
+                'data'   => (($options['data'] ?? null) instanceof Tour) ? $options['data']->getStartedAt() : new DateTime()
             ])
             ->add('expiredAt', DateTimeType::class, [
-                'label' => 'Конец Тура',
-                'html5' => true,
+                'label'  => 'Конец Тура',
+                'html5'  => true,
                 'widget' => 'single_text',
-                'data' => new DateTime()
+                'data'   => (($options['data'] ?? null) instanceof Tour) ? $options['data']->getExpiredAt() : new DateTime(),
             ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Tour::class,
+            'data_class'         => Tour::class,
             'allow_extra_fields' => true,
-            "olympic" => null
+            "olympic"            => null
         ]);
     }
 }

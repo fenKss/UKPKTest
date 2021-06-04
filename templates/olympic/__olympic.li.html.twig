@@ -11,9 +11,9 @@
                 <th>Статус</th>
                 <th></th>
             </tr>
-            {% for i,tour in olympic.tours %}
+            {% for i,tour in olympic.tours|sort((a,b) => a.tourIndex > b.tourIndex) %}
                 <tr>
-                    <td>{{ i+1 }}</td>
+                    <td>{{ tour.tourIndex }}</td>
                     <td>{{ tour.startedAt|date('d.m.Y H:i') }}</td>
                     <td>
                         {{ (date(tour.expiredAt).timestamp-date(tour.startedAt).timestamp) / 60 }}
