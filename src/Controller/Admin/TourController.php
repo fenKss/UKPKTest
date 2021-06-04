@@ -191,7 +191,21 @@ class TourController extends AbstractController
                         $olympicName = $test->getTour()->getOlympic()->getName();
                         $languageName = $test->getLanguage()->getName();
                         return $this->addErrorOnPublishAndRedirect(
-                            "У одного из вопросов {$variant->getIndex()} варианта {$tour->getTourIndex()} тура '$olympicName' олимпиады нет вариантов ответа. Язык теста: $languageName",
+                            "У одного из вопросов {$variant->getIndex()} варианта {$tour->getTourIndex()} тура '$olympicName' олимпиады нет вариантов ответа. Язык теста: $languageName. id: {$question->getId()}",
+                            $page);
+                    }
+                    $isQuestionCanCorrectOption = false;
+                    foreach ($options as $option){
+                        if ($option->getIsCorrect()){
+                            $isQuestionCanCorrectOption = true;
+                            break;
+                        }
+                    }
+                    if (!$isQuestionCanCorrectOption){
+                        $olympicName = $test->getTour()->getOlympic()->getName();
+                        $languageName = $test->getLanguage()->getName();
+                        return $this->addErrorOnPublishAndRedirect(
+                            "У одного из вопросов {$variant->getIndex()} варианта {$tour->getTourIndex()} тура '$olympicName' олимпиады нет правильного варианта ответа. Язык теста: $languageName. id: {$question->getId()}",
                             $page);
                     }
                     if (!isset($optionsCount[$variant->getId()])) {

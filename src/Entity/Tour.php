@@ -168,4 +168,26 @@ class Tour
 
         return $this;
     }
+
+    public function canUserSignUp(?User $user): bool
+    {
+        if (!$user) {
+            return false;
+        }
+        $tourIndex = $this->getTourIndex();
+        $olympic   = $this->getOlympic();
+        $canSignUp = true;
+        foreach ($user->getUserTests() as $userTest) {
+            $tour        = $userTest->getVariant()->getTest()->getTour();
+            $testOlympic = $tour->getOlympic();
+            if ($olympic->getId() != $testOlympic->getId()) {
+                continue;
+            }
+            if ($tour->getTourIndex() >= $tourIndex) {
+                $canSignUp = false;
+                break;
+            }
+        }
+        return $canSignUp;
+    }
 }

@@ -84,7 +84,7 @@ class UserController extends AbstractController
          * @var User $user
          */
         $user = $this->getUser();
-//        dd($user, !$user || !($userTest->getUser()->getId() != $user->getId()) || !$userTest->getStatus() != EUserTestStatus::FINISHED_TYPE);
+
         if (!$user || $userTest->getUser()->getId() !== $user->getId() || $userTest->getStatus() != EUserTestStatus::FINISHED_TYPE) {
             return $this->redirectToRoute('user_index');
         }

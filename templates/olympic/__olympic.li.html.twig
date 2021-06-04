@@ -19,7 +19,8 @@
                         {{ (date(tour.expiredAt).timestamp-date(tour.startedAt).timestamp) / 60 }}
                         минут
                     </td>{% set canSignUp = false %}
-                    <td>{% if date() > tour.expiredAt %}
+                    <td>
+                        {% if date() > tour.expiredAt %}
                             Завершен
                         {% elseif tour.expiredAt > date() and tour.startedAt < date() %}
                             В процессе
@@ -28,7 +29,7 @@
                             Ожидает начала
                         {% endif %}
                     </td>
-                    <td>{% if canSignUp %}<a class="signup" href="{{ path('olympic_tour_signup', {tour:tour.id, olympic:tour.olympic.id}) }}">Записаться</a>{% endif %}</td>
+                    <td>{% if canSignUp and tour.canUserSignUp(app.user) %}<a class="signup" href="{{ path('olympic_tour_signup', {tour:tour.id, olympic:tour.olympic.id}) }}">Записаться</a>{% endif %}</td>
                 </tr>
             {% endfor %}
         </table>

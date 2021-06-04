@@ -42,7 +42,10 @@ class UserTestForm extends AbstractType
         $resolver->setDefaults([
             'data_class' => UserTest::class,
             'tours' => null,
-            'tour' => Tour::class
+            'tour' => Tour::class,
+            'attr' => [
+                'class' => 'form'
+            ]
         ]);
     }
 }

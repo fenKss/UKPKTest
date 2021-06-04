@@ -20,7 +20,7 @@ const QuestionListItem: React.FC<QuestionListItemProps> = (props): JSX.Element =
     }
     const className = isSelected ? "selected" : '';
     return (
-        <li className={className} onClick={click}>
+        <li className={className} data-id={question.id} onClick={click}>
             <div>{QuestionItem}</div>
         </li>
     )
