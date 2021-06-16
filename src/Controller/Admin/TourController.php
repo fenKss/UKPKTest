@@ -315,11 +315,15 @@ class TourController extends AbstractController
             }
             return ($a > $b) ? -1 : 1;
         });
-
+        $a = [];
+        foreach ($usersAnswers as $key=>$answer){
+            $a[$answer][] = $users[$key];
+        }
         return $this->render('admin/tour/resutls.html.twig', [
             'correctCount' => $correctCount,
-            'usersAnswers' => $usersAnswers,
+            'usersAnswers' => $a,
             'users'        => $users,
+            'tour'         => $tour
         ]);
     }
 }
