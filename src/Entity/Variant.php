@@ -123,4 +123,18 @@ class Variant
     {
         return $this->getTest()->getVariants()->indexOf($this) + 1;
     }
+
+    public function getCorrectCount(): int
+    {
+        $correct = 0;
+        $questions = $this->getQuestions();
+        foreach ($questions as $question){
+            foreach ($question->getOptions() as $option){
+                if ($option->getIsCorrect()){
+                    $correct++;
+                }
+            }
+        }
+        return $correct;
+    }
 }

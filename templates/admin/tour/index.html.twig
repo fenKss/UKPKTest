@@ -31,6 +31,7 @@
                         <th>Тесты</th>
                         <th>Начало</th>
                         <th>Конец</th>
+                        <th>Результаты</th>
                         <th></th>
                     </tr>
                     </thead>
@@ -52,13 +53,16 @@
                             <td><a href="{{ path('admin_test_index', {tour:tour.id}) }}">Тесты</a></td>
                             <td>{{ tour.startedAt ? tour.startedAt|date('Y-m-d H:i:s') : '' }}</td>
                             <td>{{ tour.expiredAt ? tour.expiredAt|date('Y-m-d H:i:s') : '' }}</td>
+                            <td>{% if tour.expiredAt > 'now'|date %}
+                                    <a href="{{ path('admin_tour_results', {'id':tour.id}) }}">Просмотреть</a>
+                                {% endif %}</td>
                             <td>
                                 <a class="btn btn-sm btn-primary" href="{{ path('admin_tour_edit', {'id': tour.id}) }}" title="Изменить"><i class="fa fa-edit"></i></a>
                             </td>
                         </tr>
                     {% else %}
                         <tr>
-                            <td colspan="6">Туров нет</td>
+                            <td colspan="7">Туров нет</td>
                         </tr>
                     {% endfor %}
                     </tbody>

@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Olympic;
 use App\Entity\Tour;
+use App\Entity\UserTest;
 use App\Form\TourType;
 use App\Repository\OlympicRepository;
 use App\Repository\UserTestRepository;
@@ -30,7 +31,7 @@ class TourController extends AbstractController
         PaginationService $pagination
     ): Response {
         $olympicsQuery = $olympicRepository->getWithAllQuery();
-        $olympics = $pagination->paginate($olympicsQuery, 5);
+        $olympics      = $pagination->paginate($olympicsQuery, 5);
         return $this->render('admin/tour/index.html.twig', [
             'olympics' => $olympics,
             'lastPage' => $pagination->lastPage($olympics)
@@ -142,9 +143,9 @@ class TourController extends AbstractController
      */
     public function publish(Tour $tour, Request $request): RedirectResponse
     {
-        $page = $request->get('p');
+        $page             = $request->get('p');
         $olympicLanguages = $tour->getOlympic()->getLanguages();
-        $tests = $tour->getTests();
+        $tests            = $tour->getTests();
         if (!$tour->getTests()->count()) {
             return $this->addErrorOnPublishAndRedirect(
                 'У тура ни создано не одного теста',
@@ -163,14 +164,14 @@ class TourController extends AbstractController
                 $page);
         }
 
-        $variantsCount = [];
-        $optionsCount = [];
+        $variantsCount  = [];
+        $optionsCount   = [];
         $questionsCount = [];
         foreach ($tests as $test) {
             /*
              * Проверяем количество вариантов в тесте
              */
-            $variants = $test->getVariants();
+            $variants                      = $test->getVariants();
             $variantsCount[$test->getId()] = $variants->count();
 
 
@@ -178,7 +179,7 @@ class TourController extends AbstractController
                 /*
                  * Проверяем количество вопросов в варианте
                  */
-                $questions = $variant->getQuestions();
+                $questions                         = $variant->getQuestions();
                 $questionsCount[$variant->getId()] = $questions->count();
 
 
@@ -188,21 +189,21 @@ class TourController extends AbstractController
                      */
                     $options = $question->getOptions();
                     if ($options->count() == 0) {
-                        $olympicName = $test->getTour()->getOlympic()->getName();
+                        $olympicName  = $test->getTour()->getOlympic()->getName();
                         $languageName = $test->getLanguage()->getName();
                         return $this->addErrorOnPublishAndRedirect(
                             "У одного из вопросов {$variant->getIndex()} варианта {$tour->getTourIndex()} тура '$olympicName' олимпиады нет вариантов ответа. Язык теста: $languageName. id: {$question->getId()}",
                             $page);
                     }
                     $isQuestionCanCorrectOption = false;
-                    foreach ($options as $option){
-                        if ($option->getIsCorrect()){
+                    foreach ($options as $option) {
+                        if ($option->getIsCorrect()) {
                             $isQuestionCanCorrectOption = true;
                             break;
                         }
                     }
-                    if (!$isQuestionCanCorrectOption){
-                        $olympicName = $test->getTour()->getOlympic()->getName();
+                    if (!$isQuestionCanCorrectOption) {
+                        $olympicName  = $test->getTour()->getOlympic()->getName();
                         $languageName = $test->getLanguage()->getName();
                         return $this->addErrorOnPublishAndRedirect(
                             "У одного из вопросов {$variant->getIndex()} варианта {$tour->getTourIndex()} тура '$olympicName' олимпиады нет правильного варианта ответа. Язык теста: $languageName. id: {$question->getId()}",
@@ -248,7 +249,7 @@ class TourController extends AbstractController
         UserTestRepository $userTestRepository,
         Request $request
     ): RedirectResponse {
-        $page = $request->get('p');
+        $page      = $request->get('p');
         $userTests = $userTestRepository->getByTour($tour);
         if (count($userTests)) {
             return $this->addErrorOnPublishAndRedirect('На данный тур уже записаны люди',
@@ -270,6 +271,55 @@ class TourController extends AbstractController
         }
         return $this->redirectToRoute("admin_tour_index", [
             'p' => $page
+        ]);
+    }
+
+    /**
+     * @Route("/{id}/results", name="results")
+     */
+    public function showResults(Tour $tour, UserTestRepository $testRepository)
+    {
+        /**
+         * @var UserTest[] $userTests
+         */
+        $correctCount = $tour->getTests()[0]->getVariants()[0]->getCorrectCount();
+        $userTests    = $testRepository->getByTour($tour);
+        $users        = [];
+        $usersAnswers = [];
+        foreach ($userTests as $userTest) {
+            $answers               = json_decode($userTest->getResultJson(), true)['answers'];
+            $count                 = 0;
+            $user                  = $userTest->getUser();
+            $users[$user->getId()] = $user;
+            foreach ($userTest->getVariant()->getQuestions() as $question) {
+                $questionAnswers  = $answers[$question->getId()] ?? null;
+                $correctOptionsId = $question->getOptions()->filter(function (
+                    $option
+                ) {
+                    return $option->getIsCorrect();
+                })->map(function ($option) {
+                    return $option->getId();
+                })->toArray();
+
+                foreach ($questionAnswers as $questionAnswer) {
+                    if ($questionAnswer && in_array($questionAnswer, $correctOptionsId)) {
+                        $count++;
+                    }
+                }
+            }
+            $usersAnswers[$user->getId()] = $count;
+        }
+        uasort($usersAnswers, function ($a, $b) {
+            if ($a == $b) {
+                return 0;
+            }
+            return ($a > $b) ? -1 : 1;
+        });
+
+        return $this->render('admin/tour/resutls.html.twig', [
+            'correctCount' => $correctCount,
+            'usersAnswers' => $usersAnswers,
+            'users'        => $users,
         ]);
     }
 }

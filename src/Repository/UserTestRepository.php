@@ -20,7 +20,8 @@ class UserTestRepository extends ServiceEntityRepository
         parent::__construct($registry, UserTest::class);
     }
 
-   public function getByTour(Tour $tour){
+   public function getByTour(Tour $tour): array
+   {
         return $this->createQueryBuilder('ut')
             ->leftJoin('ut.variant', 'v')
             ->leftJoin("v.test", 't')

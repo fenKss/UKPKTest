@@ -1,0 +1,33 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %}
+
+{% endblock %}
+
+{% block boxBody %}
+    <div class="about">
+            <div class="olympic-name title">
+                Олимпиада: <span>{{ tour.olympic.name }}</span>
+            </div>
+            <div class="tour-name title">
+                Тур: <span>{{ tour.tourIndex }}</span>
+            </div>
+
+        </div><div></div>
+    <table class="table tab-content">
+        <tr>
+            <th>Место</th>
+            <th>Имя</th>
+            <th>Колличество баллов</th>
+        </tr>
+
+    {% for key,userAnswer in usersAnswers %}
+        <tr>
+            <td>{{ key }}</td>
+            <td>{{ users[key].name }} {{  users[key].surname }}</td>
+            <td>{{ userAnswer }}</td>
+        </tr>
+    {% endfor %}
+        </table>
+{% endblock %}
+
